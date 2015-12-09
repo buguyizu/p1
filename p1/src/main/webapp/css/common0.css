@@ -1,0 +1,138 @@
+/* 全体 */
+div, span, h1, div ul li,
+.ui-header .ui-btn,
+.ui-navbar li .ui-btn,
+#page2 .ui-bar .ui-btn,
+input {
+    font-family: Arial, Consolas, Helvetica, sans-serif;
+	font-size:12pt;
+	ime-mode: disabled;
+}
+
+/* 规格列表 */
+#tblList {border: 0px solid blue;}
+#tblList div {line-height: 20px; padding:5px; margin:3px; cursor:hand;
+border: 1px solid gray; color: seagreen; width: 40px; height: 40px; float:left;}
+
+/* 规格图标 */
+.tbl-shadow {
+	box-shadow:5px 5px 5px #888888,0 9px 25px rgba(0,0,0,0.2),0 9px 25px rgba(0,0,0,0.1) inset;
+}
+
+.ui-page-theme-a .tbl-1 {
+	background-color: white;
+}
+.ui-page-theme-a .tbl-2 {
+	background-color: gainsboro;
+}
+.ui-page-theme-a .tbl-3 {
+	background-color: khaki;
+}
+.ui-page-theme-a .tbl-4 {
+	background-color: moccasin;
+}
+.ui-page-theme-a .tbl-5 {
+	background-color: burlywood;
+}
+.ui-page-theme-a .tbl-6 {
+	background-color: lightblue;
+}
+
+/* 查询区域 */
+span.infoCol1 {width:45%; float:left;padding-left:6px;}
+span.infoCol2 {float:left;}
+
+#page2 ul li.ui-body-inherit {
+	background-color: transparent;
+}
+/* 票据已结算 */
+.payed {
+   	color: orange;
+   	font-weight: bold;
+}
+/* 票据已无效 */
+.invalid {
+	color: red;
+	font-weight: bold;
+}
+
+.stamp {
+	position: absolute;
+	z-index: 1000;
+	border:2px solid red;
+	padding:5px;
+	margin:8% 0 0 40%;
+	text-align: center;
+	color:red;
+	font-weight:bolder;
+	font-size:25pt;
+	transform: rotate(-30deg);
+	-ms-transform: rotate(-30deg);		/* IE 9 */
+	-webkit-transform: rotate(-30deg);	/* Safari and Chrome */
+	-o-transform: rotate(-30deg);		/* Opera */
+	-moz-transform: rotate(-30deg);
+}
+
+button span,
+button p {
+	text-shadow: none;
+	border:0px solid red;
+}
+
+button .item-cd {
+	color:steelblue;
+	float:left;
+	margin: 2px 0 0 2px;
+}
+
+button .item-nm {
+	color:steelblue;
+	text-align:left;
+	margin-top:23px;
+	margin-left:2px;
+	margin-bottom:1px;
+}
+
+button .item-op {
+	color:midnightblue;
+	margin-top:1px;
+	margin-bottom:1px;
+	letter-spacing: 3px;
+	text-shadow: 3px 3px 5px gray;
+}
+
+button .item-price {
+	float:right;
+	margin:10px 0px;
+	color:red;
+	border:1px solid red;
+	padding:2px;
+	transform: rotate(-20deg);
+	-ms-transform: rotate(-20deg);		/* IE 9 */
+	-webkit-transform: rotate(-20deg);	/* Safari and Chrome */
+	-o-transform: rotate(-20deg);		/* Opera */
+	-moz-transform: rotate(-20deg);
+}
+
+.introduce {
+	font-weight: normal;
+	line-height:30px;
+	border:none;
+	background-color:transparent;
+	text-align: right;
+}
+
+.introduce span{
+	color:midnightblue;
+	text-shadow: none;
+	font-size:10pt;
+	margin-right:30px;
+	background-color: white;
+	padding: 3px;
+	border-radius: 3px;
+	box-shadow: 2px 2px 2px #888888, 0 6px 12px rgba(0,0,0,0.1) inset;
+}
+.ui-bar-c, .ui-body-c {
+	background:   #2a2a2a;
+	border-width: 0px;
+}

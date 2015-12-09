@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.dao.ITCustomerDao">
+    <select id="select" parameterType="int" resultType="TCustomer">
+        select id, blob, datetime from t_customer where id = #{id}
+    </select>
+    <insert id="insert" parameterType="TCustomer">
+    	insert into t_customer
+		    values (#{id}, #{name}, #{bk}, #{dateStart}, #{dateEnd}, #{mac}, #{pwPg}, #{pwYh}, default)
+	</insert>
+    <update id="update" parameterType="TCustomer">
+    	update t_customer set
+		    blob = #{blob, jdbcType=BLOB},
+		    datetime = default
+	  	where id = #{id}
+	</update>
+</mapper>

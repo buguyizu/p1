@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.dao.IMConfigDao">
+    <select id="select" parameterType="int" resultType="MConfig">
+        select id, blob, datetime from m_config where id = #{id}
+    </select>
+    <insert id="insertWithId" parameterType="MConfig" useGeneratedKeys="true" keyProperty="id">
+    	insert into m_config(id, blob, datetime)
+		    values (#{id}, #{blob, jdbcType=BLOB}, default)
+	</insert>
+    <insert id="insert" parameterType="MConfig" useGeneratedKeys="true" keyProperty="id">
+    	insert into m_config(id, blob, datetime)
+		    values (default, #{blob, jdbcType=BLOB}, default)
+	</insert>
+    <update id="update" parameterType="MConfig">
+    	update m_config set
+		    blob = #{blob, jdbcType=BLOB},
+		    datetime = default
+	  	where id = #{id}
+	</update>
+</mapper>

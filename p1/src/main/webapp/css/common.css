@@ -1,0 +1,5 @@
+/* 修正display右侧排序图标，导出图标 */
+th a,
+span.export {
+	background-repeat: no-repeat;
+}

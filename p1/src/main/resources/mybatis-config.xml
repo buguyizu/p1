@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
+	</settings>
+<!-- 
+	<typeAliases>
+		<typeAlias alias="MConfig" type="info.yinhua.core.db.model.MConfig"/>
+		<typeAlias alias="MCode" type="info.yinhua.core.db.model.MCode"/>
+		<typeAlias alias="TCustomer" type="info.yinhua.core.db.model.TCustomer"/>
+	</typeAliases> --> 
+	<typeAliases>
+		<package name="info.yinhua.core.db.model"/>
+		<package name="info.yinhua.web.bean"/>
+	</typeAliases>
+
+	<!-- 列出映射文件
+	<mappers>
+		<mapper resource="sql/MConfig.xml"/>
+		<mapper resource="sql/MCode.xml"/>
+		<mapper resource="sql/TCustomer.xml"/>
+		<mapper resource="sql/t_bom0.xml"/>
+	</mappers> --> 
+	<!-- Register all interfaces in a package as mappers
+	<mappers>
+		<package name="sql"/>
+	</mappers> -->
+</configuration>

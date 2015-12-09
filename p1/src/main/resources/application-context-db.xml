@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd  
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd  
+            http://www.springframework.org/schema/jee
+            http://www.springframework.org/schema/jee/spring-jee.xsd  
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<!-- http://www.360doc.com/content/11/1012/10/4580363_155382007.shtml -->
+<!-- http://hackpro.iteye.com/blog/1037376 -->
+	<context:property-placeholder location="classpath:jdbc2.properties"/>
+
+	<!-- 有时候需要加上destroy-method="close" -->
+	<!-- http://www.educity.cn/wenda/388309.html -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+    
+<!-- 
+Spring事务配置的五种方式
+http://www.blogjava.net/robbie/archive/2009/04/05/264003.html 
+ -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+<!-- 
+http://my.oschina.net/realfighter/blog/366089
+http://my.oschina.net/realfighter/blog/363605
+ -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+	<!-- 
+    <bean id="mConfigDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="info.yinhua.core.dao.IMConfigDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="mCodeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="info.yinhua.core.dao.IMCodeDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="tBom0Dao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="info.yinhua.core.dao.ITBom0Dao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+	 -->
+	
+	<!-- 
+	你可以使用一个 MapperScannerConfigurer , 它 将 会 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean
+	http://mybatis.org/spring/zh/mappers.html
+	 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+  		<property name="basePackage" value="info.yinhua.core.mapper" />
+	</bean>
+
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.mapper.TBom0Mapper">
+    <select id="getList" resultMap="bomBeanList">
+        select id, f1, f2 from t_bom0
+        <where>
+	        <!-- <if test="id != null">
+	        	and id = #{id}
+	        </if> -->
+	        <if test='itemCd != null and itemCd != ""'>
+	        	f2 = #{itemCd}
+	        </if>
+	        <if test='parentItemCd != null and parentItemCd != ""'>
+	        	and f1 = #{parentItemCd}
+	        </if>
+        </where>
+        order by
+        <if test="sortCriterion == null">
+        	f2
+        </if>
+        <if test="sortCriterion != null">
+        	${sortCriterion}
+        </if>
+        <if test="sortType != null">
+        	${sortType}
+        </if>
+        <if test="objectsPerPage != null">
+        	limit #{objectsPerPage}
+        </if>
+        <if test="offset != null">
+        	offset #{offset}
+        </if>
+    </select>
+    <select id="getSize" resultType="int">
+        select count(id) from t_bom0
+        <where>
+	        <!-- <if test="id != null">
+	        	and id = #{id}
+	        </if> -->
+	        <if test='itemCd != null and itemCd != ""'>
+	        	f2 = #{itemCd}
+	        </if>
+	        <if test='parentItemCd != null and parentItemCd != ""'>
+	        	and f1 = #{parentItemCd}
+	        </if>
+        </where>
+    </select>
+    <resultMap type="BomBean" id="bomBeanList">
+    	<result property="itemCd" column="f2"/>
+    	<result property="parentItemCd" column="f1"/>
+    </resultMap>
+</mapper>
