@@ -3,6 +3,8 @@ package info.yinhua.web.action.bom;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.displaytag.properties.SortOrderEnum;
 import org.displaytag.tags.TableTagParameters;
@@ -16,6 +18,13 @@ import info.yinhua.web.bean.PageBomBean;
 
 @Controller
 public class BomAction extends PagingAction {
+
+	private final Logger logger = LogManager.getLogger(getClass());
+	
+	public BomAction() {
+		//两个会话分别会新建例
+		logger.trace("start");
+	}
 
 	/**
 	 * 
@@ -91,6 +100,20 @@ public class BomAction extends PagingAction {
 	 */
 	public void setP(PageBomBean p) {
 		this.p = p;
+	}
+
+	/**
+	 * @return the tBomService
+	 */
+	public ITBomService gettBomService() {
+		return tBomService;
+	}
+
+	/**
+	 * @param tBomService the tBomService to set
+	 */
+	public void settBomService(ITBomService tBomService) {
+		this.tBomService = tBomService;
 	}
 
 }

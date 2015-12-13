@@ -24,7 +24,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
         <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check" authentication-failure-url="/login.jsp?login_error=1" username-parameter="j_username" password-parameter="j_password"/>
         <http-basic/>
-        <logout invalidate-session="false" logout-success-url="/index.jsp?login_error=2" logout-url="/j_spring_security_logout" />
+        <!-- invalidate-session="true" show invalid-session-url  -->
+        <logout invalidate-session="true" logout-success-url="/index.jsp?login_error=2" logout-url="/j_spring_security_logout" />
         <remember-me remember-me-parameter="j_remember_me" /><!-- 
         <custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
         <session-management invalid-session-url="/login.jsp?login_error=3" session-fixation-protection="none">
@@ -35,7 +36,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <authentication-manager>
         <authentication-provider>
            <password-encoder hash="plaintext"/>
-           <jdbc-user-service data-source-ref="dataSource"/>
+           <jdbc-user-service data-source-ref="dataSource"></jdbc-user-service>
         </authentication-provider>
     </authentication-manager>
 
