@@ -1,4 +1,4 @@
-<%@page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
@@ -20,15 +20,15 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-Authentication auth = (Authentication) request.getUserPrincipal();
-User user = (User) auth.getPrincipal();
+//Authentication auth = (Authentication) request.getUserPrincipal();
+//User user = (User) auth.getPrincipal();
 %>
 		<title><s:text name="title"/>-<decorator:title/></title>
 		<link href="<%=path%>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="<%=path%>/css/common.css" rel="stylesheet" type="text/css" />
 		<base href="${basePath}">
 		<decorator:head/>
-		
+		<sec:authentication property="principal" var="user"/>
 	</head>
 	<body>
 	    <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -42,9 +42,9 @@ User user = (User) auth.getPrincipal();
 		            <li><a href="#about"><s:text name="about"/></a></li>
 		            <li><a href="#contact"><s:text name="contact"/></a></li>
 	          	</ul>
-				<form action='<c:url value="j_spring_security_logout"/>' method="post" class="navbar-form navbar-right">
+				<form action='<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
 	    			<sec:csrfInput />
-					<a href='#'><%=user.getUsername()%></a>
+					<a href='#'>${user.username}</a>
 					<a href='<%=path%>/<c:url value="j_spring_security_logout"/>'><s:text name="logout"/></a>
 					<button type="submit" class="btn btn-success"><s:text name="logout"/></button>
 				</form>

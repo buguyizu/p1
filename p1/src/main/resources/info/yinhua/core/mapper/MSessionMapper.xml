@@ -3,14 +3,21 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="info.yinhua.core.mapper.MSessionMapper">
+	<select id="select" parameterType="string" resultType="int">
+		select count(session_id) from m_session where session_id = #{sessionId}
+	</select>
     <insert id="insert">
     	insert into m_session values (#{sessionId}, default, null, #{user}, #{ip})
 	</insert>
     <update id="update">
     	update m_session
 		<set>
-		    dateEnd = default
+		    date_end = default
 		</set>
-	  	where sessionId = #{sessionId}
+	  	where session_id = #{sessionId}
 	</update>
+	<delete id="delete">
+		delete from m_session
+	  	where session_id = #{sessionId}
+	</delete>
 </mapper>

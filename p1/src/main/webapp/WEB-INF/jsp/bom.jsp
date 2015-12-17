@@ -1,7 +1,7 @@
-<%@page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://displaytag.sf.net/el" prefix="display" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <!DOCTYPE html>
 <html>
 <head>

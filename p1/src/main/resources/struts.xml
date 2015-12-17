@@ -38,6 +38,10 @@
 		<global-exception-mappings>
 			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings> -->
+		<action name="login" class="info.yinhua.web.action.LoginAction"
+			method="init">
+			<result>/WEB-INF/jsp/login.jsp</result>
+		</action>
 		<action name="home" class="info.yinhua.web.action.HomeAction"
 			method="init">
 			<result>/WEB-INF/jsp/index.jsp</result>
@@ -47,13 +51,6 @@
 		</action>
 		<action name="error">
 			<result>/WEB-INF/jsp/common/error.jsp?type=4</result>
-		</action>
-	</package>
-
-	<package name="login" extends="default" namespace="/login">
-		<action name="login" class="info.yinhua.web.action.LoginAction"
-			method="login">
-			<result name="success">/WEB-INF/jsp/login.jsp</result>
 		</action>
 	</package>
 	

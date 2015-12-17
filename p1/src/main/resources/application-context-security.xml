@@ -16,29 +16,35 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <intercept-url pattern="/default.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/hello.htm" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/><!-- 
+        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/><!-- 
         <intercept-url pattern="/j_spring_security_check" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
          --><intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
         <intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/>
         <intercept-url pattern="/**" access="ROLE_USER"/>
 
-        <form-login login-page="/login.jsp" login-processing-url="/j_spring_security_check" authentication-failure-url="/login.jsp?login_error=1" username-parameter="j_username" password-parameter="j_password"/>
+        <form-login login-page="/login" login-processing-url="/j_check" authentication-failure-url="/login?error=1" username-parameter="u" password-parameter="p"/>
         <http-basic/>
         <!-- invalidate-session="true" show invalid-session-url  -->
-        <logout invalidate-session="true" logout-success-url="/index.jsp?login_error=2" logout-url="/j_spring_security_logout" />
-        <remember-me remember-me-parameter="j_remember_me" /><!-- 
+        <logout invalidate-session="true" logout-success-url="/index?error=2" logout-url="/logout" />
+        <remember-me remember-me-parameter="r" /><!-- 
         <custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
-        <session-management invalid-session-url="/login.jsp?login_error=3" session-fixation-protection="none">
+        <session-management invalid-session-url="/login?error=3" session-fixation-protection="none">
         	<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
         </session-management>
     </http>
 
-    <authentication-manager>
-        <authentication-provider>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userManager">
            <password-encoder hash="plaintext"/>
-           <jdbc-user-service data-source-ref="dataSource"></jdbc-user-service>
         </authentication-provider>
     </authentication-manager>
+    
+    <beans:bean id="userManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+    	<beans:property name="dataSource" ref="dataSource" />
+    	<beans:property name="enableAuthorities" value="false" />
+    	<beans:property name="enableGroups" value="true" />
+    	<beans:property name="authenticationManager" ref="authenticationManager" />
+    </beans:bean>
 
     <!-- Automatically receives AuthenticationEvent messages -->
     <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
