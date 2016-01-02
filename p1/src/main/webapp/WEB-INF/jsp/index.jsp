@@ -6,22 +6,26 @@
 <title>${action.getText("homepage")}</title>
 </head>
 <body>
-	<div class="row">
-        <div class="col-md-4">
-          <h2>BOM</h2>
-          <p>Bill of material.</p>
-          <p><a class="btn btn-default" href="./bom/" role="button">Go...</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>系统介绍</h1>
+        <p>系统介绍...</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
+    </div>
+    <div class="container">
+		<div class="row">
+	        <div class="col-md-4">
+	          <h2>员工管理</h2>
+	          <p>员工管理... </p>
+	          <p><a class="btn btn-default" href="./user/" role="button">进入 &raquo;</a></p>
+	        </div>
+	        <div class="col-md-4">
+	          <h2>BOM</h2>
+	          <p>Bill of material.</p>
+	          <p><a class="btn btn-default" href="./bom/" role="button">Go...</a></p>
+	        </div>
+	    </div>
+    </div>
 </body>
 </html>

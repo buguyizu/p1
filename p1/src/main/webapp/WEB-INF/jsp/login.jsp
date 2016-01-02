@@ -20,7 +20,7 @@
       </font>
     </c:if>
 
-	<form action="<c:url value='j_check'/>" method="POST">
+	<form action="<c:url value='auth'/>" method="POST">
 		<sec:csrfInput />
 		<table>
 			<tr>

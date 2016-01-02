@@ -7,17 +7,19 @@
 		select count(session_id) from m_session where session_id = #{sessionId}
 	</select>
     <insert id="insert">
-    	insert into m_session values (#{sessionId}, default, null, #{user}, #{ip})
+    	insert into m_session values (#{sessionId}, default, null, #{user}, #{ip}, #{comment})
 	</insert>
     <update id="update">
     	update m_session
 		<set>
-		    date_end = default
+		    <if test="dateEnd != null">date_end = default,</if>
+		    <if test="user != null">f_user = #{user},</if>
+		    <if test="ip != null">f_ip = #{ip},</if>
+		    <if test="comment != null">f_comment = #{comment},</if>
 		</set>
 	  	where session_id = #{sessionId}
 	</update>
 	<delete id="delete">
-		delete from m_session
-	  	where session_id = #{sessionId}
+		delete from m_session where session_id = #{sessionId}
 	</delete>
 </mapper>

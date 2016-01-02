@@ -1,0 +1,106 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here
+  height: 60px; */
+  background-color: #f5f5f5;
+  padding: 15px 0;
+  text-align: center;
+}
+
+/* for login button
+.nav > li > button {
+    margin-top: 8px;
+} */
+
+.nav .glyphicon {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+/* for navbar search input
+.navbar-form .glyphicon {
+	margin-left: -22px;
+}
+ */
+ 
+ /* for footer */
+.row {
+  margin-bottom: 50px;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+.jumbotron h1 {
+  font-family: "SimHei";
+}
+
+.container {
+  width: auto;
+  max-width: 960px;
+}
+
+/* Page_List
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}

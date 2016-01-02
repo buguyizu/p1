@@ -2,7 +2,7 @@ package info.yinhua.core.db.model;
 
 import java.io.Serializable;
 
-public class BaseModel implements Serializable{
+public class BaseModel implements Serializable, Cloneable {
 
 	/**
 	 * 

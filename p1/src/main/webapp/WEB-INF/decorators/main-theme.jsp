@@ -10,66 +10,90 @@
 <html lang="zh-CN">
 	<head>
 		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <sec:csrfMetaTags />
-	    <meta name="description" content="">
-	    <meta name="author" content="">
-    	<link rel="icon" href="../../favicon.ico">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<sec:csrfMetaTags />
+		<title><s:text name="app.nm"/>-<decorator:title/></title>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String base = request.getContextPath();
+String fullPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+base+"/";
 
 //Authentication auth = (Authentication) request.getUserPrincipal();
 //User user = (User) auth.getPrincipal();
+String sessiondId = session.getId();
 %>
-		<title><s:text name="title"/>-<decorator:title/></title>
-		<link href="<%=path%>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<link href="<%=path%>/css/common.css" rel="stylesheet" type="text/css" />
-		<base href="${basePath}">
+		<c:set var="base" value="<%=base %>"></c:set>
+		<c:set var="fullPath" value="<%=fullPath %>"></c:set>
+		<link rel="icon" href="${base}/img/favicon.ico">
+		<link href="${base}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${base}/css/custom.css" rel="stylesheet" type="text/css" />
+		<base href="${fullPath}">
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 	</head>
 	<body>
-	    <nav class="navbar navbar-inverse navbar-fixed-top">
-	    <div class="container">
-	    	<div class="navbar-header">
-	    		<a class="navbar-brand" href="#"><s:text name="title"/></a>
-	    	</div>
-	    	<div id="navbar" class="navbar-collapse collapse">
-          		<ul class="nav navbar-nav">
-		            <li class="active"><a href="#"><s:text name="homepage"/></a></li>
-		            <li><a href="#about"><s:text name="about"/></a></li>
-		            <li><a href="#contact"><s:text name="contact"/></a></li>
-	          	</ul>
-				<form action='<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
-	    			<sec:csrfInput />
-					<a href='#'>${user.username}</a>
-					<a href='<%=path%>/<c:url value="j_spring_security_logout"/>'><s:text name="logout"/></a>
-					<button type="submit" class="btn btn-success"><s:text name="logout"/></button>
-				</form>
-				<form action='<c:url value="j_spring_security_login"/>' method="post" class="navbar-form navbar-right">
-	    			<sec:csrfInput />
-					<div class="form-group">
-						<input type="text" placeholder="<s:text name="mail"/>" class="form-control">
-					</div>
-					<div class="form-group">
-						<input type="password" placeholder="<s:text name="password"/>" class="form-control">
-					</div>
-					<button type="submit" class="btn btn-success"><s:text name="login"/></button>
-				</form>
+		<nav id="top" class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						<img alt="Brand" src="${base}/img/favicon.ico">
+					</a>
+					<a class="navbar-brand" href="#"><s:text name="app.nm"/></a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><s:text name="homepage"/></a></li>
+						<li><a href="#about"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><s:text name="about"/></a></li>
+						<li><a href="#contact"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span><s:text name="contact"/></a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<form id="userForm" action='<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
+								<sec:csrfInput />
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>${user.username}<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
+									<li><a href="#"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
+									<li><a href="javascript:$('#userForm').submit();"><span class="glyphicon glyphicon-off" aria-hidden="true"></span><s:text name="logout"/></a>
+									</li>
+									<li role="separator" class="divider"></li>
+									<li class="dropdown-header"><s:text name="manager"/></li>
+									<li><a href="#"><s:text name="user.manager"/></a></li>
+									<li><a href="#"><s:text name="authority.manager"/></a></li>
+								</ul>
+							</form>
+					  </li>
+					</ul>
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="<s:text name="top.go"/>">
+						</div>
+						<button type="submit" class="btn btn-default">
+						  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</form>
+				</div>
 			</div>
-	    </div>
-	    </nav>
-	    <div class="container">
-	    	<decorator:body />
-	    </div>
-	    <hr/>
-	    <footer>
-        	<p>© Company 2015</p>
-      	</footer>
-	    <script src="<%=path%>/js/jquery-1.10.2.min.js"></script>
-		<script src="<%=path%>/js/bootstrap.min.js"></script>
-		<script src="<%=path%>/js/common.js"></script>
+		</nav>
+		<decorator:body />
+		<footer class="footer">
+			<div class="container">
+				<p><s:text name="statement.copyright"/></p>
+				<p><a href="#top"><s:text name="top.go"/></a></p>
+				<p class="text-muted">session: <%=sessiondId %></p>
+			</div>
+		</footer>
+		<script src="${base}/js/jquery-1.10.2.min.js"></script>
+		<script src="${base}/js/bootstrap.min.js"></script>
+		<script src="${base}/js/common.js"></script>
 	</body>
 </html>

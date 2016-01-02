@@ -18,7 +18,10 @@
 
     <!-- 激活spring的注解.
     <context:annotation-config /> -->  
-    <context:component-scan base-package="info.yinhua.web.action,info.yinhua.web.service.impl,info.yinhua.core.listener" />
+    <context:component-scan base-package="info.yinhua.web.action,info.yinhua.web.service.impl,info.yinhua.core.listener,info.yinhua.core.service" />
+    
+    <bean id="sessionListener" class="info.yinhua.core.listener.SessionListener">
+    </bean>
     
 	<!-- 
     <bean id="commonService" class="info.yinhua.core.service.impl.CommonService">

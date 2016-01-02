@@ -1,0 +1,21 @@
+form .row {
+	margin-bottom: 10px;
+}
+
+.form-control label {
+	margin-top: -7px;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+/* for path
+.breadcrumb {
+	margin-top: -20px;
+} */
+
+/* for button */
+button .glyphicon {
+	margin-right: 10px;
+}

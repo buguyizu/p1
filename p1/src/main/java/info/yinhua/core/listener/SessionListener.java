@@ -1,86 +1,105 @@
 package info.yinhua.core.listener;
 
+import java.util.Date;
+
 import info.yinhua.core.db.model.MSession;
 import info.yinhua.core.mapper.MSessionMapper;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.stereotype.Component;
+import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
+import org.springframework.security.web.session.HttpSessionCreatedEvent;
+import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
-public class SessionListener extends HttpSessionEventPublisher {
+public class SessionListener implements ApplicationListener<ApplicationEvent> {
 
 	private final Logger logger = LogManager.getLogger(getClass());
 	
-	/* (non-Javadoc)
-	 * @see org.springframework.security.web.session.HttpSessionEventPublisher#sessionCreated(javax.servlet.http.HttpSessionEvent)
-	 */
-	@Override
-	public void sessionCreated(HttpSessionEvent event) {
-		// TODO Auto-generated method stub
-		super.sessionCreated(event);
-		trace(event, (byte) 1);
-	}
+	@Autowired
+	private MSessionMapper mSessionMapper;
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.web.session.HttpSessionEventPublisher#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
-	 */
 	@Override
-	public void sessionDestroyed(HttpSessionEvent event) {
-		// TODO Auto-generated method stub
-		super.sessionDestroyed(event);
-		trace(event, (byte) 2);
+	public void onApplicationEvent(ApplicationEvent event) {
+		if (event instanceof HttpSessionCreatedEvent) {
+			HttpSessionCreatedEvent e = (HttpSessionCreatedEvent) event;
+			trace(e.getSession(), (byte) 1);
+		} else if (event instanceof HttpSessionDestroyedEvent) {
+			HttpSessionDestroyedEvent e = (HttpSessionDestroyedEvent) event;
+			trace(e.getSession(), (byte) 2);
+		}
+//		else if (event instanceof AuthenticationSuccessEvent) {
+//			AuthenticationSuccessEvent e = (AuthenticationSuccessEvent) event;
+//			WebAuthenticationDetails details =
+//					(WebAuthenticationDetails) e.getAuthentication().getDetails();
+//
+//			MSession s = new MSession();
+//			s.setSessionId(details.getSessionId());
+//			s.setUser(e.getAuthentication().getName());
+//			
+//			mSessionMapper.update(s);
+//		}
+		else if (event instanceof SessionFixationProtectionEvent) {
+			login((SessionFixationProtectionEvent) event);
+		}
 	}
 	
-	//存在就添加，否则更新
+	/**
+	 * insert or update data of session
+	 * @param session
+	 * @param type
+	 */
 	@Transactional
-	private void trace(HttpSessionEvent event, byte type) {
-
-		ServletContext servletContext = event.getSession().getServletContext();
-		
-		ApplicationContext applicationContext = WebApplicationContextUtils
-				.getWebApplicationContext(servletContext);
-
-		MSessionMapper mSessionMapper = (MSessionMapper) applicationContext
-				.getBean("MSessionMapper");
+	private void trace(HttpSession session, byte type) {
 
 		MSession s = new MSession();
-		s.setSessionId(event.getSession().getId());
+		s.setSessionId(session.getId());
 		
 		if (type == 1) {
 			mSessionMapper.delete(s.getSessionId());
 
-			//TODO 登录后取不到用户信息
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null) {
 				
-				if (auth.getPrincipal() instanceof String) {
-					s.setUser((String) auth.getPrincipal());
-				} else if (auth.getPrincipal() instanceof User) {
-					s.setUser(((User) auth.getDetails()).getUsername());
-				}
 				WebAuthenticationDetails details = (WebAuthenticationDetails) auth.getDetails();
 				if (details != null)
 					s.setIp(details.getRemoteAddress());
+
+				//这里只能取得匿名认证
+				if (auth.getPrincipal() instanceof String)
+					s.setUser((String) auth.getPrincipal());
 			}
 			
 			mSessionMapper.insert(s);
-		} else {
+		} else if (type == 2) {
+			s.setDateEnd(new Date());
 			mSessionMapper.update(s);
 		}
+	}
+	
+	//after login, a new session started
+	private void login(SessionFixationProtectionEvent event) {
+
+		WebAuthenticationDetails details =
+				(WebAuthenticationDetails) event.getAuthentication().getDetails();
+		User user =
+				(User) event.getAuthentication().getPrincipal();
+		
+		MSession s = new MSession();
+		s.setSessionId(event.getNewSessionId());
+		s.setIp(details.getRemoteAddress());
+		s.setUser(user.getUsername());
+		
+		mSessionMapper.update(s);
+		logger.trace("auth updated.");
 	}
 }

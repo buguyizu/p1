@@ -12,6 +12,8 @@ public class MSession extends BaseModel {
 	private Date dateEnd;
 	private String user;
 	private String ip;
+	private String comment;
+	
 	/**
 	 * @return the sessionId
 	 */
@@ -71,5 +73,17 @@ public class MSession extends BaseModel {
 	 */
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

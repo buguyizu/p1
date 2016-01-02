@@ -12,6 +12,8 @@ import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ActionContext;
+
 import info.yinhua.web.service.ITBomService;
 import info.yinhua.web.action.PagingAction;
 import info.yinhua.web.bean.PageBomBean;
@@ -81,7 +83,7 @@ public class BomAction extends PagingAction {
 	}
 
 	public String search() {
-		
+//		ActionContext.getContext().getSession()
 
 		p.setPageNumber(1);
 		tBomService.search(p);

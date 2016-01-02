@@ -11,22 +11,33 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <expression-handler ref="expressionHandler"/> -->
     </global-method-security>
 
-    <http use-expressions="false">
-        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/default.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/hello.htm" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"/><!-- 
-        <intercept-url pattern="/j_spring_security_check" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-         --><intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
-        <intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/>
-        <intercept-url pattern="/**" access="ROLE_USER"/>
+    <http pattern="/**/*.ico" security="none"/>
+    <http pattern="/**/*.jpg" security="none"/>
+    <http pattern="/**/*.png" security="none"/>
+    <http pattern="/**/*.gif" security="none"/>
+    <http pattern="/**/*.svg" security="none"/>
+    <http pattern="/**/*.ttf" security="none"/>
+    <http pattern="/**/*.css" security="none"/>
+    <http pattern="/**/*.js" security="none"/>
+    <!-- use-expressions: WebSecurityExpressionRoot -->
+    <http>
+        <intercept-url pattern="/" access="permitAll()"/>
+        <intercept-url pattern="/default.html" access="permitAll()"/>
+        <intercept-url pattern="/index.jsp" access="isAnonymous()"/>
+        <intercept-url pattern="/hello.htm" access="isAnonymous()"/>
+        <intercept-url pattern="/login*" access="isAnonymous()"/><!-- 
+        <intercept-url pattern="/j_spring_security_check" access="isAnonymous()"/>
+        <intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
+        <intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
 
-        <form-login login-page="/login" login-processing-url="/j_check" authentication-failure-url="/login?error=1" username-parameter="u" password-parameter="p"/>
+        <form-login login-page="/login" login-processing-url="/auth" authentication-failure-url="/login?error=1" username-parameter="u" password-parameter="p"/>
         <http-basic/>
         <!-- invalidate-session="true" show invalid-session-url  -->
         <logout invalidate-session="true" logout-success-url="/index?error=2" logout-url="/logout" />
-        <remember-me remember-me-parameter="r" /><!-- 
+        <remember-me remember-me-parameter="r" />
+        <csrf disabled="true"/>
+        <!-- 
         <custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
         <session-management invalid-session-url="/login?error=3" session-fixation-protection="none">
         	<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
