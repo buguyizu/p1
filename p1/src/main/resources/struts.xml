@@ -39,7 +39,7 @@
 			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings> -->
 		<action name="login" class="info.yinhua.web.action.UserAction"
-			method="init">
+			method="login">
 			<result>/WEB-INF/jsp/login.jsp</result>
 		</action>
 		<action name="home" class="info.yinhua.web.action.HomeAction"

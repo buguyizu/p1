@@ -52,8 +52,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <beans:bean id="userManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
     	<beans:property name="dataSource" ref="dataSource" />
-    	<beans:property name="enableAuthorities" value="false" />
-    	<beans:property name="enableGroups" value="true" />
+    	<beans:property name="enableAuthorities" value="true" />
+    	<beans:property name="enableGroups" value="false" />
     	<beans:property name="authenticationManager" ref="authenticationManager" />
     </beans:bean>
 

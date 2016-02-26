@@ -17,19 +17,18 @@
 		<sec:csrfMetaTags />
 		<title><s:text name="app.nm"/>-<decorator:title/></title>
 <%
-String base = request.getContextPath();
-String fullPath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+base+"/";
+String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()
+	+request.getContextPath()+"/";
 
 //Authentication auth = (Authentication) request.getUserPrincipal();
 //User user = (User) auth.getPrincipal();
 String sessiondId = session.getId();
 %>
-		<c:set var="base" value="<%=base %>"></c:set>
-		<c:set var="fullPath" value="<%=fullPath %>"></c:set>
+		<c:set var="base" value="<%=base %>" scope="request"></c:set>
 		<link rel="icon" href="${base}/img/favicon.ico">
 		<link href="${base}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="${base}/css/custom.css" rel="stylesheet" type="text/css" />
-		<base href="${fullPath}">
+		<base href="${base}">
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 	</head>
@@ -46,7 +45,7 @@ String sessiondId = session.getId();
 					<a class="navbar-brand" href="#">
 						<img alt="Brand" src="${base}/img/favicon.ico">
 					</a>
-					<a class="navbar-brand" href="#"><s:text name="app.nm"/></a>
+					<a class="navbar-brand" href="#"><s:text name="app.nm"/>1</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
@@ -56,22 +55,23 @@ String sessiondId = session.getId();
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<form id="userForm" action='<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
-								<sec:csrfInput />
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>${user.username}<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
-									<li><a href="#"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
-									<li><a href="javascript:$('#userForm').submit();"><span class="glyphicon glyphicon-off" aria-hidden="true"></span><s:text name="logout"/></a>
-									</li>
-									<li role="separator" class="divider"></li>
-									<li class="dropdown-header"><s:text name="manager"/></li>
-									<li><a href="#"><s:text name="user.manager"/></a></li>
-									<li><a href="#"><s:text name="authority.manager"/></a></li>
-								</ul>
-							</form>
-					  </li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>${user.username}<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
+								<li><a href="#"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
+								<li><a href="javascript:$('#userForm').submit();"><span class="glyphicon glyphicon-off" aria-hidden="true"></span><s:text name="logout"/>
+									<form id="userForm" action='<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
+										<sec:csrfInput />
+									</form>
+								</a>
+								</li>
+								<li role="separator" class="divider"></li>
+								<li class="dropdown-header"><s:text name="manager"/></li>
+								<li><a href="#"><s:text name="user.manager"/></a></li>
+								<li><a href="#"><s:text name="authority.manager"/></a></li>
+							</ul>
+						</li>
 					</ul>
 					<form class="navbar-form navbar-right" role="search">
 						<div class="form-group">

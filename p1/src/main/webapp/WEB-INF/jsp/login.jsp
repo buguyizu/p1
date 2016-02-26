@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
 <%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
   <head>
-    <title>Login</title>
+    <title><s:text name="login"/></title>
   </head>
 
-  <body onload="document.f.j_username.focus();">
-    <h1>Login</h1>
+  <body>
+    <h1><s:text name="login"/></h1>
 
     <%-- this form-login-page form is also used as the
          form-error-page to ask for a login again.
@@ -24,24 +24,21 @@
 		<sec:csrfInput />
 		<table>
 			<tr>
-				<td>User:</td>
-				<td><input type='text' name='u'
+				<td><s:text name="username"/>:</td>
+				<td><input type='text' name='u' autofocus="autofocus" maxlength="5"
 					value='<c:if test="${not empty error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>' /></td>
 			</tr>
 			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='p'></td>
+				<td><s:text name="password"/>:</td>
+				<td><input type='password' name='p' maxlength="10"></td>
 			</tr>
 			<tr>
 				<td><input type="checkbox" name="r"></td>
-				<td>Don't ask for my password for two weeks</td>
-			</tr>
-
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"></td>
+				<td><s:text name="remember"/></td>
 			</tr>
 			<tr>
-				<td colspan='2'><input name="reset" type="reset"></td>
+				<td colspan='2'><input name="submit" type="submit">
+				<input name="reset" type="reset"></td>
 			</tr>
 		</table>
 	</form>

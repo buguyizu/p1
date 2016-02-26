@@ -5,52 +5,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>bom</title>
-	<link href="<%=request.getContextPath()%>/css/displaytag.css" rel="stylesheet" type="text/css" />
-	<link href="<%=request.getContextPath()%>/css/alternative.css" rel="stylesheet" type="text/css" />
+	<title><s:text name="user.manager"/></title>
+
+	<link href="${base}/css/list.css" rel="stylesheet" type="text/css" />
+	<link href="${base}/css/displaytag.css" rel="stylesheet" type="text/css" />
+	<link href="${base}/css/alternative.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<s:fielderror />
-	<s:actionerror />
-	<s:actionmessage />
-	<s:form action="search" cssStyle="margin-top: 80px;">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		<div class="input-group">
-			<s:label key="cd.item" for="search_p_itemCd" cssClass="input-group-addon" />
-			<s:textfield name="p.itemCd" cssClass="form-control" />
-		</div>
-		<div class="input-group">
-			<s:label key="cd.item.parent" for="search_p_parentItemCd" cssClass="input-group-addon" />
-			<s:textfield name="p.parentItemCd" cssClass="form-control" />
-		</div>
-		<div class="input-group">
-			<s:label key="level" for="search_p_level" cssClass="input-group-addon" />
-			<s:textfield name="p.level" cssClass="form-control" />
-		</div>
-		<s:submit key="transform" action="transform"></s:submit>
-		<s:submit key="search" action="search"></s:submit>
-	</s:form>
-	
-    <%--http://www.cnblogs.com/chinafine/articles/1801375.html 
-    http://www.tuicool.com/articles/rE7Zve
-    http://www.cnblogs.com/chinafine/articles/1801338.html
-    http://www.cnblogs.com/chinafine/articles/1801376.html
-    http://www.cnblogs.com/chinafine/articles/1801344.html
-    
-If the default values of these properties are used, the href of the sort links will look like this:
-  http://foo.bar.com/context/requestUri?sort=name&dir=asc&originalParameters=originalValues.
-The href of the pagination links will look like this:
-  http://foo.bar.com/context/requestUri?sort=name&dir=asc&page=5&originalParameters=originalValues
-    
-    
-    --%>
-    <s:div id="tableDiv">
-		<display:table name="p.list" id ="${tableId}" sort="external" defaultsort="1"
-			pagesize="${p.objectsPerPage}" size="${p.fullListSize}" partialList="true"
-			requestURI="./list" export="false">
-	        <display:column property="itemCd" title='${action.getText("cd.item")}' sortable="true" sortName="f2" /> 
-	        <display:column property="parentItemCd" title='${action.getText("cd.item.parent")}' sortable="true" sortName="f1" /> 
-		</display:table>
-	</s:div>
+    <div class="container-fluid">
+      <div class="row">
+      	<%@ include file="./menu_side.jsp" %>
+        <div class="col-sm-9 col-md-10 main">
+          <ol class="breadcrumb">
+            <li><a href="${base}/home">主页</a></li>
+            <li><a href="#">员工管理</a></li>
+            <li class="active">员工查询</li>
+          </ol>
+
+          <h1 class="page-header">员工信息</h1>
+          <div class="alert alert-success" role="alert">成功</div>
+          <div class="alert alert-info" role="alert">信息</div>
+          <div class="alert alert-warning" role="alert">警告</div>
+          <s:form action="search">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-group form-group">
+                  <span class="input-group-addon"><s:text name="user.cd"/></span>
+                  <s:textfield name="p.cd" cssClass="form-control" placeholder="G0001" aria-describedby="员工编号" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group form-group">
+                  <span class="input-group-addon"><s:text name="user.name"/></span>
+                  <s:textfield name="p.name" cssClass="form-control" placeholder="王红" aria-describedby="员工姓名" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group form-group">
+                  <span class="input-group-addon"><s:text name="department"/></span>
+                  	<s:select label="department" class="form-control" placeholder="..." aria-describedby="部门"
+				       name="p.department" emptyOption="true"
+				       list="getCodeList('01')"
+				       listKey="fCode" listValue="fValue"
+				       value="p.department"
+					/>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group form-group">
+                  <span class="input-group-addon"><s:text name="gender"/></span>
+                  <div class="form-control btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked>男
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="option2" autocomplete="off">女
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-addon"><s:text name="status.login"/></span>
+                  <div class="form-control btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked> 有效
+                    </label>
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="option2" autocomplete="off"> 无效
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <div class="btn-group btn-group-justified" role="group" aria-label="按钮">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>清空</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreate"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新建</button>
+              </div>
+            </div>
+          </s:form>
+          <h2 class="sub-header">信息一览</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>姓名</th>
+                  <th>性别</th>
+                  <th>部门</th>
+                  <th>登录状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#modalEdit" data-toggle="modal">G0001</a></td>
+                  <td>王红</td>
+                  <td>女</td>
+                  <td>账务</td>
+                  <td>有效</td>
+                </tr>
+                <tr>
+                  <td><a href="#modalEdit" data-toggle="modal">G0002</a></td>
+                  <td>王红</td>
+                  <td>女</td>
+                  <td>账务</td>
+                  <td>有效</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <nav>
+            <ul class="pagination">
+              <li class="disabled">
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

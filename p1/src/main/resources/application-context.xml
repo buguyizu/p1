@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop" 
-    xmlns:tx="http://www.springframework.org/schema/tx" 
-    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:cache="http://www.springframework.org/schema/cache"
     xsi:schemaLocation="  
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd  
@@ -14,15 +15,31 @@
             http://www.springframework.org/schema/jee
             http://www.springframework.org/schema/jee/spring-jee.xsd  
             http://www.springframework.org/schema/tx
-            http://www.springframework.org/schema/tx/spring-tx.xsd">
+            http://www.springframework.org/schema/tx/spring-tx.xsd 
+            http://www.springframework.org/schema/cache
+            http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!-- 激活spring的注解.
-    <context:annotation-config /> -->  
+    <context:annotation-config /> -->
+    
+    <cache:annotation-driven cache-manager="cacheManager" />
+    
     <context:component-scan base-package="info.yinhua.web.action,info.yinhua.web.service.impl,info.yinhua.core.listener,info.yinhua.core.service" />
     
     <bean id="sessionListener" class="info.yinhua.core.listener.SessionListener">
     </bean>
     
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+    	<constructor-arg value="CODE_DATA,USER_DATA"></constructor-arg>
+    	<property name="cacheBuilder" ref="cacheBuilder"></property>
+    </bean>
+    
+    <bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder" factory-method="from">
+   		<constructor-arg value="maximumSize=90, expireAfterAccess=5m, expireAfterWrite=5m" />
+    </bean>
+    	<!-- <property name="cacheLoader" ref="codeCacheLoader"></property>
+    <bean id="codeCacheLoader" class="info.yinhua.core.cache.CodeCacheLoader">
+    </bean> -->
 	<!-- 
     <bean id="commonService" class="info.yinhua.core.service.impl.CommonService">
     </bean>

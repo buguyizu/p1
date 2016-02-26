@@ -5,6 +5,7 @@ import java.util.Date;
 import info.yinhua.core.db.model.MSession;
 import info.yinhua.core.mapper.MSessionMapper;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +23,7 @@ import org.springframework.security.web.authentication.session.SessionFixationPr
 import org.springframework.security.web.session.HttpSessionCreatedEvent;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class SessionListener implements ApplicationListener<ApplicationEvent> {
 
@@ -50,6 +54,12 @@ public class SessionListener implements ApplicationListener<ApplicationEvent> {
 //		}
 		else if (event instanceof SessionFixationProtectionEvent) {
 			login((SessionFixationProtectionEvent) event);
+		}
+		
+		else if (event instanceof ContextStartedEvent) {
+			
+		} else if (event instanceof ContextClosedEvent) {
+			
 		}
 	}
 	

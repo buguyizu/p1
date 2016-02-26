@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Configuration status="WARN">
-  <Properties>
-    <Property name="filename">C:/logs/app.log</Property>
-    <Property name="filepattern" value="C:/logs/app-%d{yyyy-MM-dd}-%i.log.gz"/>
-    <Property name="pattern1" value="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"/>
-    <Property name="pattern2" value="%d %p %c{1.} [%t] %m%n"/>
-  </Properties>
+	<Properties>
+		<Property name="filename">C:/logs/app.log</Property>
+		<Property name="filepattern" value="C:/logs/app-%d{yyyy-MM-dd}-%i.log.gz"/>
+		<Property name="pattern1" value="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"/>
+		<Property name="pattern2" value="%d %p %c{1.} [%t] %m%n"/>
+	</Properties>
 	<Appenders>
 	    <Console name="Console" target="SYSTEM_OUT">
-	      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
 	    </Console>
 	    <!-- http://www.360doc.com/content/15/0827/18/10866767_495227329.shtml
 		<File name="File1" fileName="output.log" bufferedIO="false" advertiseURI="file://path/to/output.log" advertise="true">
 		</File> -->
 		<!-- http://logging.apache.org/log4j/2.x/manual/appenders.html#RollingFileAppender -->
-        <RollingFile name="RollingFile" fileName="${filename}" filePattern="C:/logs/app-%d{yyyy-MM-dd}-%i.log.gz">
-          <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"></PatternLayout>
-	      <Policies>
-	        <SizeBasedTriggeringPolicy size="250 MB"/>
-	      </Policies>
-      	  <DefaultRolloverStrategy max="20"/>
+        <RollingFile name="RollingFile" fileName="${filename}" filePattern="C:/logs/app-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"></PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="20"/>
         </RollingFile>
 	</Appenders>
 	<Loggers>

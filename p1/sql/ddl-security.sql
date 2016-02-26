@@ -4,6 +4,9 @@
 create table users(
 	username varchar_ignorecase(50) not null primary key,
 	password varchar_ignorecase(50) not null,
+	name varchar(10),
+	gender varchar(1),
+	department varchar(5),
 	enabled boolean not null
 );
 

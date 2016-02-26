@@ -2,6 +2,7 @@ form .row {
 	margin-bottom: 10px;
 }
 
+/* for radio label */
 .form-control label {
 	margin-top: -7px;
 }

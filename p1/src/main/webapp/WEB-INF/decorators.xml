@@ -4,7 +4,7 @@
         <pattern>/*</pattern>
     </decorator>
     <decorator name="main-theme" page="main-theme.jsp">
-        <pattern>/home</pattern>
+        <pattern>/home*</pattern>
     </decorator>
     <decorator name="main-theme" page="main-theme.jsp">
         <pattern>/*/*</pattern>

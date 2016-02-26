@@ -4,6 +4,7 @@ import info.yinhua.core.db.model.UserDetail;
 import info.yinhua.core.mapper.UserDetailMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ public class UserDetailService {
 	@Autowired
 	private UserDetailMapper userDetailMapper;
 	
+	@Cacheable(value = "USER_DATA", key = "#username")
 	public UserDetail get(String username) {
 		return userDetailMapper.select(username);
 	}

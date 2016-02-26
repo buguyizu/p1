@@ -1,0 +1,71 @@
+package info.yinhua.core.util;
+
+import java.util.List;
+
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
+import org.ehcache.CacheManagerBuilder;
+import org.ehcache.config.CacheConfigurationBuilder;
+
+public class CacheUtil {
+
+	private static CacheManager cacheManager =
+		CacheManagerBuilder.newCacheManagerBuilder()
+			.withCache("masterData",
+				CacheConfigurationBuilder.newCacheConfigurationBuilder()
+					.buildConfig(String.class, List.class))
+			.build(true);
+	
+	
+	public static Cache getCache(CacheAlias alias) {
+
+		Cache cache  = cacheManager.getCache(alias.name(), alias.keyType(), alias.valueType());
+		if (cache == null)
+			cacheManager.createCache(CacheAlias.MASTER.name(), 
+					CacheConfigurationBuilder.newCacheConfigurationBuilder().buildConfig(
+							CacheAlias.MASTER.keyType(), CacheAlias.MASTER.valueType()));
+		return cacheManager.getCache(alias.name(), alias.keyType(), alias.valueType());
+	}
+
+	public static <K, V> void setCacheData(Cache<K, V> cache, K key, V data) {
+		cache.put(key, data);
+	}
+
+	public static <K, V> V getCacheData(Cache<K, V> cache, K key) {
+		return cache.get(key);
+	}
+
+	enum CacheAlias {
+		
+		MASTER(1, List.class);
+		
+		private int code;
+		private Class<?> keyType;
+		private Class<?> valueType;
+		private static Class<String> KEY_TYPE = String.class;
+		
+		private CacheAlias(int code, Class<?> valueType) {
+			this.code = code;
+			this.valueType = valueType;
+		}
+		private CacheAlias(int code, Class<?> keyType, Class<?> valueType) {
+			this.code = code;
+			this.keyType = keyType;
+			this.valueType = valueType;
+		}
+		
+		public int getCode() {
+			return this.code;
+		}
+		
+		public Class keyType() {
+			if (this.keyType == null)
+				this.keyType = KEY_TYPE;
+			return this.keyType;
+		}
+		
+		public Class valueType() {
+			return this.valueType;
+		}
+	}
+}
