@@ -5,26 +5,31 @@
 
 <struts>
 
-<!-- struts2 默认的配置文件 default.properties.位置在 struts2-core-2.x.x.jar 的 org.apache.struts2 包 下面的 -->
-
-<!-- 设置浏览器是否缓存静态内容，默认值为true（生产环境下使用），开发阶段最好关闭 -->
-<constant name="struts.serve.static.browserCache" value="false" />
-
-<!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认值为false（生产环境下使用），开发阶段最好打开 -->
-<constant name="struts.configuration.xml.reload" value="true" />
-
-<!-- 开发模式下使用，这样可以打印出更详细的错误信息 -->
-<constant name="struts.devMode" value="true" />
-
-<!-- 默认的视图主题 -->
-<constant name="struts.ui.theme" value="simple" />
-
-<!-- 该属性指定Struts 2中的action由Spring容器创建 -->
-<constant name="struts.objectFactory" value="spring" />
-
-<!-- 该属性指定Struts 2应用所需要的国际化资源文件，如果有多份国际化资源文件，则多个资源文件的文件名以英文逗号（,）隔开。 -->
-<constant name="struts.custom.i18n.resources" value="message" />
-
+	<!-- struts2 默认的配置文件 default.properties.位置在 struts2-core-2.x.x.jar 的 org.apache.struts2 包 下面的 -->
+	
+	<!-- 设置浏览器是否缓存静态内容，默认值为true（生产环境下使用），开发阶段最好关闭 -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+	
+	<!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认值为false（生产环境下使用），开发阶段最好打开 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	
+	<!-- 开发模式下使用，这样可以打印出更详细的错误信息 -->
+	<constant name="struts.devMode" value="true" />
+	
+	<!-- 默认的视图主题 -->
+	<constant name="struts.ui.theme" value="simple" />
+	
+	<!-- 该属性指定Struts 2中的action由Spring容器创建 -->
+	<constant name="struts.objectFactory" value="spring" />
+	
+	<!-- 该属性指定Struts 2应用所需要的国际化资源文件，如果有多份国际化资源文件，则多个资源文件的文件名以英文逗号（,）隔开。 -->
+	<constant name="struts.custom.i18n.resources" value="global,message" />
+	
+	<constant name="struts.locale" value="zh_CN" />
+	
+	<!-- http://stackoverflow.com/questions/12607075/struts2-action-extension-causing-css-javascript-and-struts-dojo-to-break -->
+	<constant name="struts.action.extension" value=","/>
+	
 	<package name="default" extends="struts-default" namespace="/">
 		<default-action-ref name="error"></default-action-ref>
 		<global-results>
@@ -51,6 +56,9 @@
 		</action>
 		<action name="error">
 			<result>/WEB-INF/jsp/common/error.jsp?type=4</result>
+		</action>
+		<action name="timeout">
+			<result>/WEB-INF/jsp/common/error.jsp?type=5</result>
 		</action>
 	</package>
 	

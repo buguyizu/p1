@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://wiki.sitemesh.org/wiki/display/sitemesh/Setup+SiteMesh+in+5+Minutes+or+Less -->
 <decorators defaultdir="/WEB-INF/decorators">
-    <decorator name="basic-theme" page="basic-theme.jsp">
+    <excludes>
+        <pattern>/debug.jsp</pattern>
+        <pattern>/*.html</pattern>
+        <pattern>/css/*</pattern>
+        <pattern>/fonts/*</pattern>
+        <pattern>/img/*</pattern>
+        <pattern>/js/*</pattern>
+    </excludes>
+    <decorator name="basic" page="basic-theme.jsp">
         <pattern>/*</pattern>
     </decorator>
-    <decorator name="main-theme" page="main-theme.jsp">
+    <decorator name="main" page="main-theme.jsp">
         <pattern>/home*</pattern>
     </decorator>
-    <decorator name="main-theme" page="main-theme.jsp">
+    <decorator name="main2" page="main-theme.jsp">
         <pattern>/*/*</pattern>
     </decorator>
 </decorators>

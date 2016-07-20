@@ -4,6 +4,9 @@
 	<groupId>info.yinhua</groupId>
 	<artifactId>p1</artifactId>
 
+	<!-- jetty-distribution-9.2.14.v20151106 -->
+	<!-- http://www.eclipse.org/jetty/download.html -->
+	<!-- http://eclipse-jetty.github.io/ -->
 	<!-- 如果版本中不加入SNAPSHOT（适用于开发阶段），则在版本号没变时，引用该包的工程是不会主动更新该包的。 -->
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -11,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<struts2.version>2.5-BETA2</struts2.version>
+		<struts2.version>2.5.2</struts2.version>
 		<springframework.version>4.2.2.RELEASE</springframework.version>
 		<spring-security.version>4.0.3.RELEASE</spring-security.version>
 		<sitemesh.version>3.0.1</sitemesh.version>
@@ -126,11 +129,23 @@
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>1.3.176</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 			<scope>compile</scope>
+		</dependency>
+		<!-- jetty needs commons-pool, dependency of commons-dbcp -->
+		<dependency>
+		  <groupId>commons-pool</groupId>
+		  <artifactId>commons-pool</artifactId>
+		  <version>1.5.4</version>
 		</dependency><!-- 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -163,7 +178,7 @@
 			<artifactId>struts2-sitemesh-plugin</artifactId>
 			<version>${struts2.version}</version>
 		</dependency>
-		<!-- 
+		<!-- 用struts2-sitemesh-plugin中带的2.4.2版本
 		<dependency>
 			<groupId>org.sitemesh</groupId>
 			<artifactId>sitemesh</artifactId>

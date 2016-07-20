@@ -2,6 +2,8 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
 	<display-name>p1</display-name>
 
+	<!-- http://struts.apache.org/docs/webxml.html -->
+	<!-- \struts-2.5.2\src\apps\showcase\src\main\webapp\WEB-INF\web.xml -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:application-context*.xml</param-value>
@@ -13,13 +15,20 @@
 	</filter>
 
 	<filter>
-		<filter-name>sitemesh</filter-name>
-		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-	</filter>
-	<!-- http://struts.apache.org/docs/webxml.html -->
-	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+    <filter>
+        <filter-name>struts-prepare</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>struts-execute</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsExecuteFilter</filter-class>
+    </filter>
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -27,14 +36,26 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!--
+    <filter-mapping>
+        <filter-name>struts-prepare</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	 -->
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!--
 	<filter-mapping>
-		<filter-name>struts2</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+        <filter-name>struts-execute</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	 -->
+	<filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 	<!--
 	 spring配置
@@ -69,6 +90,23 @@
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>default.html</welcome-file>
 	</welcome-file-list>
+
+<!-- return 403 -->
+    <security-constraint>
+        <display-name>No direct JSP access</display-name>
+        <web-resource-collection>
+            <web-resource-name>No-JSP</web-resource-name>
+            <url-pattern>*.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>no-users</role-name>
+        </auth-constraint>
+    </security-constraint>
+ 
+    <security-role>
+        <description>Don't assign users to this role</description>
+        <role-name>no-users</role-name>
+    </security-role>
 	<error-page>
 		<error-code>403</error-code>
 		<location>/WEB-INF/jsp/common/error.jsp?type=-1</location>
