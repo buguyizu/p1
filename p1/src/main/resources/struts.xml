@@ -43,12 +43,10 @@
 		<global-exception-mappings>
 			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings> -->
-		<action name="login" class="info.yinhua.web.action.UserAction"
-			method="login">
+		<action name="login" class="info.yinhua.web.action.UserAction" method="login">
 			<result>/WEB-INF/jsp/login.jsp</result>
 		</action>
-		<action name="home" class="info.yinhua.web.action.HomeAction"
-			method="init">
+		<action name="home" class="info.yinhua.web.action.HomeAction" method="init">
 			<result>/WEB-INF/jsp/index.jsp</result>
 		</action>
 		<action name="forward">
@@ -68,12 +66,9 @@
 			<result name="error">/WEB-INF/jsp/user.jsp</result>
 			<result name="success">/WEB-INF/jsp/user.jsp</result>
 		</global-results>
-		<action name="init" class="info.yinhua.web.action.UserAction"
-			method="init" />
-		<action name="search" class="info.yinhua.web.action.UserAction"
-			method="search" />
-		<action name="list" class="info.yinhua.web.action.UserAction"
-			method="list" />
+		<action name="init" class="info.yinhua.web.action.UserAction" method="init" />
+		<action name="search" class="info.yinhua.web.action.UserAction" method="search" />
+		<action name="list" class="info.yinhua.web.action.UserAction" method="list" />
 	</package>
 	
 	<package name="bom" extends="default" namespace="/bom">
@@ -82,13 +77,9 @@
 			<result name="error">/WEB-INF/jsp/bom.jsp</result>
 			<result name="success">/WEB-INF/jsp/bom.jsp</result>
 		</global-results>
-		<action name="init" class="info.yinhua.web.action.bom.BomAction"
-			method="init" />
-		<action name="transform" class="info.yinhua.web.action.bom.BomAction"
-			method="transform" />
-		<action name="search" class="info.yinhua.web.action.bom.BomAction"
-			method="search" />
-		<action name="list" class="info.yinhua.web.action.bom.BomAction"
-			method="list" />
+		<action name="init" class="info.yinhua.web.action.bom.BomAction" method="init" />
+		<action name="transform" class="info.yinhua.web.action.bom.BomAction" method="transform" />
+		<action name="search" class="info.yinhua.web.action.bom.BomAction" method="search" />
+		<action name="list" class="info.yinhua.web.action.bom.BomAction" method="list" />
 	</package>
 </struts>

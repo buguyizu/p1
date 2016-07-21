@@ -8,7 +8,7 @@
 <body>
     <div class="jumbotron">
       <div class="container">
-        <h1>系统介绍</h1>
+        <h2>系统介绍</h2>
         <p>系统介绍...</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>

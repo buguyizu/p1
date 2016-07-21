@@ -18,6 +18,7 @@
 		<springframework.version>4.2.2.RELEASE</springframework.version>
 		<spring-security.version>4.0.3.RELEASE</spring-security.version>
 		<sitemesh.version>3.0.1</sitemesh.version>
+		<log4j.version>2.5</log4j.version>
 	</properties>
 
 	<!-- ［工程属性Deployment Assembly中设定］publish时的lib包不许选择［Maven Dependencies］， 
@@ -146,7 +147,8 @@
 		  <groupId>commons-pool</groupId>
 		  <artifactId>commons-pool</artifactId>
 		  <version>1.5.4</version>
-		</dependency><!-- 
+		</dependency>
+		<!-- use new version
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -157,10 +159,11 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.7</version>
         </dependency> -->
+        
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.3</version>
+			<version>${log4j.version}</version>
 		</dependency>
 		<!-- 
 		<dependency>
@@ -237,18 +240,19 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
-			<version>2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-jcl</artifactId>
-			<version>2.3</version>
+			<version>${log4j.version}</version>
         </dependency> -->
         <!-- sql log -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.3</version>
+			<version>${log4j.version}</version>
+        </dependency>
+        <!-- Commons Logging Bridge -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+			<version>${log4j.version}</version>
         </dependency>
 	</dependencies>
 	<build>

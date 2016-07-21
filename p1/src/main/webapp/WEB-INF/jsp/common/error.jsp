@@ -31,7 +31,7 @@
 			<div>会话已结束！</div>
 		</c:when>
 	</c:choose>
-	<s:a action="home">
+	<s:a action="home" namespace="/">
 		<s:text name="homepage" />
 	</s:a>
 </body>

@@ -7,75 +7,95 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <global-method-security pre-post-annotations="disabled"><!-- 
-        <expression-handler ref="expressionHandler"/> -->
-    </global-method-security>
+<!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#user-schema -->
+	<global-method-security pre-post-annotations="disabled"><!--
+		<expression-handler ref="expressionHandler"/> -->
+	</global-method-security>
 
-    <http pattern="/**/*.ico" security="none"/>
-    <http pattern="/**/*.jpg" security="none"/>
-    <http pattern="/**/*.png" security="none"/>
-    <http pattern="/**/*.gif" security="none"/>
-    <http pattern="/**/*.svg" security="none"/>
-    <http pattern="/**/*.ttf" security="none"/>
-    <http pattern="/**/*.css" security="none"/>
-    <http pattern="/**/*.js" security="none"/>
-    <!-- use-expressions: WebSecurityExpressionRoot -->
-    <http>
-        <intercept-url pattern="/" access="permitAll()"/>
-        <intercept-url pattern="/timeout" access="permitAll()"/>
-        <intercept-url pattern="/default.html" access="permitAll()"/>
-        
-        <intercept-url pattern="/index.jsp" access="isAnonymous()"/>
-        <intercept-url pattern="/hello.htm" access="isAnonymous()"/>
-        <intercept-url pattern="/login*" access="isAnonymous()"/>
-        <!-- 
-        <intercept-url pattern="/j_spring_security_check" access="isAnonymous()"/>
-        <intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
-        <intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
-        
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
+	<http pattern="/**/*.ico" security="none"/>
+	<http pattern="/**/*.jpg" security="none"/>
+	<http pattern="/**/*.png" security="none"/>
+	<http pattern="/**/*.gif" security="none"/>
+	<http pattern="/**/*.svg" security="none"/>
+	<http pattern="/**/*.ttf" security="none"/>
+	<http pattern="/**/*.css" security="none"/>
+	<http pattern="/**/*.js" security="none"/>
+	<!-- use-expressions: WebSecurityExpressionRoot -->
+	<http>
+		<intercept-url pattern="/"				access="permitAll()"/>
+		<intercept-url pattern="/timeout"		access="permitAll()"/>
+		<intercept-url pattern="/default.html"	access="permitAll()"/>
+		<intercept-url pattern="/login*"		access="permitAll()"/>
 
-        <form-login login-page="/login?from" login-processing-url="/auth" authentication-failure-url="/login?error=1" username-parameter="u" password-parameter="p"/>
-        <http-basic/>
-        <!-- invalidate-session="true" show invalid-session-url  -->
-        <logout invalidate-session="true" logout-success-url="/index?error=2" logout-url="/logout" />
-        <remember-me remember-me-parameter="r" />
-        <csrf disabled="true"/>
-        <!-- 
-        <custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
-        <session-management invalid-session-url="/timeout" session-fixation-protection="none">
-        	<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
-        </session-management>
-    </http>
+		<intercept-url pattern="/hello.html"	access="isAnonymous()"/>
+		<!--
+		<intercept-url pattern="/j_spring_security_check" access="isAnonymous()"/>
+		<intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
+		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
 
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userManager">
-           <password-encoder hash="plaintext"/>
-        </authentication-provider>
-    </authentication-manager>
-    
-    <beans:bean id="userManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
-    	<beans:property name="dataSource" ref="dataSource" />
-    	<beans:property name="enableAuthorities" value="true" />
-    	<beans:property name="enableGroups" value="false" />
-    	<beans:property name="authenticationManager" ref="authenticationManager" />
-    </beans:bean>
+		<intercept-url pattern="/**"			access="isAuthenticated()"/>
 
-    <!-- Automatically receives AuthenticationEvent messages -->
-    <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+		<!--  authentication-failure-url="/login?error=1" -->
+		<form-login login-page="/login?from" login-processing-url="/auth" authentication-failure-handler-ref="customFailureHandler" username-parameter="u" password-parameter="p"/>
+		<http-basic/>
+		<!-- invalidate-session="true" show invalid-session-url -->
+		<logout invalidate-session="false" logout-success-url="/login?from=logout" logout-url="/logout" />
+		<remember-me remember-me-parameter="r" />
+		<csrf disabled="true"/>
+		<!--
+		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
+		<session-management invalid-session-url="/timeout" session-fixation-protection="none">
+			<concurrency-control max-sessions="1" expired-url="/login?error=6" error-if-maximum-exceeded="true"/>
+		</session-management>
+	</http>
+	
+	<!-- 
+	http://stackoverflow.com/questions/1373407/how-to-display-custom-error-message-in-jsp-for-spring-security-auth-exception
+	http://stackoverflow.com/questions/26484440/how-to-customize-spring-security-last-exception-message-according-to-the-error-i
+	max-sessions="1" org.springframework.security.web.authentication.session.SessionAuthenticationException
+	 -->
+	<beans:bean id="customFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+	    <beans:property name="exceptionMappings">
+	        <beans:props>
+	            <beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login?error=1</beans:prop>
+	            <beans:prop key="org.springframework.security.authentication.DisabledException">/login?error=2</beans:prop>
+	            <beans:prop key="org.springframework.security.web.authentication.session.SessionAuthenticationException">/login?error=3</beans:prop>
+	            <beans:prop key="org.springframework.security.authentication.AuthenticationServiceException">/login?error=4</beans:prop>
+	        </beans:props>
+	    </beans:property>
+	    <beans:property name="defaultFailureUrl" value="/login?error=0" />
+	</beans:bean>
 
-    <!-- Filter used to switch the user context. Note: the switch and exit url must be secured
-        based on the role granted the ability to 'switch' to another user -->
-    <!-- In this example 'rod' has ROLE_SUPERVISOR that can switch to regular ROLE_USER(s)
-    <beans:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter" autowire="byType">
-       <b:property name="targetUrl" value="/secure/index.htm"/>
-    </beans:bean> -->
-<!-- 
-    <beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-        <b:property name="permissionEvaluator" ref="permissionEvaluator"/>
-    </beans:bean>
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userManager">
+			<!-- TODO -->
+			<password-encoder hash="plaintext"/>
+		</authentication-provider>
+	</authentication-manager>
 
-    <beans:bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
-        <b:constructor-arg ref="aclService"/>
-    </beans:bean> -->
+	<!-- break at JdbcDaoImpl.loadUserByUsername -->
+	<beans:bean id="userManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="enableAuthorities" value="true" />
+		<beans:property name="enableGroups" value="false" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+
+	<!-- Automatically receives AuthenticationEvent messages -->
+	<beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+
+	<!-- Filter used to switch the user context. Note: the switch and exit url must be secured
+		based on the role granted the ability to 'switch' to another user -->
+	<!-- In this example 'rod' has ROLE_SUPERVISOR that can switch to regular ROLE_USER(s)
+	<beans:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter" autowire="byType">
+		<b:property name="targetUrl" value="/secure/index.htm"/>
+	</beans:bean> -->
+<!--
+	<beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<b:property name="permissionEvaluator" ref="permissionEvaluator"/>
+	</beans:bean>
+
+	<beans:bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
+		<b:constructor-arg ref="aclService"/>
+	</beans:bean> -->
 </beans:beans>

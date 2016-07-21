@@ -8,16 +8,15 @@
   </head>
 
   <body>
-    <h1><s:text name="login"/></h1>
+    <h2><s:text name="login"/></h2>
 
     <%-- this form-login-page form is also used as the
          form-error-page to ask for a login again.
          --%>
     <c:if test="${not empty error}">
-      <font color="red">
-        Your login attempt was not successful, try again.<br/><br/>
-        Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
-      </font>
+      <div style="color:red;">
+      	<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+      </div>
     </c:if>
 
 	<form action="<c:url value='auth'/>" method="POST">
@@ -37,8 +36,10 @@
 				<td><s:text name="remember"/></td>
 			</tr>
 			<tr>
-				<td colspan='2'><input name="submit" type="submit">
-				<input name="reset" type="reset"></td>
+				<td colspan='2'>
+					<s:submit key="login"></s:submit>
+					<s:reset key="clear"></s:reset>
+				</td>
 			</tr>
 		</table>
 	</form>

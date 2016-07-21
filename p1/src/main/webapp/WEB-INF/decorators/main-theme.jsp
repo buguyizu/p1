@@ -7,7 +7,7 @@
 <%@ page import="org.springframework.security.core.GrantedAuthority" %>
 <%@ page import="org.springframework.security.core.userdetails.User"%>
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,8 +17,7 @@
 		<sec:csrfMetaTags />
 		<title><s:text name="app.nm"/>-<decorator:title/></title>
 <%
-String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()
-	+request.getContextPath()+"/";
+String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
 
 //Authentication auth = (Authentication) request.getUserPrincipal();
 //User user = (User) auth.getPrincipal();
@@ -28,7 +27,9 @@ String sessiondId = session.getId();
 		<link rel="icon" href="${base}/img/favicon.ico">
 		<link href="${base}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="${base}/css/custom.css" rel="stylesheet" type="text/css" />
-		<base href="${base}">
+		
+		<!-- http://www.w3schools.com/tags/tag_base.asp
+		<base href="${base}"> -->
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 	</head>
@@ -45,7 +46,7 @@ String sessiondId = session.getId();
 					<a class="navbar-brand" href="#">
 						<img alt="Brand" src="${base}/img/favicon.ico">
 					</a>
-					<a class="navbar-brand" href="#"><s:text name="app.nm"/>1</a>
+					<a class="navbar-brand" href="#"><s:text name="app.nm"/></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
