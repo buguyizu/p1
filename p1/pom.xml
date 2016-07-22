@@ -4,6 +4,7 @@
 	<groupId>info.yinhua</groupId>
 	<artifactId>p1</artifactId>
 
+	<!-- jdk1.7 -->
 	<!-- jetty-distribution-9.2.14.v20151106 -->
 	<!-- http://www.eclipse.org/jetty/download.html -->
 	<!-- http://eclipse-jetty.github.io/ -->
@@ -14,6 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- http://struts.apache.org/docs/version-notes-25.html -->
 		<struts2.version>2.5.2</struts2.version>
 		<springframework.version>4.2.2.RELEASE</springframework.version>
 		<spring-security.version>4.0.3.RELEASE</spring-security.version>
