@@ -10,30 +10,25 @@
   <body>
     <h2><s:text name="login"/></h2>
 
-    <%-- this form-login-page form is also used as the
-         form-error-page to ask for a login again.
-         --%>
     <c:if test="${not empty error}">
-      <div style="color:red;">
-      	<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-      </div>
+		<div style="color:red;">
+			<s:actionerror />
+		</div>
     </c:if>
-
 	<form action="<c:url value='auth'/>" method="POST">
 		<sec:csrfInput />
 		<table>
 			<tr>
 				<td><s:text name="username"/>:</td>
-				<td><input type='text' name='u' autofocus="autofocus" maxlength="5"
-					value='<c:if test="${not empty error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>' /></td>
+				<td><s:textfield name='u' autofocus="autofocus" maxlength="5" /></td>
 			</tr>
 			<tr>
 				<td><s:text name="password"/>:</td>
-				<td><input type='password' name='p' maxlength="10"></td>
+				<td><s:password name='p' maxlength="10" /></td>
 			</tr>
 			<tr>
-				<td><input type="checkbox" name="r"></td>
-				<td><s:text name="remember"/></td>
+				<td><s:checkbox name="r"/></td>
+				<td><s:label key="remember" for="r"/></td>
 			</tr>
 			<tr>
 				<td colspan='2'>

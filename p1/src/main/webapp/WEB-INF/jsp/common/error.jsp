@@ -6,7 +6,7 @@
 <title><s:text name="error.page" /></title>
 </head>
 <body>
-	<div><s:text name="error.cd" />${param.type}</div>
+	<div><s:text name="error.cd" />： ${param.type}</div>
 	<br />
 	<c:choose>
 		<c:when test="${param.type eq '-1'}">
