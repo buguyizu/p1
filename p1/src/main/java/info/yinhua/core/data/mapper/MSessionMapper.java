@@ -1,7 +1,7 @@
-package info.yinhua.core.mapper;
+package info.yinhua.core.data.mapper;
 
 import org.springframework.stereotype.Repository;
-import info.yinhua.core.db.model.MSession;
+import info.yinhua.core.data.model.MSession;
 
 @Repository
 public interface MSessionMapper {

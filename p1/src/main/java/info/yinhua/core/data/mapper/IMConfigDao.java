@@ -1,6 +1,6 @@
-package info.yinhua.core.mapper;
+package info.yinhua.core.data.mapper;
 
-import info.yinhua.core.db.model.MConfig;
+import info.yinhua.core.data.model.MConfig;
 
 public interface IMConfigDao {
 	MConfig select(int id);

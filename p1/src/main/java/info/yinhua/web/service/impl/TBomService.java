@@ -15,8 +15,8 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import info.yinhua.core.mapper.TBom0Mapper;
-import info.yinhua.core.db.model.MCode;
+import info.yinhua.core.data.mapper.TBom0Mapper;
+import info.yinhua.core.data.model.MCode;
 import info.yinhua.web.bean.BomBean;
 import info.yinhua.web.bean.PageBomBean;
 import info.yinhua.web.service.IMCodeService;

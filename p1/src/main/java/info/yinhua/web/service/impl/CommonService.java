@@ -13,7 +13,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import info.yinhua.core.db.model.MCode;
+import info.yinhua.core.data.model.MCode;
 import info.yinhua.web.service.ICommonService;
 import info.yinhua.web.service.IMCodeService;
 

@@ -1,9 +1,9 @@
-package info.yinhua.core.listener;
+package info.yinhua.core.context;
 
 import java.util.Date;
 
-import info.yinhua.core.db.model.MSession;
-import info.yinhua.core.mapper.MSessionMapper;
+import info.yinhua.core.data.model.MSession;
+import info.yinhua.core.data.mapper.MSessionMapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -25,7 +25,7 @@ import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-public class SessionListener implements ApplicationListener<ApplicationEvent> {
+public class Listener implements ApplicationListener<ApplicationEvent> {
 
 	private final Logger logger = LogManager.getLogger(getClass());
 	

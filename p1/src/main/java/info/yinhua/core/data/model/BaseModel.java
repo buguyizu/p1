@@ -1,4 +1,4 @@
-package info.yinhua.core.db.model;
+package info.yinhua.core.data.model;
 
 import java.io.Serializable;
 

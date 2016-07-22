@@ -1,7 +1,7 @@
 package info.yinhua.web.service.impl;
 
-import info.yinhua.core.db.model.MCode;
-import info.yinhua.core.mapper.MCodeMapper;
+import info.yinhua.core.data.model.MCode;
+import info.yinhua.core.data.mapper.MCodeMapper;
 import info.yinhua.web.service.IMCodeService;
 
 import java.util.HashMap;

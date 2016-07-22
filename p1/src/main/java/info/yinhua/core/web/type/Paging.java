@@ -1,4 +1,4 @@
-package info.yinhua.core.type;
+package info.yinhua.core.web.type;
 
 import java.util.List;
 

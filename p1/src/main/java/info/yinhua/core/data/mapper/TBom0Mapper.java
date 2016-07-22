@@ -1,4 +1,4 @@
-package info.yinhua.core.mapper;
+package info.yinhua.core.data.mapper;
 
 import info.yinhua.web.bean.BomBean;
 import info.yinhua.web.bean.PageBomBean;

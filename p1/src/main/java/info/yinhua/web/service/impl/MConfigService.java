@@ -1,7 +1,7 @@
 package info.yinhua.web.service.impl;
 
-import info.yinhua.core.mapper.IMConfigDao;
-import info.yinhua.core.db.model.MConfig;
+import info.yinhua.core.data.mapper.IMConfigDao;
+import info.yinhua.core.data.model.MConfig;
 import info.yinhua.web.service.IMConfigService;
 import info.yinhua.core.util.ZipUtil;
 

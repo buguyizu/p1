@@ -1,6 +1,6 @@
 package info.yinhua.web.action;
 
-import info.yinhua.core.db.model.MCode;
+import info.yinhua.core.data.model.MCode;
 import info.yinhua.web.service.ICommonService;
 import info.yinhua.web.service.IMCodeService;
 
@@ -22,6 +22,8 @@ public abstract class BaseAction extends ActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+    public static final String HOME = "home";
 	
 	@Autowired
 	protected ICommonService commonService;

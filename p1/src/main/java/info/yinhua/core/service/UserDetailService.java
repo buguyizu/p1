@@ -1,7 +1,7 @@
 package info.yinhua.core.service;
 
-import info.yinhua.core.db.model.UserDetail;
-import info.yinhua.core.mapper.UserDetailMapper;
+import info.yinhua.core.data.model.UserDetail;
+import info.yinhua.core.data.mapper.UserDetailMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

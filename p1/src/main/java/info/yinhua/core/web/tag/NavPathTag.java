@@ -1,4 +1,4 @@
-package info.yinhua.core.tab;
+package info.yinhua.core.web.tag;
 
 import java.io.IOException;
 import java.util.Date;

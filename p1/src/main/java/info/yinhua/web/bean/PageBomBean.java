@@ -1,6 +1,6 @@
 package info.yinhua.web.bean;
 
-import info.yinhua.core.type.Paging;
+import info.yinhua.core.web.type.Paging;
 
 public class PageBomBean extends Paging<BomBean> {
 

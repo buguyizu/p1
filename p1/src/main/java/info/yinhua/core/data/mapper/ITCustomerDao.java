@@ -1,6 +1,6 @@
-package info.yinhua.core.mapper;
+package info.yinhua.core.data.mapper;
 
-import info.yinhua.core.db.model.TCustomer;
+import info.yinhua.core.data.model.TCustomer;
 
 public interface ITCustomerDao {
 	TCustomer select(int id);

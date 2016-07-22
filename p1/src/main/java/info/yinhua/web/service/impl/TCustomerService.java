@@ -1,7 +1,7 @@
 package info.yinhua.web.service.impl;
 
-import info.yinhua.core.mapper.ITCustomerDao;
-import info.yinhua.core.db.model.TCustomer;
+import info.yinhua.core.data.mapper.ITCustomerDao;
+import info.yinhua.core.data.model.TCustomer;
 import info.yinhua.web.service.ITCustomerService;
 
 import java.math.BigInteger;
