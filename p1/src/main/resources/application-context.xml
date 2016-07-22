@@ -26,7 +26,7 @@
     
     <context:component-scan base-package="info.yinhua.web.action,info.yinhua.web.service.impl,info.yinhua.core.listener,info.yinhua.core.service" />
     
-    <bean id="sessionListener" class="info.yinhua.core.listener.SessionListener">
+    <bean id="sessionListener" class="info.yinhua.core.context.Listener">
     </bean>
     
     <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">

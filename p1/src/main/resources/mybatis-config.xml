@@ -7,12 +7,12 @@
 	</settings>
 <!-- 
 	<typeAliases>
-		<typeAlias alias="MConfig" type="info.yinhua.core.db.model.MConfig"/>
-		<typeAlias alias="MCode" type="info.yinhua.core.db.model.MCode"/>
-		<typeAlias alias="TCustomer" type="info.yinhua.core.db.model.TCustomer"/>
+		<typeAlias alias="MConfig" type="info.yinhua.core.data.model.MConfig"/>
+		<typeAlias alias="MCode" type="info.yinhua.core.data.model.MCode"/>
+		<typeAlias alias="TCustomer" type="info.yinhua.core.data.model.TCustomer"/>
 	</typeAliases> --> 
 	<typeAliases>
-		<package name="info.yinhua.core.db.model"/>
+		<package name="info.yinhua.core.data.model"/>
 		<package name="info.yinhua.web.bean"/>
 	</typeAliases>
 

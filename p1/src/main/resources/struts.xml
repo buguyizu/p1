@@ -5,6 +5,7 @@
 
 <struts>
 
+	<!-- https://struts.apache.org/docs/tag-reference.html -->
 	<!-- struts2 默认的配置文件 default.properties.位置在 struts2-core-2.x.x.jar 的 org.apache.struts2 包 下面的 -->
 	
 	<!-- 设置浏览器是否缓存静态内容，默认值为true（生产环境下使用），开发阶段最好关闭 -->
@@ -43,8 +44,8 @@
 		<global-exception-mappings>
 			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings> -->
-		<action name="login" class="info.yinhua.web.action.UserAction" method="login">
-			<result>/WEB-INF/jsp/login.jsp</result>
+		<action name="login" class="info.yinhua.web.action.LoginAction">
+			<result name="login">/WEB-INF/jsp/login.jsp</result>
 		</action>
 		<action name="home" class="info.yinhua.web.action.HomeAction" method="init">
 			<result>/WEB-INF/jsp/index.jsp</result>

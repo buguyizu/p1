@@ -53,17 +53,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://stackoverflow.com/questions/1373407/how-to-display-custom-error-message-in-jsp-for-spring-security-auth-exception
 	http://stackoverflow.com/questions/26484440/how-to-customize-spring-security-last-exception-message-according-to-the-error-i
 	max-sessions="1" org.springframework.security.web.authentication.session.SessionAuthenticationException
+	用org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler这个失败处理，SPRING_SECURITY_LAST_EXCEPTION不会被设置在session内。
+	因为想要取得失败处理时页面显示的用户名，所以用自定义的失败处理。
 	 -->
-	<beans:bean id="customFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
-	    <beans:property name="exceptionMappings">
-	        <beans:props>
-	            <beans:prop key="org.springframework.security.authentication.BadCredentialsException">/login?error=1</beans:prop>
-	            <beans:prop key="org.springframework.security.authentication.DisabledException">/login?error=2</beans:prop>
-	            <beans:prop key="org.springframework.security.web.authentication.session.SessionAuthenticationException">/login?error=3</beans:prop>
-	            <beans:prop key="org.springframework.security.authentication.AuthenticationServiceException">/login?error=4</beans:prop>
-	        </beans:props>
-	    </beans:property>
-	    <beans:property name="defaultFailureUrl" value="/login?error=0" />
+	<beans:bean id="customFailureHandler" class="info.yinhua.core.context.security.FailureHandler">
+	    <beans:property name="defaultFailureUrl" value="/login?error=1" />
 	</beans:bean>
 
 	<authentication-manager alias="authenticationManager">

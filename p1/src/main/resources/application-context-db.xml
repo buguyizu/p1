@@ -67,7 +67,7 @@ http://my.oschina.net/realfighter/blog/363605
 	http://mybatis.org/spring/zh/mappers.html
 	 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-  		<property name="basePackage" value="info.yinhua.core.mapper" />
+  		<property name="basePackage" value="info.yinhua.core.data.mapper" />
 	</bean>
 
 </beans>
