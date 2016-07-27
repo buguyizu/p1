@@ -23,9 +23,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<!-- use-expressions: WebSecurityExpressionRoot -->
 	<http>
 		<intercept-url pattern="/"				access="permitAll()"/>
-		<intercept-url pattern="/timeout"		access="permitAll()"/>
+		<intercept-url pattern="/struts*"		access="permitAll()"/>
+		<intercept-url pattern="/error"			access="permitAll()"/>
 		<intercept-url pattern="/default.html"	access="permitAll()"/>
 		<intercept-url pattern="/login*"		access="permitAll()"/>
+		<intercept-url pattern="/join"			access="isAnonymous()"/>
 
 		<intercept-url pattern="/hello.html"	access="isAnonymous()"/>
 		<!--
@@ -36,16 +38,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
 
 		<!--  authentication-failure-url="/login?error=1" -->
-		<form-login login-page="/login?from" login-processing-url="/auth" authentication-failure-handler-ref="customFailureHandler" username-parameter="u" password-parameter="p"/>
+		<form-login login-page="/login?source" login-processing-url="/auth" authentication-failure-handler-ref="customFailureHandler" username-parameter="u" password-parameter="p"/>
 		<http-basic/>
 		<!-- invalidate-session="true" show invalid-session-url -->
-		<logout invalidate-session="false" logout-success-url="/login?from=logout" logout-url="/logout" />
+		<logout invalidate-session="false" logout-success-url="/login?source=logout" logout-url="/logout" />
 		<remember-me remember-me-parameter="r" />
-		<csrf disabled="true"/>
+		<csrf disabled="false"/>
 		<!--
 		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
-		<session-management invalid-session-url="/timeout" session-fixation-protection="none">
-			<concurrency-control max-sessions="1" expired-url="/login?error=6" error-if-maximum-exceeded="true"/>
+		<session-management invalid-session-url="/error?error=5" session-fixation-protection="none">
+			<concurrency-control max-sessions="2" expired-url="/login?error=6" error-if-maximum-exceeded="true"/>
 		</session-management>
 	</http>
 	
@@ -68,7 +70,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	</authentication-manager>
 
 	<!-- break at JdbcDaoImpl.loadUserByUsername -->
-	<beans:bean id="userManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+	<beans:bean id="userManager" class="info.yinhua.core.context.security.UserManager">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="enableAuthorities" value="true" />
 		<beans:property name="enableGroups" value="false" />

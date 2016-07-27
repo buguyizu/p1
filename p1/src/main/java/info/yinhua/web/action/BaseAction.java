@@ -24,7 +24,10 @@ public abstract class BaseAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	
     public static final String HOME = "home";
-	
+	private String source;
+	private String error;
+	private String _csrf;
+
 	@Autowired
 	protected ICommonService commonService;
 	@Autowired
@@ -36,5 +39,29 @@ public abstract class BaseAction extends ActionSupport {
 	
 	//初期化
 	public abstract String init();
+
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 	
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String get_csrf() {
+		return _csrf;
+	}
+
+	public void set_csrf(String _csrf) {
+		this._csrf = _csrf;
+	}
 }

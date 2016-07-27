@@ -44,13 +44,13 @@ The href of the pagination links will look like this:
     
     
     --%>
-    <s:div id="tableDiv">
+    <div id="tableDiv">
 		<display:table name="p.list" id ="${tableId}" sort="external" defaultsort="1"
 			pagesize="${p.objectsPerPage}" size="${p.fullListSize}" partialList="true"
 			requestURI="./list" export="false">
 	        <display:column property="itemCd" title='${action.getText("cd.item")}' sortable="true" sortName="f2" /> 
 	        <display:column property="parentItemCd" title='${action.getText("cd.item.parent")}' sortable="true" sortName="f1" /> 
 		</display:table>
-	</s:div>
+	</div>
 </body>
 </html>

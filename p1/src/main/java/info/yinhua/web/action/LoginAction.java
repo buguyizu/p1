@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import info.yinhua.core.CommonConst;
 
@@ -22,10 +23,16 @@ public class LoginAction extends BaseAction {
 	private String u;
 	private String p;
 	private String r;
-	private String error;
+	private String source;
 
 	@Override
 	public String init() {
+		return SUCCESS;
+	}
+	
+	public String error() {
+		if (StringUtils.isEmpty(getError()))
+			setError(CommonConst.LOGIN_ERROR_0);
 		return SUCCESS;
 	}
 	
@@ -33,13 +40,11 @@ public class LoginAction extends BaseAction {
     public String execute() throws Exception {
 		
 //		SPRING_SECURITY_LAST_EXCEPTION.message
-//		error
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String error = request.getParameter(CommonConst.LOGIN_ERROR);
-		if (error != null) {
-			if (CommonConst.LOGIN_ERROR_1.equals(error)) {
+//		info.yinhua.core.context.security.FailureHandler
+		if (getError() != null) {
+			if (CommonConst.LOGIN_ERROR_1.equals(getError())) {
 				addActionError(getText(CommonConst.ME_LOGIN_001));
-			} else if (CommonConst.LOGIN_ERROR_6.equals(error)) {
+			} else if (CommonConst.LOGIN_ERROR_6.equals(getError())) {
 				
 			}
 		}
@@ -50,8 +55,11 @@ public class LoginAction extends BaseAction {
 		
 		LOG.debug("name: " + auth.getName());
 		if (auth instanceof AnonymousAuthenticationToken) {
+			HttpServletRequest request = ServletActionContext.getRequest();
 			u = (String) request.getSession().getAttribute(CommonConst.KEY_USERNAME);
 			r = (String) request.getSession().getAttribute(CommonConst.KEY_REMEMBER);
+			request.getSession().removeAttribute(CommonConst.KEY_USERNAME);
+			request.getSession().removeAttribute(CommonConst.KEY_REMEMBER);
 			return LOGIN;
 		}
 
@@ -82,12 +90,12 @@ public class LoginAction extends BaseAction {
 		this.r = r;
 	}
 
-	public String getError() {
-		return error;
+	public String getSource() {
+		return source;
 	}
 
-	public void setError(String error) {
-		this.error = error;
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 }

@@ -20,7 +20,7 @@ import org.springframework.util.Assert;
 import info.yinhua.core.CommonConst;
 
 /**
- * 代码从SimpleUrlAuthenticationFailureHandler复制
+ * 代码从以下的类复制
  * @since 2016/07/22
  * @see org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
  */

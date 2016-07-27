@@ -68,7 +68,7 @@
 	</listener>
 
 	<session-config>
-		<session-timeout>2</session-timeout>
+		<session-timeout>10</session-timeout>
 	</session-config>
 
 	<jsp-config>
@@ -105,18 +105,22 @@
     </security-role>
 	<error-page>
 		<error-code>403</error-code>
-		<location>/WEB-INF/jsp/common/error.jsp?type=-1</location>
+		<location>/error?error=403</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/jsp/common/error.jsp?type=0</location>
+		<location>/error?error=404</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error?error=500</location>
 	</error-page>
 	<error-page>
 		<error-code>505</error-code>
-		<location>/WEB-INF/jsp/common/error.jsp?type=1</location>
+		<location>/error?error=505</location>
 	</error-page>
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<location>/WEB-INF/jsp/common/error.jsp?type=2</location>
+		<location>/error?error=exception</location>
 	</error-page>
 </web-app>

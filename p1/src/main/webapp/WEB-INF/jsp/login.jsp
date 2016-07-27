@@ -34,6 +34,10 @@
 				<td colspan='2'>
 					<s:submit key="login"></s:submit>
 					<s:reset key="clear"></s:reset>
+					<s:a action="join" namespace="/">
+						<s:text name="register" />
+						<s:param name="source">login</s:param>
+					</s:a>
 				</td>
 			</tr>
 		</table>

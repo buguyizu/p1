@@ -29,6 +29,12 @@ body {
 	margin-right: 5px;
 }
 
+/* ïså¿íËç≈è¨õ†ñã */
+@media (min-width: 768px) {
+	.nav .form-control {
+		width: 125px;
+	}
+}
 /* for navbar search input
 .navbar-form .glyphicon {
 	margin-left: -22px;

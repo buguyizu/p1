@@ -1,68 +1,74 @@
 package info.yinhua.web.bean;
 
 public class UserBean {
-	private String cd;
+	private String username;
+	private String password;
+	private String password2;
+	private String idNumber;
+	private String code;
 	private String name;
-	private String department;
 	private String gender;
+	private String department;
+	private String comment;
 	private String status;
-	/**
-	 * @return the cd
-	 */
-	public String getCd() {
-		return cd;
+	
+	public String getUsername() {
+		return username;
 	}
-	/**
-	 * @param cd the cd to set
-	 */
-	public void setCd(String cd) {
-		this.cd = cd;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	/**
-	 * @return the name
-	 */
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPassword2() {
+		return password2;
+	}
+	public void setPassword2(String password2) {
+		this.password2 = password2;
+	}
+	public String getIdNumber() {
+		return idNumber;
+	}
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	/**
-	 * @return the department
-	 */
-	public String getDepartment() {
-		return department;
-	}
-	/**
-	 * @param department the department to set
-	 */
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-	/**
-	 * @return the gender
-	 */
 	public String getGender() {
 		return gender;
 	}
-	/**
-	 * @param gender the gender to set
-	 */
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	/**
-	 * @return the status
-	 */
+	public String getDepartment() {
+		return department;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public String getStatus() {
 		return status;
 	}
-	/**
-	 * @param status the status to set
-	 */
 	public void setStatus(String status) {
 		this.status = status;
 	}

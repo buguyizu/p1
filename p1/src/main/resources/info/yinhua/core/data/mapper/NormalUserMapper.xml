@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.data.mapper.NormalUserMapper">
+    <select id="exists" resultType="NormalUser">
+        select username from users
+        <where>
+        	username = #{username}
+        </where>
+    </select>
+    <insert id="create" parameterType="NormalUser">
+    	insert into users
+		    values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, 0)
+	</insert>
+    <delete id="delete" parameterType="NormalUser">
+    	delete from users
+        <where>
+        	username = #{username}
+        </where>
+	</delete>
+    <update id="update" parameterType="NormalUser">
+    	update users set
+		    blob = #{blob, jdbcType=BLOB},
+		    datetime = default
+	  	where id = #{id}
+	</update>
+</mapper>

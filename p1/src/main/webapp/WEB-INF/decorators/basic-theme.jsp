@@ -16,7 +16,7 @@
     <c:set var="contextPath" value="<%=request.getContextPath() %>" scope="request"></c:set>
 </head>
 <body>
-    <s:text name="app.nm" />
+    <a href="${contextPath}/home"><s:text name="app.nm" /></a>
     <hr />
     <decorator:body />
     <hr />
