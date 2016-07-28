@@ -34,11 +34,23 @@
 	<package name="default" extends="struts-default" namespace="/">
 		<default-action-ref name="defaultPage"></default-action-ref>
 		<global-results>
+			<result type="redirectAction" name="login">
+                <param name="namespace">/</param>
+                <param name="actionName">login</param>
+                <param name="source">${source}</param>
+                <param name="u">${user.username}</param>
+			</result>
 			<result type="redirectAction" name="home">
                 <param name="namespace">/</param>
                 <param name="actionName">home</param>
 			</result>
-			<result name="exception">/WEB-INF/jsp/common/error.jsp?type=exception</result>
+			<result type="redirectAction" name="exception">
+                <param name="namespace">/</param>
+                <param name="actionName">error</param>
+                <param name="error">exception</param>
+                <param name="source">${source}</param>
+                <param name="exception">${exception}</param>
+			</result>
 		</global-results>
 
 		<global-exception-mappings>
@@ -49,7 +61,8 @@
 			<result type="redirectAction">
                 <param name="namespace">/</param>
                 <param name="actionName">error</param>
-                <param name="error">4</param>
+                <param name="error">0</param>
+                <param name="source">root</param>
 			</result>
 		</action>
 		<action name="error" class="info.yinhua.web.action.LoginAction" method="error">

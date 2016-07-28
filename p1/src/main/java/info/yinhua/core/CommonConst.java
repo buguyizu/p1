@@ -28,6 +28,8 @@ public interface CommonConst {
 	public static final String ME_LOGIN_001 = "ME-LOGIN-001";
 	public static final String ME_LOGIN_002 = "ME-LOGIN-002";
 	public static final String ME_LOGIN_003 = "ME-LOGIN-003";
+	public static final String ME_LOGIN_004 = "ME-LOGIN-004";
+	public static final String ME_LOGIN_005 = "ME-LOGIN-005";
 
 	public static final String ME_INPUT_001 = "ME-INPUT-001";
 	public static final String ME_INPUT_002 = "ME-INPUT-002";
@@ -35,6 +37,9 @@ public interface CommonConst {
 	public static final String ME_INPUT_004 = "ME-INPUT-004";
 	public static final String ME_INPUT_005 = "ME-INPUT-005";
 	public static final String ME_INPUT_006 = "ME-INPUT-006";
+
+	
+	public static final String MI_SIGNUP_001 = "MI-SIGNUP-001";
 
 	//same to
 	//application-context-security.xml
@@ -53,4 +58,7 @@ public interface CommonConst {
 	//defalut role (authority)
 	public static final String ROLE_USER = "USER";
 	public static final String USER_SYSTEM = "system";
+	
+	public static final String PAGE_LOGIN = "login";
+	public static final String PAGE_SIGNUP = "signup";
 }

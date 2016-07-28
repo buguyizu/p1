@@ -58,7 +58,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	// UserDetailsManager SQL
 	public static final String DEF_DELETE_USER_SQL = "delete from users where username = ?";
 	public static final String DEF_UPDATE_USER_SQL = "update users set password = ?, enabled = ? where username = ?";
-	public static final String DEF_INSERT_AUTHORITY_SQL = "insert into authorities (username, authority) values (?,?)";
 	public static final String DEF_DELETE_USER_AUTHORITIES_SQL = "delete from authorities where username = ?";
 	public static final String DEF_USER_EXISTS_SQL = "select username from users where username = ?";
 	public static final String DEF_CHANGE_PASSWORD_SQL = "update users set password = ? where username = ?";
@@ -70,7 +69,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 
 	private String deleteUserSql = DEF_DELETE_USER_SQL;
 	private String updateUserSql = DEF_UPDATE_USER_SQL;
-	private String createAuthoritySql = DEF_INSERT_AUTHORITY_SQL;
 	private String deleteUserAuthoritiesSql = DEF_DELETE_USER_AUTHORITIES_SQL;
 	private String userExistsSql = DEF_USER_EXISTS_SQL;
 	private String changePasswordSql = DEF_CHANGE_PASSWORD_SQL;
@@ -78,8 +76,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	private AuthenticationManager authenticationManager;
 
 	private UserCache userCache = new NullUserCache();
-
-	
 
 	public static final String DEF_USERS_BY_USERNAME_QUERY = "select username,password,enabled "
 			+ "from users " + "where username = ?";
@@ -107,6 +103,7 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 				"Use of either authorities or groups must be enabled");;
 	}
 	
+	//2016/07/28
 	public void createUser(UserBean user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		GrantedAuthority authority = new SimpleGrantedAuthority(CommonConst.ROLE_USER);
@@ -122,20 +119,7 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	public void createUser(final UserDetails user) {
 		validateUserDetails(user);
 		NormalUser normalUser = (NormalUser) user;
-		
-		
-		
 		userMapper.create(normalUser);
-		
-		
-//		getJdbcTemplate().update(createUserSql, new PreparedStatementSetter() {
-//			public void setValues(PreparedStatement ps) throws SQLException {
-//				ps.setString(1, user.getUsername());
-//				ps.setString(2, user.getPassword());
-//				ps.setBoolean(3, user.isEnabled());
-//			}
-//
-//		});
 
 		if (getEnableAuthorities()) {
 			insertUserAuthorities(user);
@@ -162,8 +146,7 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 
 	private void insertUserAuthorities(UserDetails user) {
 		for (GrantedAuthority auth : user.getAuthorities()) {
-			getJdbcTemplate().update(createAuthoritySql, user.getUsername(),
-					auth.getAuthority());
+			userMapper.insertRoles(user.getUsername(), auth.getAuthority());
 		}
 	}
 
@@ -252,11 +235,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	public void setUpdateUserSql(String updateUserSql) {
 		Assert.hasText(updateUserSql);
 		this.updateUserSql = updateUserSql;
-	}
-
-	public void setCreateAuthoritySql(String createAuthoritySql) {
-		Assert.hasText(createAuthoritySql);
-		this.createAuthoritySql = createAuthoritySql;
 	}
 
 	public void setDeleteUserAuthoritiesSql(String deleteUserAuthoritiesSql) {

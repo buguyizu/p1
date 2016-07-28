@@ -24,6 +24,7 @@ public class LoginAction extends BaseAction {
 	private String p;
 	private String r;
 	private String source;
+	private String exception;
 
 	@Override
 	public String init() {
@@ -44,26 +45,33 @@ public class LoginAction extends BaseAction {
 		if (getError() != null) {
 			if (CommonConst.LOGIN_ERROR_1.equals(getError())) {
 				addActionError(getText(CommonConst.ME_LOGIN_001));
-			} else if (CommonConst.LOGIN_ERROR_6.equals(getError())) {
-				
+			} else if (CommonConst.LOGIN_ERROR_2.equals(getError())) {
+				addActionError(getText(CommonConst.ME_LOGIN_004));
 			}
 		}
 		
-		//http://stackoverflow.com/questions/26101738/why-is-the-anonymoususer-authenticated-in-spring-security
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Assert.notNull(auth);
-		
-		LOG.debug("name: " + auth.getName());
-		if (auth instanceof AnonymousAuthenticationToken) {
-			HttpServletRequest request = ServletActionContext.getRequest();
-			u = (String) request.getSession().getAttribute(CommonConst.KEY_USERNAME);
-			r = (String) request.getSession().getAttribute(CommonConst.KEY_REMEMBER);
-			request.getSession().removeAttribute(CommonConst.KEY_USERNAME);
-			request.getSession().removeAttribute(CommonConst.KEY_REMEMBER);
+		if (CommonConst.PAGE_SIGNUP.equals(source)) {
+			addActionMessage(getText(CommonConst.MI_SIGNUP_001, new String[] { u }));
 			return LOGIN;
+		} else {
+		
+			//http://stackoverflow.com/questions/26101738/why-is-the-anonymoususer-authenticated-in-spring-security
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Assert.notNull(auth);
+			
+			LOG.debug("name: " + auth.getName());
+			if (auth instanceof AnonymousAuthenticationToken) {
+				HttpServletRequest request = ServletActionContext.getRequest();
+				u = (String) request.getSession().getAttribute(CommonConst.KEY_USERNAME);
+				r = (String) request.getSession().getAttribute(CommonConst.KEY_REMEMBER);
+				request.getSession().removeAttribute(CommonConst.KEY_USERNAME);
+				request.getSession().removeAttribute(CommonConst.KEY_REMEMBER);
+				return LOGIN;
+			} else {
+				return HOME;
+			}
 		}
 
-		return HOME;
 	}
 	
 	public String getU() {
@@ -96,6 +104,16 @@ public class LoginAction extends BaseAction {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public String getException() {
+		return exception;
+	}
+
+	//本来出错时用<s:property value="exception" />可以在页面上显示出错消息
+	//redirectAction后，用这个字段存储出错消息，然后在页面上显示。(error.jsp)
+	public void setException(String exception) {
+		this.exception = exception;
 	}
 
 }

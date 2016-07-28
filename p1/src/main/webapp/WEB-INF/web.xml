@@ -121,6 +121,6 @@
 	</error-page>
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<location>/error?error=exception</location>
+		<location>/error?error=exception&amp;source=errorpage</location>
 	</error-page>
 </web-app>

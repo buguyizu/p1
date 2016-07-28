@@ -5,7 +5,6 @@ import java.util.Date;
 import info.yinhua.core.data.model.MSession;
 import info.yinhua.core.data.mapper.MSessionMapper;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,13 +16,12 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
 import org.springframework.security.web.session.HttpSessionCreatedEvent;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class Listener implements ApplicationListener<ApplicationEvent> {
 
@@ -101,8 +99,8 @@ public class Listener implements ApplicationListener<ApplicationEvent> {
 
 		WebAuthenticationDetails details =
 				(WebAuthenticationDetails) event.getAuthentication().getDetails();
-		User user =
-				(User) event.getAuthentication().getPrincipal();
+		UserDetails user =
+				(UserDetails) event.getAuthentication().getPrincipal();
 		
 		MSession s = new MSession();
 		s.setSessionId(event.getNewSessionId());

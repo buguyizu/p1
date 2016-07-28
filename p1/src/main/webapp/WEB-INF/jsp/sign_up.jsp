@@ -17,7 +17,7 @@
 	</div>
 	<s:form action="join" namespace="/" method="POST">
 		<sec:csrfInput />
-		<s:hidden name="source" value="this" />
+		<s:hidden name="source" value="signup" />
 		<table>
 			<tr>
 				<td><s:text name="username"/>:</td>

@@ -3,16 +3,20 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="info.yinhua.core.data.mapper.NormalUserMapper">
+    <insert id="create" parameterType="NormalUser">
+    	insert into users
+		    values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, default)
+	</insert>
+    <insert id="insertRoles">
+    	insert into authorities
+		    values (#{param1}, #{param2})
+	</insert>
     <select id="exists" resultType="NormalUser">
         select username from users
         <where>
         	username = #{username}
         </where>
     </select>
-    <insert id="create" parameterType="NormalUser">
-    	insert into users
-		    values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, 0)
-	</insert>
     <delete id="delete" parameterType="NormalUser">
     	delete from users
         <where>

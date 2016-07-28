@@ -20,7 +20,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<http pattern="/**/*.ttf" security="none"/>
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/**/*.js" security="none"/>
-	<!-- use-expressions: WebSecurityExpressionRoot -->
+
+	<!-- use-expressions: WebSecurityExpressionRoot
+	access-decision-manager-ref="accessDecisionManager"
+	 -->
 	<http>
 		<intercept-url pattern="/"				access="permitAll()"/>
 		<intercept-url pattern="/struts*"		access="permitAll()"/>
@@ -46,8 +49,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<csrf disabled="false"/>
 		<!--
 		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
-		<session-management invalid-session-url="/error?error=5" session-fixation-protection="none">
-			<concurrency-control max-sessions="2" expired-url="/login?error=6" error-if-maximum-exceeded="true"/>
+		<session-management invalid-session-url="/error?error=timeout" session-fixation-protection="none">
+			<concurrency-control max-sessions="2" expired-url="/login?error=2" error-if-maximum-exceeded="true"/>
 		</session-management>
 	</http>
 	
@@ -79,6 +82,34 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 	<!-- Automatically receives AuthenticationEvent messages -->
 	<beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+	
+	
+	<!--
+	http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#authz-hierarchical-roles
+	http://haohaoxuexi.iteye.com/blog/2247057
+	角色继承
+	 -->
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:constructor-arg name="decisionVoters">
+			<beans:list>
+				<beans:ref local="roleVoter"/>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+		<beans:constructor-arg ref="roleHierarchy" />
+	</beans:bean>
+	<beans:bean id="roleHierarchy"
+			class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<beans:property name="hierarchy">
+			<beans:value>
+				ROLE_ADMIN > ROLE_STAFF
+				ROLE_STAFF > ROLE_USER
+				ROLE_USER > ROLE_GUEST
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+	
 
 	<!-- Filter used to switch the user context. Note: the switch and exit url must be secured
 		based on the role granted the ability to 'switch' to another user -->

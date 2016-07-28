@@ -10,17 +10,13 @@
 		<dt><s:text name="error.cd" />： ${param.type}</dt>
 		<dd>
 			<c:choose>
-				<c:when test="${param.type eq '2'}">
-					Exception in web.xml
-				</c:when>
-				<c:when test="${param.type eq 'exception'}">
-					exception in struts
-					<s:property value="exception" />
-				</c:when>
-				<c:when test="${param.type eq '4'}">
+				<c:when test="${param.type eq '0'}">
 					请从链接访问主页！
 				</c:when>
-				<c:when test="${param.type eq '5'}">
+				<c:when test="${param.type eq 'exception'}">
+					${exception}
+				</c:when>
+				<c:when test="${param.type eq 'timeout'}">
 					会话已结束！
 				</c:when>
 				<c:otherwise>

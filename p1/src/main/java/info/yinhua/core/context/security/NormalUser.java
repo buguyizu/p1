@@ -66,6 +66,7 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 		this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
 		
 		setCreateUser(CommonConst.USER_SYSTEM);
+		setUpdateUser(CommonConst.USER_SYSTEM);
 	}
 
 	// ~ Methods

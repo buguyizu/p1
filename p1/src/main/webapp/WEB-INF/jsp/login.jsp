@@ -15,6 +15,7 @@
 			<s:actionerror />
 		</div>
     </c:if>
+	<s:actionmessage />
 	<form action="<c:url value='auth'/>" method="POST">
 		<sec:csrfInput />
 		<table>

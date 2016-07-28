@@ -60,7 +60,7 @@ public class UserAction extends PagingAction {
     public void validateJoin() {
     	//https://struts.apache.org/docs/form-validation.html
     	
-    	if ("this".equals(getSource())) {
+    	if (CommonConst.PAGE_SIGNUP.equals(getSource())) {
     		
 	    	if ( !StringUtils.hasText(user.getUsername()) ) { 
 	            addFieldError( "user.username", getText(CommonConst.ME_INPUT_001, 
@@ -78,15 +78,18 @@ public class UserAction extends PagingAction {
     
 	public String join() {
 
-    	if ("this".equals(getSource())) {
+    	if (CommonConst.PAGE_SIGNUP.equals(getSource())) {
     		try {
     			userManager.createUser(user);
     		} catch (Exception e) {
-    			e.printStackTrace();
+//    			e.printStackTrace();
     			throw e;
     		}
+    		
+    		return LOGIN;
+    	} else {
+    		return SUCCESS;
     	}
-		return SUCCESS;
 	}
 	
 
