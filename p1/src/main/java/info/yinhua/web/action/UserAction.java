@@ -76,7 +76,7 @@ public class UserAction extends PagingAction {
     }
     
     
-	public String join() {
+	public String join() throws Exception {
 
     	if (CommonConst.PAGE_SIGNUP.equals(getSource())) {
     		try {

@@ -6,15 +6,15 @@
     xmlns:context="http://www.springframework.org/schema/context" 
     xsi:schemaLocation="  
             http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
             http://www.springframework.org/schema/aop
-            http://www.springframework.org/schema/aop/spring-aop.xsd  
+            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context.xsd  
+            http://www.springframework.org/schema/context/spring-context-4.0.xsd  
             http://www.springframework.org/schema/jee
-            http://www.springframework.org/schema/jee/spring-jee.xsd  
+            http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
             http://www.springframework.org/schema/tx
-            http://www.springframework.org/schema/tx/spring-tx.xsd">
+            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 <!-- http://www.360doc.com/content/11/1012/10/4580363_155382007.shtml -->
 <!-- http://hackpro.iteye.com/blog/1037376 -->
@@ -32,12 +32,17 @@
 <!-- 
 Spring事务配置的五种方式
 http://www.blogjava.net/robbie/archive/2009/04/05/264003.html 
+http://www.mybatis.org/spring/zh/transactions.html
  -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+<!--
+http://blog.itpub.net/273449/viewspace-1057345/
+http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html
+ -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
 <!-- 
 http://my.oschina.net/realfighter/blog/366089

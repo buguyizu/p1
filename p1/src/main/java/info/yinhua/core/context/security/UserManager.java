@@ -22,14 +22,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.util.Assert;
 
 import org.apache.commons.logging.Log;
@@ -49,8 +49,11 @@ import java.util.Set;
  * @since 2016/07/25
  * @see org.springframework.security.provisioning.JdbcUserDetailsManager
  * @see org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl
+ * 
+ * http://docs.spring.io/autorepo/docs/spring/4.2.x/spring-framework-reference/html/transaction.html#transaction-declarative-annotations
+ * http://stackoverflow.com/questions/23132822/what-is-the-difference-between-defining-transactional-on-class-vs-method
  */
-@Component
+@Service
 public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	// ~ Static fields/initializers
 	// =====================================================================================
@@ -104,6 +107,7 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	}
 	
 	//2016/07/28
+	@Transactional
 	public void createUser(UserBean user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		GrantedAuthority authority = new SimpleGrantedAuthority(CommonConst.ROLE_USER);

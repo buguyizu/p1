@@ -3,9 +3,9 @@
 xmlns:beans="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 <!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#user-schema -->
 	<global-method-security pre-post-annotations="disabled"><!--
@@ -92,7 +92,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<beans:constructor-arg name="decisionVoters">
 			<beans:list>
-				<beans:ref local="roleVoter"/>
+				<beans:ref bean="roleVoter"/>
 			</beans:list>
 		</beans:constructor-arg>
 	</beans:bean>

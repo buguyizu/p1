@@ -17,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- http://struts.apache.org/docs/version-notes-25.html -->
 		<struts2.version>2.5.2</struts2.version>
+		<!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#maven-bom -->
 		<springframework.version>4.2.2.RELEASE</springframework.version>
 		<spring-security.version>4.0.3.RELEASE</spring-security.version>
 		<sitemesh.version>3.0.1</sitemesh.version>
