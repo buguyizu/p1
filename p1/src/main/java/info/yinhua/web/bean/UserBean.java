@@ -1,6 +1,12 @@
 package info.yinhua.web.bean;
 
-public class UserBean {
+import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class UserBean implements UserDetails {
 	private String username;
 	private String password;
 	private String password2;
@@ -11,6 +17,12 @@ public class UserBean {
 	private String department;
 	private String comment;
 	private String status;
+
+	private Set<GrantedAuthority> authorities;
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
+	private boolean enabled;
 	
 	public String getUsername() {
 		return username;
@@ -71,5 +83,41 @@ public class UserBean {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public void setAuthorities(Set<GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 }

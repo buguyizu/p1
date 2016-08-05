@@ -1,19 +1,15 @@
 package info.yinhua.web.action;
 
-import info.yinhua.core.data.model.MCode;
-import info.yinhua.web.service.ICommonService;
-import info.yinhua.web.service.IMCodeService;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCacheManager;
 
 import com.opensymphony.xwork2.ActionSupport;
+
+import info.yinhua.core.data.model.MCode;
+import info.yinhua.web.service.ICommonService;
+import info.yinhua.web.service.IMCodeService;
 
 @EnableCaching()
 public abstract class BaseAction extends ActionSupport {
@@ -38,7 +34,7 @@ public abstract class BaseAction extends ActionSupport {
 	}
 	
 	//初期化
-	public abstract String init();
+	public abstract String init() throws Exception;
 
 
 	public String getSource() {

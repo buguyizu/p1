@@ -40,11 +40,18 @@ body {
 	margin-left: -22px;
 }
  */
- 
- /* for footer */
+
+
+/* for radio button group
+.form-group .form-control {
+	padding-top: 0;
+}
+ */
+
+ /* for footer
 .row {
   margin-bottom: 50px;
-}
+} */
 
 /* Custom page CSS
 -------------------------------------------------- */

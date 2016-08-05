@@ -3,6 +3,24 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="info.yinhua.core.data.mapper.NormalUserMapper">
+    <select id="exists">
+        select username from users
+        <where>
+        	username = #{username}
+        </where>
+    </select>
+    <select id="getUsers" resultType="HashMap">
+        select username, password, enabled, id_number, code, name, gender, department, comment, create_user, create_date, update_user, update_date, version from users
+        <where>
+        	username = #{username}
+        </where>
+    </select>
+    <select id="getRoles" resultType="HashMap">
+        select authority from authorities
+        <where>
+        	username = #{username}
+        </where>
+    </select>
     <insert id="create" parameterType="NormalUser">
     	insert into users
 		    values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, default)
@@ -11,22 +29,43 @@
     	insert into authorities
 		    values (#{param1}, #{param2})
 	</insert>
-    <select id="exists" resultType="NormalUser">
-        select username from users
+    <delete id="delete">
+    	delete from users
         <where>
         	username = #{username}
         </where>
-    </select>
-    <delete id="delete" parameterType="NormalUser">
-    	delete from users
+	</delete>
+    <delete id="deleteRoles">
+    	delete from authorities
         <where>
         	username = #{username}
         </where>
 	</delete>
     <update id="update" parameterType="NormalUser">
     	update users set
-		    blob = #{blob, jdbcType=BLOB},
-		    datetime = default
-	  	where id = #{id}
+		    password = #{password},
+		    enabled = #{enabled},
+		    id_number = #{idNumber},
+		    code = #{code},
+		    name = #{name},
+		    gender = #{gender},
+		    department = #{department},
+		    comment = #{comment},
+		    updateUser = #{updateUser},
+		    updateDate = default,
+		    version = version + 1
+        <where>
+        	username = #{username}
+        </where>
+	</update>
+    <update id="changePassword" parameterType="NormalUser">
+    	update users set
+		    password = #{password},
+		    updateUser = #{updateUser},
+		    updateDate = default,
+		    version = version + 1
+        <where>
+        	username = #{username}
+        </where>
 	</update>
 </mapper>

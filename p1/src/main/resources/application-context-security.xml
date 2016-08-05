@@ -46,7 +46,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<!-- invalidate-session="true" show invalid-session-url -->
 		<logout invalidate-session="false" logout-success-url="/login?source=logout" logout-url="/logout" />
 		<remember-me remember-me-parameter="r" />
-		<csrf disabled="false"/>
+		<csrf disabled="true"/>
 		<!--
 		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
 		<session-management invalid-session-url="/error?error=timeout" session-fixation-protection="none">
@@ -74,7 +74,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 	<!-- break at JdbcDaoImpl.loadUserByUsername -->
 	<beans:bean id="userManager" class="info.yinhua.core.context.security.UserManager">
-		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="enableAuthorities" value="true" />
 		<beans:property name="enableGroups" value="false" />
 		<beans:property name="authenticationManager" ref="authenticationManager" />

@@ -1,5 +1,18 @@
 package info.yinhua.core.context.security;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextException;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,39 +23,18 @@ import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import info.yinhua.core.CommonConst;
-import info.yinhua.core.context.security.NormalUser;
-import info.yinhua.core.data.mapper.NormalUserMapper;
-import info.yinhua.web.bean.UserBean;
-
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import info.yinhua.core.CommonConst;
+import info.yinhua.core.data.mapper.NormalUserMapper;
+import info.yinhua.web.bean.UserBean;
 
 /**
  * 代码从以下两个类复制，暂时不用Group，所以删除Group相关代码。
@@ -54,41 +46,15 @@ import java.util.Set;
  * http://stackoverflow.com/questions/23132822/what-is-the-difference-between-defining-transactional-on-class-vs-method
  */
 @Service
-public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
-	// ~ Static fields/initializers
-	// =====================================================================================
-
-	// UserDetailsManager SQL
-	public static final String DEF_DELETE_USER_SQL = "delete from users where username = ?";
-	public static final String DEF_UPDATE_USER_SQL = "update users set password = ?, enabled = ? where username = ?";
-	public static final String DEF_DELETE_USER_AUTHORITIES_SQL = "delete from authorities where username = ?";
-	public static final String DEF_USER_EXISTS_SQL = "select username from users where username = ?";
-	public static final String DEF_CHANGE_PASSWORD_SQL = "update users set password = ? where username = ?";
+public class UserManager implements UserDetailsManager {
 
 	// ~ Instance fields
 	// ================================================================================================
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	private String deleteUserSql = DEF_DELETE_USER_SQL;
-	private String updateUserSql = DEF_UPDATE_USER_SQL;
-	private String deleteUserAuthoritiesSql = DEF_DELETE_USER_AUTHORITIES_SQL;
-	private String userExistsSql = DEF_USER_EXISTS_SQL;
-	private String changePasswordSql = DEF_CHANGE_PASSWORD_SQL;
-
 	private AuthenticationManager authenticationManager;
-
 	private UserCache userCache = new NullUserCache();
-
-	public static final String DEF_USERS_BY_USERNAME_QUERY = "select username,password,enabled "
-			+ "from users " + "where username = ?";
-	public static final String DEF_AUTHORITIES_BY_USERNAME_QUERY = "select username,authority "
-			+ "from authorities " + "where username = ?";
-	
-	public UserManager() {
-		usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
-		authoritiesByUsernameQuery = DEF_AUTHORITIES_BY_USERNAME_QUERY;
-	}
 
 	@Autowired
 	private NormalUserMapper userMapper;
@@ -105,24 +71,25 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 		Assert.isTrue(enableAuthorities || enableGroups,
 				"Use of either authorities or groups must be enabled");;
 	}
-	
-	//2016/07/28
-	@Transactional
-	public void createUser(UserBean user) {
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		GrantedAuthority authority = new SimpleGrantedAuthority(CommonConst.ROLE_USER);
-		authorities.add(authority);
-		
-		NormalUser normalUser = new NormalUser(user.getUsername(), user.getPassword(), authorities);
-		createUser(normalUser);
-	}
 
 	// ~ UserDetailsManager implementation
 	// ==============================================================================
-
-	public void createUser(final UserDetails user) {
+	@Override
+	@Transactional
+	public void createUser(UserDetails user) {
+		Assert.isInstanceOf(UserBean.class, user);
 		validateUserDetails(user);
-		NormalUser normalUser = (NormalUser) user;
+
+		NormalUser normalUser = new NormalUser(user.getUsername(),
+				user.getPassword(),
+				user.isEnabled(),
+				user.isAccountNonExpired(),
+				user.isCredentialsNonExpired(),
+				user.isAccountNonLocked(),
+				user.getAuthorities());
+		normalUser.setCreateUser(CommonConst.USER_SYSTEM);
+		normalUser.setUpdateUser(CommonConst.USER_SYSTEM);
+		
 		userMapper.create(normalUser);
 
 		if (getEnableAuthorities()) {
@@ -130,18 +97,24 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 		}
 	}
 
-	public void updateUser(final UserDetails user) {
+	@Override
+	@Transactional
+	public void updateUser(UserDetails user) {
+		Assert.isInstanceOf(UserBean.class, user);
 		validateUserDetails(user);
-		getJdbcTemplate().update(updateUserSql, new PreparedStatementSetter() {
-			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setString(1, user.getPassword());
-				ps.setBoolean(2, user.isEnabled());
-				ps.setString(3, user.getUsername());
-			}
-		});
+
+		NormalUser normalUser = new NormalUser(user.getUsername(),
+				user.getPassword(),
+				user.isEnabled(),
+				user.isAccountNonExpired(),
+				user.isCredentialsNonExpired(),
+				user.isAccountNonLocked(),
+				user.getAuthorities());
+		
+		userMapper.update(normalUser);
 
 		if (getEnableAuthorities()) {
-			deleteUserAuthorities(user.getUsername());
+			userMapper.deleteRoles(user.getUsername());
 			insertUserAuthorities(user);
 		}
 
@@ -154,18 +127,18 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 		}
 	}
 
+	@Override
+	@Transactional
 	public void deleteUser(String username) {
 		if (getEnableAuthorities()) {
-			deleteUserAuthorities(username);
+			userMapper.deleteRoles(username);
 		}
-		getJdbcTemplate().update(deleteUserSql, username);
+		userMapper.delete(username);
 		userCache.removeUserFromCache(username);
 	}
 
-	private void deleteUserAuthorities(String username) {
-		getJdbcTemplate().update(deleteUserAuthoritiesSql, username);
-	}
-
+	@Override
+	@Transactional
 	public void changePassword(String oldPassword, String newPassword)
 			throws AuthenticationException {
 		Authentication currentUser = SecurityContextHolder.getContext()
@@ -194,8 +167,7 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 		}
 
 		logger.debug("Changing password for user '" + username + "'");
-
-		getJdbcTemplate().update(changePasswordSql, newPassword, username);
+		userMapper.changePassword(username, newPassword);
 
 		SecurityContextHolder.getContext().setAuthentication(
 				createNewAuthentication(currentUser, newPassword));
@@ -215,8 +187,8 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	}
 
 	public boolean userExists(String username) {
-		List<String> users = getJdbcTemplate().queryForList(userExistsSql,
-				new String[] { username }, String.class);
+		
+		Collection<String> users = userMapper.exists(username);
 
 		if (users.size() > 1) {
 			throw new IncorrectResultSizeDataAccessException(
@@ -228,32 +200,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 
 	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
-	}
-
-
-	public void setDeleteUserSql(String deleteUserSql) {
-		Assert.hasText(deleteUserSql);
-		this.deleteUserSql = deleteUserSql;
-	}
-
-	public void setUpdateUserSql(String updateUserSql) {
-		Assert.hasText(updateUserSql);
-		this.updateUserSql = updateUserSql;
-	}
-
-	public void setDeleteUserAuthoritiesSql(String deleteUserAuthoritiesSql) {
-		Assert.hasText(deleteUserAuthoritiesSql);
-		this.deleteUserAuthoritiesSql = deleteUserAuthoritiesSql;
-	}
-
-	public void setUserExistsSql(String userExistsSql) {
-		Assert.hasText(userExistsSql);
-		this.userExistsSql = userExistsSql;
-	}
-
-	public void setChangePasswordSql(String changePasswordSql) {
-		Assert.hasText(changePasswordSql);
-		this.changePasswordSql = changePasswordSql;
 	}
 
 	/**
@@ -288,8 +234,6 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	protected final MessageSourceAccessor messages = SpringSecurityMessageSource
 			.getAccessor();
 
-	private String authoritiesByUsernameQuery;
-	private String usersByUsernameQuery;
 	private String rolePrefix = "";
 	private boolean usernameBasedPrimaryKey = true;
 	private boolean enableAuthorities = true;
@@ -308,12 +252,11 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	public void setEnableAuthorities(boolean enableAuthorities) {
 		this.enableAuthorities = enableAuthorities;
 	}
-	public void setAuthoritiesByUsernameQuery(String queryString) {
-		authoritiesByUsernameQuery = queryString;
+	protected boolean getEnableGroups() {
+		return enableGroups;
 	}
-
-	protected String getAuthoritiesByUsernameQuery() {
-		return authoritiesByUsernameQuery;
+	public void setEnableGroups(boolean enableGroups) {
+		this.enableGroups = enableGroups;
 	}
 	protected void addCustomAuthorities(String username,
 			List<GrantedAuthority> authorities) {
@@ -362,35 +305,42 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 	 * objects. There should normally only be one matching user.
 	 */
 	protected List<UserDetails> loadUsersByUsername(String username) {
-		return getJdbcTemplate().query(usersByUsernameQuery, new String[] { username },
-				new RowMapper<UserDetails>() {
-					public UserDetails mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						String username = rs.getString(1);
-						String password = rs.getString(2);
-						boolean enabled = rs.getBoolean(3);
-						return new NormalUser(username, password, enabled, true, true, true,
-								AuthorityUtils.NO_AUTHORITIES);
-					}
-
-				});
+		List<Map<String, Object>> users = userMapper.getUsers(username);
+		List<UserDetails> userList = new ArrayList<UserDetails>();
+		if (users != null) {
+			for (Map<String, Object> user : users) {
+				NormalUser normalUser = new NormalUser(
+						(String) user.get("USERNAME"), 
+						(String) user.get("PASSWORD"), 
+						AuthorityUtils.NO_AUTHORITIES);
+				normalUser.setCode((String) user.get("CODE"));
+				normalUser.setName((String) user.get("NAME"));
+				normalUser.setGender((String) user.get("GENDER"));
+				normalUser.setDepartment((String) user.get("DEPARTMENT"));
+				normalUser.setComment((String) user.get("COMMENT"));
+				userList.add(normalUser);
+			}
+		}
+		
+		return userList;
 	}
-	
+
 	/**
 	 * Loads authorities by executing the SQL from <tt>authoritiesByUsernameQuery</tt>.
 	 *
 	 * @return a list of GrantedAuthority objects for the user
 	 */
 	protected List<GrantedAuthority> loadUserAuthorities(String username) {
-		return getJdbcTemplate().query(authoritiesByUsernameQuery,
-				new String[] { username }, new RowMapper<GrantedAuthority>() {
-					public GrantedAuthority mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						String roleName = rolePrefix + rs.getString(2);
 
-						return new SimpleGrantedAuthority(roleName);
-					}
-				});
+		List<Map<String, Object>> roles = userMapper.getRoles(username);
+		List<GrantedAuthority> rolesList = new ArrayList<GrantedAuthority>();
+		if (roles != null) {
+			for (Map<String, Object> role : roles) {
+				rolesList.add(new SimpleGrantedAuthority(rolePrefix + (String) role.get("AUTHORITY")));
+			}
+		}
+		
+		return rolesList;
 	}
 	
 	protected UserDetails createUserDetails(String username,
@@ -401,7 +351,19 @@ public class UserManager extends JdbcDaoImpl implements UserDetailsManager {
 			returnUsername = username;
 		}
 
-		return new NormalUser(returnUsername, userFromUserQuery.getPassword(),
+		NormalUser normalUser = new NormalUser(returnUsername, userFromUserQuery.getPassword(),
 				userFromUserQuery.isEnabled(), true, true, true, combinedAuthorities);
+		
+		Assert.isInstanceOf(NormalUser.class, userFromUserQuery);
+		NormalUser normalUserFromUserQuery = (NormalUser) userFromUserQuery;
+		normalUser.setIdNumber(normalUserFromUserQuery.getIdNumber());
+		normalUser.setCode(normalUserFromUserQuery.getCode());
+		normalUser.setName(normalUserFromUserQuery.getName());
+		normalUser.setGender(normalUserFromUserQuery.getGender());
+		normalUser.setDepartment(normalUserFromUserQuery.getDepartment());
+		normalUser.setComment(normalUserFromUserQuery.getComment());
+		normalUser.setVersion(normalUserFromUserQuery.getVersion());
+		
+		return normalUser;
 	}
 }

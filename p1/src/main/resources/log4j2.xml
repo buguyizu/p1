@@ -26,7 +26,7 @@
 	<Loggers>
         <Logger name="com.opensymphony.xwork2" level="error"/>
         <Logger name="org.springframework" level="info"/>
-        <Logger name="org.springframework.security" level="debug"/>
+        <Logger name="org.springframework.security" level="info"/>
         <Logger name="org.springframework.jdbc" level="debug"/>
         <Logger name="org.apache.ibatis" level="debug"/>
         <Logger name="java.sql" level="debug"/>

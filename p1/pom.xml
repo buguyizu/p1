@@ -27,33 +27,49 @@
 	<!-- ［工程属性Deployment Assembly中设定］publish时的lib包不许选择［Maven Dependencies］， 
 		而选择target下的...WEB-INF/lib文件夹，所以在pom.xml中scope为provided的包不会被引入。 -->
 	<dependencies>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
+		</dependency><!-- 
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>request</artifactId>
+			<version>1.0.1</version>
+			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>taglibs</groupId> <artifactId>request</artifactId> 
-			<version>1.0.1</version> <scope>test</scope> </dependency> -->
-		<!-- tomcat包中有这两个包，所以不需要打入war包(scope=provided)，以免版本冲突。 -->
+		<dependency>
+			<groupId>com.github.sebhoss</groupId>
+			<artifactId>common-annotations</artifactId>
+			<version>3.0.0</version>
+		</dependency> -->
+		<!-- tomcat包中有这两个包，所以不需要打入war包(scope=provided)，以免版本冲突。
+		用jetty debug plugin时可以不引入。
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- common-annotations <dependency> <groupId>com.github.sebhoss</groupId> 
-			<artifactId>common-annotations</artifactId> <version>3.0.0</version> </dependency> -->
+		</dependency> -->
+		<!-- jetty的servlet应该是3.0版本，用jetty debug plugin时不需要引入。写在这里是测试的。
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.2.14.v20151106</version>
+            <scope>provided</scope>
+        </dependency> -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
@@ -127,12 +143,12 @@
 			<version>9.4-1205-jdbc4</version>
 			<type>jar</type>
 			<scope>compile</scope>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.3</version>
-		</dependency>
+		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 		    <groupId>com.h2database</groupId>

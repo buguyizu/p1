@@ -14,10 +14,10 @@ public class UserDetailService {
 	@Autowired
 	private NormalUserMapper userMapper;
 	
-	@Cacheable(value = "USER_DATA", key = "#username")
-	public NormalUser get(String username) {
-		return userMapper.exists(username);
-	}
+//	@Cacheable(value = "USER_DATA", key = "#username")
+//	public NormalUser get(String username) {
+//		return userMapper.exists(username);
+//	}
 
 	public void insert(NormalUser normalUser) {
 		userMapper.create(normalUser);

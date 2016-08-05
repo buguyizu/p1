@@ -42,7 +42,6 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 	private String department;
 	private String comment;
 	
-	
 	public NormalUser(String username, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		this(username, password, true, true, true, true, authorities);
@@ -64,9 +63,6 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 		this.credentialsNonExpired = credentialsNonExpired;
 		this.accountNonLocked = accountNonLocked;
 		this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
-		
-		setCreateUser(CommonConst.USER_SYSTEM);
-		setUpdateUser(CommonConst.USER_SYSTEM);
 	}
 
 	// ~ Methods

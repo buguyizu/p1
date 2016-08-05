@@ -6,6 +6,7 @@ public class PageUserBean {
 	private String department;
 	private String gender;
 	private String status;
+	private String comment;
 	/**
 	 * @return the cd
 	 */
@@ -65,5 +66,17 @@ public class PageUserBean {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }
