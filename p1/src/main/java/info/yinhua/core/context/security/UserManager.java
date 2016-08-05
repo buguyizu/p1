@@ -110,7 +110,13 @@ public class UserManager implements UserDetailsManager {
 				user.isCredentialsNonExpired(),
 				user.isAccountNonLocked(),
 				user.getAuthorities());
-		
+
+		normalUser.setIdNumber(((UserBean) user).getIdNumber());
+		normalUser.setCode(((UserBean) user).getCode());
+		normalUser.setName(((UserBean) user).getName());
+		normalUser.setGender(((UserBean) user).getGender());
+		normalUser.setDepartment(((UserBean) user).getDepartment());
+		normalUser.setComment(((UserBean) user).getComment());
 		userMapper.update(normalUser);
 
 		if (getEnableAuthorities()) {
@@ -310,8 +316,12 @@ public class UserManager implements UserDetailsManager {
 		if (users != null) {
 			for (Map<String, Object> user : users) {
 				NormalUser normalUser = new NormalUser(
-						(String) user.get("USERNAME"), 
-						(String) user.get("PASSWORD"), 
+						(String) user.get("USERNAME"),
+						(String) user.get("PASSWORD"),
+						((Boolean) user.get("ENABLED")).booleanValue(),
+						true,
+						true,
+						true,
 						AuthorityUtils.NO_AUTHORITIES);
 				normalUser.setCode((String) user.get("CODE"));
 				normalUser.setName((String) user.get("NAME"));

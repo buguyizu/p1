@@ -40,6 +40,9 @@ public interface CommonConst {
 
 	
 	public static final String MI_SIGNUP_001 = "MI-SIGNUP-001";
+	public static final String MI_USER_001 = "MI-USER-001";
+	public static final String MI_USER_002 = "MI-USER-002";
+	
 
 	//same to
 	//application-context-security.xml

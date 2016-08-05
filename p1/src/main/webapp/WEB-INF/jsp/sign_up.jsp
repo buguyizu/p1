@@ -58,7 +58,7 @@
 			</tr>
 			<tr>
 				<td><s:text name="user.comment"/>:</td>
-				<td><s:textfield name='user.comment' maxlength="5" /></td>
+				<td><s:textfield name='user.comment' maxlength="50" /></td>
 			</tr>
 			<tr>
 				<td colspan='2'>

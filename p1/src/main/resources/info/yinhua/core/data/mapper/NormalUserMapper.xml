@@ -43,7 +43,6 @@
 	</delete>
     <update id="update" parameterType="NormalUser">
     	update users set
-		    password = #{password},
 		    enabled = #{enabled},
 		    id_number = #{idNumber},
 		    code = #{code},
@@ -51,8 +50,8 @@
 		    gender = #{gender},
 		    department = #{department},
 		    comment = #{comment},
-		    updateUser = #{updateUser},
-		    updateDate = default,
+		    update_user = #{updateUser},
+		    update_date = default,
 		    version = version + 1
         <where>
         	username = #{username}
@@ -60,12 +59,12 @@
 	</update>
     <update id="changePassword" parameterType="NormalUser">
     	update users set
-		    password = #{password},
-		    updateUser = #{updateUser},
-		    updateDate = default,
+		    password = #{param2},
+		    update_user = #{param1},
+		    update_date = default,
 		    version = version + 1
         <where>
-        	username = #{username}
+        	username = #{param1}
         </where>
 	</update>
 </mapper>

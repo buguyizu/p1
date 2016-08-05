@@ -7,6 +7,9 @@ public class PageUserBean {
 	private String gender;
 	private String status;
 	private String comment;
+	private String passwordOrigin;
+	private String passwordNew;
+	private String passwordNew2;
 	/**
 	 * @return the cd
 	 */
@@ -78,5 +81,41 @@ public class PageUserBean {
 	 */
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	/**
+	 * @return the passwordOrigin
+	 */
+	public String getPasswordOrigin() {
+		return passwordOrigin;
+	}
+	/**
+	 * @param passwordOrigin the passwordOrigin to set
+	 */
+	public void setPasswordOrigin(String passwordOrigin) {
+		this.passwordOrigin = passwordOrigin;
+	}
+	/**
+	 * @return the passwordNew
+	 */
+	public String getPasswordNew() {
+		return passwordNew;
+	}
+	/**
+	 * @param passwordNew the passwordNew to set
+	 */
+	public void setPasswordNew(String passwordNew) {
+		this.passwordNew = passwordNew;
+	}
+	/**
+	 * @return the passwordNew2
+	 */
+	public String getPasswordNew2() {
+		return passwordNew2;
+	}
+	/**
+	 * @param passwordNew2 the passwordNew2 to set
+	 */
+	public void setPasswordNew2(String passwordNew2) {
+		this.passwordNew2 = passwordNew2;
 	}
 }

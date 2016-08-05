@@ -98,12 +98,23 @@
             </result>
         </action>
 		<action name="info" class="info.yinhua.web.action.UserAction" method="init">
+            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
 			<result>/WEB-INF/jsp/user/info.jsp</result>
 		</action>
         <action name="update" class="info.yinhua.web.action.UserAction" method="update">
-            <result>/WEB-INF/jsp/user/info.jsp</result>
+            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
+            <result type="redirectAction">
+                <param name="actionName">info</param>
+                <param name="source">4</param>
+            </result>
         </action>
-		<action name="changePassword" class="info.yinhua.web.action.UserAction" method="changePassword" />
+		<action name="changePassword" class="info.yinhua.web.action.UserAction" method="changePassword">
+            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
+            <result type="redirectAction">
+                <param name="actionName">info</param>
+                <param name="source">5</param>
+            </result>
+        </action>
 		<action name="search" class="info.yinhua.web.action.UserAction" method="search" />
 		<action name="list" class="info.yinhua.web.action.UserAction" method="list" />
 	</package>

@@ -71,7 +71,8 @@ String sessiondId = session.getId();
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>${user.username}<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-header"><s:text name="private"/></li>
-								<li><a href="${base}/user/info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
+								<li><a href="${base}/user/info"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><s:text name="message"/></a></li>
+                                <li><a href="${base}/user/info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
 								<li><a href="${base}/user/changePassword"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
 								<li><a href="javascript:void(0);" onclick="logout('<c:url value="logout"/>');">
 									<span class="glyphicon glyphicon-off" aria-hidden="true"></span><s:text name="logout"/></a>
