@@ -5,43 +5,43 @@
 <html>
   <head>
     <title><s:text name="login"/></title>
+    <style type="text/css">
+        form {
+            max-width: 330px;
+        }
+    </style>
   </head>
 
   <body>
+  <div class="container">
     <h2><s:text name="login"/></h2>
-
     <c:if test="${not empty error}">
-		<div style="color:red;">
-			<s:actionerror />
-		</div>
+		<s:actionerror />
     </c:if>
 	<s:actionmessage />
 	<form action="<c:url value='auth'/>" method="POST">
 		<sec:csrfInput />
-		<table>
-			<tr>
-				<td><s:text name="username"/>:</td>
-				<td><s:textfield name='u' autofocus="autofocus" maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="password"/>:</td>
-				<td><s:password name='p' maxlength="10" /></td>
-			</tr>
-			<tr>
-				<td><s:checkbox name="r"/></td>
-				<td><s:label key="remember" for="r"/></td>
-			</tr>
-			<tr>
-				<td colspan='2'>
-					<s:submit key="login"></s:submit>
-					<s:reset key="clear"></s:reset>
-					<s:a action="join" namespace="/">
-						<s:text name="register" />
-						<s:param name="source">login</s:param>
-					</s:a>
-				</td>
-			</tr>
-		</table>
+        <div class="form-group">
+			<label><s:text name="username"/></label >
+			<s:textfield name='u' autofocus="autofocus" maxlength="5" class="form-control" />
+        </div>
+		<div class="form-group">
+			<label><s:text name="password"/></label>
+			<s:password name='p' maxlength="10" class="form-control" />
+		</div>
+		<div class="form-group">
+			<s:checkbox name="r"/>
+			<s:label key="remember" for="r"/>
+		</div>
+		<div class="form-group">
+			<s:submit key="login" cssClass="btn btn-primary active"></s:submit>
+			<s:reset key="reset" cssClass="btn btn-default"></s:reset>
+			<s:a action="join" namespace="/" cssClass="btn btn-link">
+				<s:text name="register" />
+				<s:param name="source">login</s:param>
+			</s:a>
+		</div>
 	</form>
-</body>
+  </div>
+  </body>
 </html>

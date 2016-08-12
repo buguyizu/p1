@@ -60,9 +60,9 @@
                         <dt><s:text name="user.name"/></dt>
                         <dd>${user.name}</dd>
                         <dt><s:text name="gender"/></dt>
-                        <dd>${user.gender}</dd>
+                        <dd>${action.getCodeText("02", user.gender)}</dd>
                         <dt><s:text name="department"/></dt>
-                        <dd>${user.department}</dd>
+                        <dd>${action.getCodeText("01", user.department)}</dd>
                         <dt><s:text name="user.comment"/></dt>
                         <dd>${user.comment}</dd>
                     </dl>
@@ -73,10 +73,10 @@
                     <s:hidden name="user.comment" />
                 </div>
                 <div role="tabpanel" class="tab-pane" id="change">
-                    <div style="color:red;">
+                    <c:if test="${source eq 3}">
                         <s:fielderror />
                         <s:actionerror />
-                    </div>
+                    </c:if>
                     <s:form action="changePassword">
                       <sec:csrfInput />
                       <s:hidden name="source" />
@@ -98,10 +98,10 @@
                     </s:form>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="update">
-                    <div style="color:red;">
+                    <c:if test="${source eq 2}">
                         <s:fielderror />
                         <s:actionerror />
-                    </div>
+                    </c:if>
                     <s:form action="update">
                       <sec:csrfInput />
                       <s:hidden name="source" />
@@ -120,6 +120,14 @@
                         </div>
                         <div class="col-md-6">
                           <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="gender"/></span>
+                            <div class="form-control">
+                                <s:radio name="p.gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
                             <span class="input-group-addon"><s:text name="department"/></span>
                               <s:select name="p.department" class="form-control"
                                  emptyOption="true"
@@ -130,24 +138,16 @@
                         </div>
                         <div class="col-md-6">
                           <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="gender"/></span>
-                            <div class="form-control">
-                                <s:radio name="p.gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
                             <span class="input-group-addon"><s:text name="user.enabled"/></span>
                             <div class="form-control">
-                                <s:radio name="p.enabled" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
+                                <s:radio name="p.status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="input-group form-group">
                             <span class="input-group-addon"><s:text name="user.comment"/></span>
-                              <textarea class="form-control" rows="3"></textarea>
+                              <s:textarea name="p.comment" class="form-control" rows="3"></s:textarea>
                             </div>
                           </div>
                         </div>

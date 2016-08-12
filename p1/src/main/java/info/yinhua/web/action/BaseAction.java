@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import info.yinhua.core.CommonConst;
 import info.yinhua.core.data.model.MCode;
 import info.yinhua.web.service.ICommonService;
 import info.yinhua.web.service.IMCodeService;
@@ -20,8 +21,8 @@ public abstract class BaseAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	
     public static final String HOME = "home";
-	private String source;
-	private String error;
+	protected String source;
+	protected String error;
 	private String _csrf;
 
 	@Autowired
@@ -31,6 +32,15 @@ public abstract class BaseAction extends ActionSupport {
 	
 	public List<MCode> getCodeList(String type) {
 		return mCodeService.getList(type);
+	}
+	
+	public String getCodeText(CommonConst.Code code, String cd) {
+		return getCodeText(code.getCode(), cd);
+	}
+	
+	public String getCodeText(String type, String cd) {
+		MCode code = mCodeService.getCode(type, cd);
+		return code == null ? "" : code.getfValue();
 	}
 	
 	//初期化

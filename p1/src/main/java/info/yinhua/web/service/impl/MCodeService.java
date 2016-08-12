@@ -22,7 +22,7 @@ public class MCodeService implements IMCodeService {
 			return null;
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("f_type", type);
-		map.put("f_cd", cd);
+		map.put("f_code", cd);
 		List<MCode> list = mCodeMapper.getList(map);
 		return list.isEmpty() ? null : list.get(0);
 	}

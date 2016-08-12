@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -59,7 +61,15 @@ public class FailureHandler implements
 		}
 		else {
 			saveException(request, exception);
-
+			//start 2016/07/22
+			if (exception instanceof BadCredentialsException) {
+				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=2");
+			} else if (exception instanceof DisabledException) {
+				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=3");
+			} else {
+				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=1");
+			}
+			//end 2016/07/22
 			if (forwardToDestination) {
 				logger.debug("Forwarding to " + defaultFailureUrl);
 

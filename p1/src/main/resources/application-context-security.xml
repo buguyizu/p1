@@ -8,8 +8,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 <!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#user-schema -->
-	<global-method-security pre-post-annotations="disabled"><!--
-		<expression-handler ref="expressionHandler"/> -->
+<!-- https://vincentmi.gitbooks.io/spring-security-reference-zh/content/4.3_advanced_web_features.html -->
+<!-- http://www.tianshouzhi.com/api/tutorials/spring_security_4/250 -->
+<!-- http://haohaoxuexi.iteye.com/category/182468 -->
+
+<!-- 在方法上加@PreAuthorize("hasRole('USER')")可以起作用，但是AutoWired会失效，原因不知，搜索不到。 -->
+	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+	   <!-- <expression-handler ref="expressionHandler"/> -->
+	   <!-- <protect-pointcut expression="execution(* com.mycompany.*Service.*(..))" access="ROLE_USER"/> -->
 	</global-method-security>
 
 	<http pattern="/**/*.ico" security="none"/>
@@ -39,6 +45,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
 
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
+		<access-denied-handler error-page="/error?source=access-denied"/>
 
 		<!--  authentication-failure-url="/login?error=1" -->
 		<form-login login-page="/login?source" login-processing-url="/auth" authentication-failure-handler-ref="customFailureHandler" username-parameter="u" password-parameter="p"/>
@@ -50,7 +57,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<!--
 		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
 		<session-management invalid-session-url="/error?error=timeout" session-fixation-protection="none">
-			<concurrency-control max-sessions="2" expired-url="/login?error=2" error-if-maximum-exceeded="true"/>
+			<concurrency-control max-sessions="2" expired-url="/login?error=4" error-if-maximum-exceeded="true"/>
 		</session-management>
 	</http>
 	
@@ -63,6 +70,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	 -->
 	<beans:bean id="customFailureHandler" class="info.yinhua.core.context.security.FailureHandler">
 	    <beans:property name="defaultFailureUrl" value="/login?error=1" />
+	    <beans:property name="useForward" value="false" />
 	</beans:bean>
 
 	<authentication-manager alias="authenticationManager">
@@ -82,6 +90,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<!-- Automatically receives AuthenticationEvent messages -->
 	<beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
 	
+	
+	<beans:bean id="runAsManager"
+	    class="org.springframework.security.access.intercept.RunAsManagerImpl">
+	   <beans:property name="key" value="my_run_as_password"/>
+	</beans:bean>
+
+	<beans:bean id="runAsAuthenticationProvider"
+	    class="org.springframework.security.access.intercept.RunAsImplAuthenticationProvider">
+	<beans:property name="key" value="my_run_as_password"/>
+	</beans:bean>
 	
 	<!--
 	http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#authz-hierarchical-roles

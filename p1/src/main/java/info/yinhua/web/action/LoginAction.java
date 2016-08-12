@@ -32,25 +32,32 @@ public class LoginAction extends BaseAction {
 	}
 	
 	public String error() {
-		if (StringUtils.isEmpty(getError()))
-			setError(CommonConst.LOGIN_ERROR_0);
+		if (StringUtils.isEmpty(error))
+			setError(CommonConst.ERROR_0);
 		return SUCCESS;
 	}
 	
+	//看定数的注释
 	@Override
     public String execute() throws Exception {
 		
 //		SPRING_SECURITY_LAST_EXCEPTION.message
 //		info.yinhua.core.context.security.FailureHandler
-		if (getError() != null) {
-			if (CommonConst.LOGIN_ERROR_1.equals(getError())) {
+		if (error != null) {
+			if (CommonConst.LOGIN_ERROR_1.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_001));
-			} else if (CommonConst.LOGIN_ERROR_2.equals(getError())) {
+			} else if (CommonConst.LOGIN_ERROR_2.equals(error)) {
+				addActionError(getText(CommonConst.ME_LOGIN_001));
+			} else if (CommonConst.LOGIN_ERROR_3.equals(error)) {
+				addActionError(getText(CommonConst.ME_LOGIN_002));
+			} else if (CommonConst.LOGIN_ERROR_4.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_004));
+			} else if (CommonConst.LOGIN_ERROR_11.equals(error)) {
+				addActionError(getText(CommonConst.ME_LOGIN_011));
 			}
 		}
 		
-		if (CommonConst.PAGE_SIGNUP.equals(source)) {
+		if (CommonConst.PAGE_SIGNUP.equals(source) && CommonConst.ERROR_0.equals(error)) {
 			addActionMessage(getText(CommonConst.MI_SIGNUP_001, new String[] { u }));
 			return LOGIN;
 		} else {
@@ -59,8 +66,9 @@ public class LoginAction extends BaseAction {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			Assert.notNull(auth);
 			
+			//认证失败时保持用户名
 			LOG.debug("name: " + auth.getName());
-			if (auth instanceof AnonymousAuthenticationToken) {
+			if (auth instanceof AnonymousAuthenticationToken && StringUtils.isEmpty(u)) {
 				HttpServletRequest request = ServletActionContext.getRequest();
 				u = (String) request.getSession().getAttribute(CommonConst.KEY_USERNAME);
 				r = (String) request.getSession().getAttribute(CommonConst.KEY_REMEMBER);

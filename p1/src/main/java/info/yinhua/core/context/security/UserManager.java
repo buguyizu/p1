@@ -100,6 +100,16 @@ public class UserManager implements UserDetailsManager {
 	@Override
 	@Transactional
 	public void updateUser(UserDetails user) {
+		Authentication currentUser = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		if (currentUser == null) {
+			// This would indicate bad coding somewhere
+			throw new AccessDeniedException(
+					"Can't update user as no Authentication object found in context "
+							+ "for current user.");
+		}
+		
 		Assert.isInstanceOf(UserBean.class, user);
 		validateUserDetails(user);
 
@@ -117,6 +127,7 @@ public class UserManager implements UserDetailsManager {
 		normalUser.setGender(((UserBean) user).getGender());
 		normalUser.setDepartment(((UserBean) user).getDepartment());
 		normalUser.setComment(((UserBean) user).getComment());
+		normalUser.setUpdateUser(user.getUsername());
 		userMapper.update(normalUser);
 
 		if (getEnableAuthorities()) {
@@ -124,7 +135,12 @@ public class UserManager implements UserDetailsManager {
 			insertUserAuthorities(user);
 		}
 
+		SecurityContextHolder.getContext().setAuthentication(
+				createNewAuthentication(currentUser, null));
+		
 		userCache.removeUserFromCache(user.getUsername());
+//http://stackoverflow.com/questions/4664893/how-to-manually-set-an-authenticated-user-in-spring-security-springmvc/4672083#4672083
+//http://stackoverflow.com/questions/892733/how-to-immediately-enable-the-authority-after-update-user-authority-in-spring-se
 	}
 
 	private void insertUserAuthorities(UserDetails user) {
@@ -328,6 +344,7 @@ public class UserManager implements UserDetailsManager {
 				normalUser.setGender((String) user.get("GENDER"));
 				normalUser.setDepartment((String) user.get("DEPARTMENT"));
 				normalUser.setComment((String) user.get("COMMENT"));
+				normalUser.setVersion((Integer) user.get("VERSION"));
 				userList.add(normalUser);
 			}
 		}

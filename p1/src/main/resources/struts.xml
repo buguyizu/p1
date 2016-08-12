@@ -37,6 +37,7 @@
                 <param name="namespace">/</param>
                 <param name="actionName">login</param>
                 <param name="source">${source}</param>
+                <param name="error">${error}</param>
                 <param name="u">${user.username}</param>
 			</result>
 			<result type="redirectAction" name="home">

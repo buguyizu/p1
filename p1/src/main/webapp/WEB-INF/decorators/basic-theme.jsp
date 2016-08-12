@@ -14,12 +14,30 @@
     <title><s:text name="app.nm" />-<decorator:title default="welcome" /></title>
     <decorator:head/>
     <c:set var="contextPath" value="<%=request.getContextPath() %>" scope="request"></c:set>
+    <link rel="icon" href="${contextPath}/img/favicon.ico">
+    <link href="${contextPath}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="${contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
+    <s:head />
 </head>
 <body>
-    <a href="${contextPath}/home"><s:text name="app.nm" /></a>
-    <hr />
+    <nav id="top" class="navbar navbar-default navbar-static-top">
+        <div class="container">
+	        <div class="navbar-header">
+                <a class="navbar-brand" href="${contextPath}/home">
+                    <img alt="Brand" src="${contextPath}/img/favicon.ico">
+                </a>
+	            <a href="${contextPath}/home" class="navbar-brand"><s:text name="app.nm" /></a>
+	        </div>
+        </div>
+    </nav>
     <decorator:body />
-    <hr />
-    <s:text name="statement.copyright" />
+    <footer class="footer">
+        <div class="container">
+            <p><s:text name="statement.copyright"/></p>
+        </div>
+    </footer>
+    <script src="${contextPath}/js/jquery-1.10.2.min.js"></script>
+    <script src="${contextPath}/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/js/common.js"></script>
 </body>
 </html>

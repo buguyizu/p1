@@ -5,68 +5,72 @@
 <html>
   <head>
     <title><s:text name="register"/></title>
-    <s:head />
+    <style type="text/css">
+        form {
+            max-width: 660px;
+        }
+    </style>
+    <script type="text/javascript">
+    function pageLoad() {
+    	$("[name='user.username']" ).attr('maxlength', 10);
+        $("[name='user.password']" ).attr('maxlength', 10);
+        $("[name='user.password2']").attr('maxlength', 10);
+        $("[name='user.idNumber']" ).attr('maxlength', 10);
+        $("[name='user.code']"     ).attr('maxlength', 10);
+        $("[name='user.name']"     ).attr('maxlength', 10);
+        $("[name='user.comment']"  ).attr('rows', 3);
+	}
+    </script>
   </head>
 
   <body>
+    <div class="container">
     <h2><s:text name="register"/></h2>
-
-	<div style="color:red;">
-		<s:fielderror />
-		<s:actionerror />
-	</div>
-	<s:form action="join" namespace="/" method="POST">
-		<sec:csrfInput />
-		<s:hidden name="source" value="signup" />
-		<table>
-			<tr>
-				<td><s:text name="username"/>:</td>
-				<td><s:textfield name='user.username' autofocus="autofocus" maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="password"/>:</td>
-				<td><s:password name='user.password' maxlength="10" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.password2"/>:</td>
-				<td><s:password name='user.password2' maxlength="10" /></td>
-			</tr>
+	<div>
+        <s:fielderror />
+        <s:actionerror />
+		<s:form action="join" namespace="/" method="POST">
+			<sec:csrfInput />
+			<s:hidden name="source" value="signup" />
+			<dl class="dl-horizontal">
+				<dt><s:text name="username"/></dt>
+				<dd><s:textfield cssClass="form-control" name='user.username' autofocus="autofocus"/></dd>
+				<dt><s:text name="password"/></dt>
+				<dd><s:password cssClass="form-control" name='user.password' /></dd>
+				<dt><s:text name="user.password2"/></dt>
+				<dd><s:password cssClass="form-control" name='user.password2' /></dd>
 			<!-- 
-			<tr>
-				<td><s:checkbox name="user.enabled"/></td>
-				<td><s:label key="user.enabled" for="user.enabled"/></td>
-			</tr> -->
-			<tr>
-				<td><s:text name="user.idNumber"/>:</td>
-				<td><s:textfield name='user.idNumber' maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.code"/>:</td>
-				<td><s:textfield name='user.code' maxlength="5"/></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.name"/>:</td>
-				<td><s:textfield name='user.name' maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.gender"/>:</td>
-				<td><s:textfield name='user.gender' maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.department"/>:</td>
-				<td><s:textfield name='user.department' maxlength="5" /></td>
-			</tr>
-			<tr>
-				<td><s:text name="user.comment"/>:</td>
-				<td><s:textfield name='user.comment' maxlength="50" /></td>
-			</tr>
-			<tr>
-				<td colspan='2'>
-					<s:submit key="register"></s:submit>
-					<s:reset key="clear"></s:reset>
-				</td>
-			</tr>
-		</table>
-	</s:form>
+				<dt><s:checkbox name="user.enabled"/></dt>
+				<dd><s:label key="user.enabled" for="user.enabled"/></dd>
+			-->
+				<dt><s:text name="user.idNumber"/></dt>
+				<dd><s:textfield cssClass="form-control" name='user.idNumber' /></dd>
+				<dt><s:text name="user.code"/></dt>
+				<dd><s:textfield cssClass="form-control" name='user.code'/></dd>
+				<dt><s:text name="user.name"/></dt>
+				<dd><s:textfield cssClass="form-control" name='user.name' /></dd>
+				<dt><s:text name="user.gender"/></dt>
+				<dd class="form-inline"><s:radio name="user.gender" cssClass="form-control" list="getCodeList('02')" listKey="fCode" listValue="fValue" /></dd>
+				<dt><s:text name="user.department"/></dt>
+				<dd>
+				    <s:select name="p.department" class="form-control"
+	                       emptyOption="true"
+	                       list="getCodeList('01')"
+	                       listKey="fCode" listValue="fValue"/></dd>
+				<dt><s:text name="user.comment"/></dt>
+				<dd><s:textarea cssClass="form-control" name='user.comment' /></dd>
+				<dt></dt>
+				<dd>
+					<s:submit key="register" class="btn btn-primary active"></s:submit>
+                    <s:reset key="reset" class="btn btn-default"></s:reset>
+		            <s:a action="login" namespace="/" cssClass="btn btn-link">
+		                <s:text name="back" />
+		                <s:param name="source">-1</s:param>
+		            </s:a>
+				</dd>
+			</dl>
+		</s:form>
+	</div>
+    </div>
 </body>
 </html>
