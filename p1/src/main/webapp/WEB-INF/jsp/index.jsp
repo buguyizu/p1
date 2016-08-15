@@ -16,9 +16,9 @@
     <div class="container">
 		<div class="row">
 	        <div class="col-md-4">
-	          <h2>员工管理</h2>
-	          <p>员工管理... </p>
-	          <p><a class="btn btn-default" href="./user/" role="button">进入 &raquo;</a></p>
+	          <h2>用户管理</h2>
+	          <p>用户管理... </p>
+	          <p><a class="btn btn-default" href="./user/list" role="button">进入 &raquo;</a></p>
 	        </div>
 	        <div class="col-md-4">
 	          <h2>BOM</h2>

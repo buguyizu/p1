@@ -50,7 +50,7 @@
 				<dt><s:text name="user.name"/></dt>
 				<dd><s:textfield cssClass="form-control" name='user.name' /></dd>
 				<dt><s:text name="user.gender"/></dt>
-				<dd class="form-inline"><s:radio name="user.gender" cssClass="form-control" list="getCodeList('02')" listKey="fCode" listValue="fValue" /></dd>
+				<dd class="btn-group" data-toggle="buttons" style="display: block;"><s:radio name="user.gender" cssClass="form-control" list="getCodeList('02')" listKey="fCode" listValue="fValue" /></dd>
 				<dt><s:text name="user.department"/></dt>
 				<dd>
 				    <s:select name="p.department" class="form-control"
@@ -60,9 +60,9 @@
 				<dt><s:text name="user.comment"/></dt>
 				<dd><s:textarea cssClass="form-control" name='user.comment' /></dd>
 				<dt></dt>
-				<dd>
+				<dd style="text-align: right;">
 					<s:submit key="register" class="btn btn-primary active"></s:submit>
-                    <s:reset key="reset" class="btn btn-default"></s:reset>
+                    <!--<s:reset key="reset" class="btn btn-default"></s:reset>-->
 		            <s:a action="login" namespace="/" cssClass="btn btn-link">
 		                <s:text name="back" />
 		                <s:param name="source">-1</s:param>

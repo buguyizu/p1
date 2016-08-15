@@ -53,7 +53,7 @@ public class UserAction extends PagingAction {
 		NormalUser normalUser = (NormalUser) auth.getPrincipal();
 		NormalUser dbUser = (NormalUser) userManager.loadUserByUsername(normalUser.getUsername());
 		
-		//重新登录
+		//用户信息版本不是最新的话，重新登录
 		//http://forum.spring.io/forum/spring-projects/security/35809-how-to-let-admin-to-force-user-to-logout
 		if (!normalUser.getVersion().equals(dbUser.getVersion())) {
 			SecurityContextHolder.getContext().setAuthentication(null);
@@ -87,8 +87,6 @@ public class UserAction extends PagingAction {
 	private void getUserInfo() {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, auth);
-		Assert.isInstanceOf(NormalUser.class, auth.getPrincipal());
 		
 		NormalUser normalUser = (NormalUser) auth.getPrincipal();
 		user.setUsername(normalUser.getUsername());
@@ -147,11 +145,12 @@ public class UserAction extends PagingAction {
 
     public void validateUpdate() {
     	setSource("2");
+
+		getUserInfo();
     }
     
 	public String update() throws Exception {
 
-		getUserInfo();
 		user.setCode(p.getCd());
 		user.setName(p.getName());
 		user.setGender(p.getGender());
@@ -167,8 +166,16 @@ public class UserAction extends PagingAction {
 	}
 	
     public void validateChangePassword() {
-
     	setSource("3");
+
+		getUserInfo();
+		p.setCd(user.getCode());
+		p.setName(user.getName());
+		p.setGender(user.getGender());
+		p.setStatus(Boolean.toString(user.isEnabled()));
+		p.setDepartment(user.getDepartment());
+		p.setComment(user.getComment());
+		
     	if ( !StringUtils.hasText(p.getPasswordOrigin()) ) { 
             addFieldError( "p.passwordOrigin", getText(CommonConst.ME_INPUT_001, 
             		new String[] { getText("user.password.origin") } ) );
@@ -184,12 +191,9 @@ public class UserAction extends PagingAction {
     }
     
 	public String changePassword() throws Exception {
-		getUserInfo();
 		userManager.changePassword(p.getPasswordOrigin(), p.getPasswordNew());
 
-		
 		return SUCCESS;
-		
 	}
 
 	public UserBean getUser() {
@@ -215,5 +219,4 @@ public class UserAction extends PagingAction {
 	public void setError(String error) {
 		this.error = error;
 	}
-
 }

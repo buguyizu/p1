@@ -76,7 +76,7 @@ String sessiondId = session.getId();
                                 <li><a href="${base}/user/info?source=2"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
 								<li><a href="${base}/user/info?source=3"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
 								<li><a href="javascript:void(0);" onclick="logout('<c:url value="logout"/>');">
-									<span class="glyphicon glyphicon-off" aria-hidden="true"></span><s:text name="logout"/></a>
+									<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><s:text name="logout"/></a>
 									<div style="display: none;">
 									<form id="f" action='${base}/<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
 										<sec:csrfInput />

@@ -90,8 +90,8 @@
 	<package name="user" extends="default" namespace="/user">
 		<default-action-ref name="init"></default-action-ref>
 		<global-results>
-			<result name="error">/WEB-INF/jsp/user/user.jsp</result>
-			<result name="success">/WEB-INF/jsp/user/user.jsp</result>
+			<result name="error">/WEB-INF/jsp/user/list.jsp</result>
+			<result name="success">/WEB-INF/jsp/user/list.jsp</result>
 		</global-results>
         <action name="init">
             <result type="redirectAction">

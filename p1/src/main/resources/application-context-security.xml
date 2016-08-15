@@ -24,6 +24,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<http pattern="/**/*.gif" security="none"/>
 	<http pattern="/**/*.svg" security="none"/>
 	<http pattern="/**/*.ttf" security="none"/>
+    <http pattern="/**/*.woff" security="none"/>
+    <http pattern="/**/*.woff2" security="none"/>
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/**/*.js" security="none"/>
 
@@ -37,7 +39,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<intercept-url pattern="/default.html"	access="permitAll()"/>
 		<intercept-url pattern="/login*"		access="permitAll()"/>
 		<intercept-url pattern="/join"			access="isAnonymous()"/>
-
 		<intercept-url pattern="/hello.html"	access="isAnonymous()"/>
 		<!--
 		<intercept-url pattern="/j_spring_security_check" access="isAnonymous()"/>

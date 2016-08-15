@@ -6,9 +6,6 @@
   <head>
     <title><s:text name="login"/></title>
     <style type="text/css">
-        form {
-            max-width: 330px;
-        }
     </style>
   </head>
 
@@ -19,29 +16,34 @@
 		<s:actionerror />
     </c:if>
 	<s:actionmessage />
-	<form action="<c:url value='auth'/>" method="POST">
-		<sec:csrfInput />
-        <div class="form-group">
-			<label><s:text name="username"/></label >
-			<s:textfield name='u' autofocus="autofocus" maxlength="5" class="form-control" />
-        </div>
-		<div class="form-group">
-			<label><s:text name="password"/></label>
-			<s:password name='p' maxlength="10" class="form-control" />
-		</div>
-		<div class="form-group">
-			<s:checkbox name="r"/>
-			<s:label key="remember" for="r"/>
-		</div>
-		<div class="form-group">
-			<s:submit key="login" cssClass="btn btn-primary active"></s:submit>
-			<s:reset key="reset" cssClass="btn btn-default"></s:reset>
-			<s:a action="join" namespace="/" cssClass="btn btn-link">
-				<s:text name="register" />
-				<s:param name="source">login</s:param>
-			</s:a>
-		</div>
-	</form>
+	<div class="col-sm-6 col-md-5" style="padding-left: 0;">
+		<form action="<c:url value='auth'/>" method="POST">
+			<sec:csrfInput />
+	        <div class="form-group">
+				<label><s:text name="username"/></label >
+				<s:textfield name='u' autofocus="autofocus" maxlength="5" class="form-control" />
+	        </div>
+			<div class="form-group">
+				<label><s:text name="password"/></label>
+				<s:password name='p' maxlength="10" class="form-control" />
+			</div>
+			<div class="form-group">
+				<s:checkbox name="r"/>
+				<s:label key="remember" for="r"/>
+			</div>
+			<div class="form-group" style="text-align: right;">
+				<button type="submit" class="btn btn-primary active"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span><s:text name="login"/></button>
+				<!--<s:reset key="reset" cssClass="btn btn-default"></s:reset>-->
+				<s:a action="join" namespace="/" cssClass="btn btn-link">
+					<s:text name="register" />
+					<s:param name="source">login</s:param>
+				</s:a>
+			</div>
+		</form>
+	</div>
+	<div class="col-sm-6 col-md-7">
+	
+	</div>
   </div>
   </body>
 </html>

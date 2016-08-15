@@ -14,7 +14,7 @@
 				<c:when test="${param.type eq '0'}">
 					请从链接访问主页！
 					<script type="text/javascript">
-					   //location = "/p1/home";	
+					   location = "/p1/home";	
 					</script>
 				</c:when>
 				<c:when test="${param.type eq 'exception'}">
@@ -23,7 +23,7 @@
 				<c:when test="${param.type eq 'timeout'}">
 					会话已结束！
                     <script type="text/javascript">
-                       //location = "/p1/home";   
+                       location = "/p1/home";   
                     </script>
 				</c:when>
 				<c:otherwise>

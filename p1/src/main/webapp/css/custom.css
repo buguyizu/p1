@@ -41,12 +41,13 @@ body {
 }
  */
 
-
-/* for radio button group
-.form-group .form-control {
-	padding-top: 0;
+/* for radio button group */
+div.btn-group {
+    padding-top: 0px;
 }
- */
+div.btn-group label {
+    margin-top: -1px;
+}
 
  /* for footer
 .row {
@@ -120,9 +121,6 @@ body {
   margin-top: 0;
 }
 
-/*
- * Struts
- */
-.errorMessage {
-    color:red;
+.alert {
+    margin-bottom: 10px;
 }

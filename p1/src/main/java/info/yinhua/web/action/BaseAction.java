@@ -34,10 +34,6 @@ public abstract class BaseAction extends ActionSupport {
 		return mCodeService.getList(type);
 	}
 	
-	public String getCodeText(CommonConst.Code code, String cd) {
-		return getCodeText(code.getCode(), cd);
-	}
-	
 	public String getCodeText(String type, String cd) {
 		MCode code = mCodeService.getCode(type, cd);
 		return code == null ? "" : code.getfValue();

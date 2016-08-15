@@ -7,21 +7,12 @@
 <head>
     <title><s:text name="user.info"/></title>
     <style type="text/css">
-       .nav-tabs {
-           margin-bottom: 20px;
-       }
-       .tab-pane dl dt {
-           margin-bottom: 15px;
-       }
-       .form-control input[type=radio] {
-           margin-top: 5px;
-           position: absolute;
-       }
-       .form-control label {
-           font-weight: 400;
-           padding-left: 20px;
-           padding-right: 10px;
-       }
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+        .tab-pane dl dt {
+            margin-bottom: 15px;
+        }
     </style>
     <script type="text/javascript">
         function pageLoad() {
@@ -60,9 +51,13 @@
                         <dt><s:text name="user.name"/></dt>
                         <dd>${user.name}</dd>
                         <dt><s:text name="gender"/></dt>
-                        <dd>${action.getCodeText("02", user.gender)}</dd>
+                        <dd>
+                        ${action.getCodeText("02", user.gender)}
+                        </dd>
                         <dt><s:text name="department"/></dt>
-                        <dd>${action.getCodeText("01", user.department)}</dd>
+                        <dd>
+                        ${action.getCodeText("01", user.department)}
+                        </dd>
                         <dt><s:text name="user.comment"/></dt>
                         <dd>${user.comment}</dd>
                     </dl>
@@ -121,7 +116,7 @@
                         <div class="col-md-6">
                           <div class="input-group form-group">
                             <span class="input-group-addon"><s:text name="gender"/></span>
-                            <div class="form-control">
+                            <div class="form-control btn-group" data-toggle="buttons">
                                 <s:radio name="p.gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
                             </div>
                           </div>
@@ -139,7 +134,7 @@
                         <div class="col-md-6">
                           <div class="input-group form-group">
                             <span class="input-group-addon"><s:text name="user.enabled"/></span>
-                            <div class="form-control">
+                            <div class="form-control btn-group" data-toggle="buttons">
                                 <s:radio name="p.status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
                             </div>
                           </div>
