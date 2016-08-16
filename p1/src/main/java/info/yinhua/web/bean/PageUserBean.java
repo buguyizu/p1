@@ -1,6 +1,7 @@
 package info.yinhua.web.bean;
 
 public class PageUserBean {
+	private String username;
 	private String cd;
 	private String name;
 	private String department;
@@ -10,6 +11,19 @@ public class PageUserBean {
 	private String passwordOrigin;
 	private String passwordNew;
 	private String passwordNew2;
+	
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	/**
 	 * @return the cd
 	 */

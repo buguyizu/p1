@@ -67,31 +67,6 @@
                     <s:hidden name="user.department" />
                     <s:hidden name="user.comment" />
                 </div>
-                <div role="tabpanel" class="tab-pane" id="change">
-                    <c:if test="${source eq 3}">
-                        <s:fielderror />
-                        <s:actionerror />
-                    </c:if>
-                    <s:form action="changePassword">
-                      <sec:csrfInput />
-                      <s:hidden name="source" />
-                      <div class="row">
-                          <div class="form-group">
-                            <span><s:text name="user.password.origin"/></span>
-                            <s:password name="p.passwordOrigin" maxlength="10" cssClass="form-control" autofocus="autofocus" />
-                          </div>
-                          <div class="form-group">
-                            <span><s:text name="user.password.new"/></span>
-                            <s:password name="p.passwordNew" maxlength="10" cssClass="form-control" />
-                          </div>
-                          <div class="form-group">
-                            <span><s:text name="user.password2"/></span>
-                            <s:password name="p.passwordNew2" maxlength="10" cssClass="form-control" />
-                          </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
-                    </s:form>
-                </div>
                 <div role="tabpanel" class="tab-pane" id="update">
                     <c:if test="${source eq 2}">
                         <s:fielderror />
@@ -148,6 +123,29 @@
                         </div>
                         <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
                       </s:form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="change">
+                    <c:if test="${source eq 3}">
+                        <s:fielderror />
+                        <s:actionerror />
+                    </c:if>
+                    <s:form action="changePassword">
+                      <sec:csrfInput />
+                      <s:hidden name="source" />
+                      <div class="form-group">
+                        <span><s:text name="user.password.origin"/></span>
+                        <s:password name="p.passwordOrigin" maxlength="10" cssClass="form-control" autofocus="autofocus" />
+                      </div>
+                      <div class="form-group">
+                        <span><s:text name="user.password.new"/></span>
+                        <s:password name="p.passwordNew" maxlength="10" cssClass="form-control" />
+                      </div>
+                      <div class="form-group">
+                        <span><s:text name="user.password2"/></span>
+                        <s:password name="p.passwordNew2" maxlength="10" cssClass="form-control" />
+                      </div>
+                      <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
+                    </s:form>
                 </div>
               </div>
           </div>

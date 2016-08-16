@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.data.mapper.UserListMapper">
+    <select id="getUserList" resultMap="userList">
+        select username, enabled, id_number, code, name, gender, department, comment, create_user, create_date, update_user, update_date, version from users
+        <where>
+            enabled = true
+            <if test='username != null and username != ""'>
+        	   and username = #{username}
+            </if>
+        	<if test='cd != null and cd != ""'>
+               and code like #{cd}"%"
+        	</if>
+        </where>
+    </select>
+    <resultMap id="userList" type="UserBean">
+	  <result property="username" column="username"/>
+	  <result property="enabled" column="enabled"/>
+	</resultMap>
+</mapper>

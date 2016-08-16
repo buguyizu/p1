@@ -1,4 +1,4 @@
-package info.yinhua.web.action;
+package info.yinhua.web.action.user;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import info.yinhua.core.CommonConst;
+import info.yinhua.web.action.BaseAction;
 
 @Controller
 public class LoginAction extends BaseAction {

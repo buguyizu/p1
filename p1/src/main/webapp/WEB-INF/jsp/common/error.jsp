@@ -14,7 +14,7 @@
 				<c:when test="${param.type eq '0'}">
 					请从链接访问主页！
 					<script type="text/javascript">
-					   location = "/p1/home";	
+					   //location = "/p1/home";	
 					</script>
 				</c:when>
 				<c:when test="${param.type eq 'exception'}">

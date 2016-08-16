@@ -54,7 +54,7 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="input-group">
+                <div class="input-group form-group">
                   <span class="input-group-addon"><s:text name="user.enabled"/></span>
                   <div class="form-control btn-group" data-toggle="buttons">
                     <s:radio name="p.status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
@@ -62,18 +62,8 @@
                 </div>
               </div>
             </div>
-          
-            <div class="btn-group btn-group-justified" role="group">
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>清空</button>
-              </div>
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询</button>
-              </div>
-              <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalCreate"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新建</button>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><s:text name="search"/></button>
+            <button type="button" class="btn btn-default"><s:text name="clear"/></button>
           </s:form>
           <h3 class="sub-header">信息一览</h3>
           <div class="table-responsive">

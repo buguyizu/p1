@@ -11,7 +11,7 @@ public abstract class PagingAction extends BaseAction {
 	private String tableId = "table";
 	
 	//翻页排序
-	public String list() {
+	public String list() throws Exception {
 		return SUCCESS;
 	}
 

@@ -52,7 +52,7 @@ public class BomAction extends PagingAction {
 	 * @see info.yinhua.web.action.BaseAction#list()
 	 */
 	@Override
-	public String list() {
+	public String list() throws Exception {
 		ParamEncoder encoder = new ParamEncoder(getTableId());
 		HttpServletRequest request = ServletActionContext.getRequest();
 		
