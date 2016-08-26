@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
 	try {
 		pageLoad();
 	} catch (e) {

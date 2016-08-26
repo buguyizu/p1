@@ -31,6 +31,9 @@ String sessiondId = session.getId();
 		
 		<!-- http://www.w3schools.com/tags/tag_base.asp
 		<base href="${base}"> -->
+        <script src="${base}/js/jquery-1.10.2.min.js"></script>
+        <script src="${base}/js/bootstrap.min.js"></script>
+        <script type="text/javascript" charset="UTF-8" src="${base}/js/common.js"></script>
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 	</head>
@@ -101,8 +104,5 @@ String sessiondId = session.getId();
 				<p class="text-muted">session: <%=sessiondId %></p>
 			</div>
 		</footer>
-		<script src="${base}/js/jquery-1.10.2.min.js"></script>
-		<script src="${base}/js/bootstrap.min.js"></script>
-		<script src="${base}/js/common.js"></script>
 	</body>
 </html>

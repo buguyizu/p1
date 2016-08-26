@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+<!-- 
+http://www.hifreud.com/tag/#mybatis-ref
+ -->
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
 	</settings>
@@ -22,5 +24,11 @@
 	<!-- Register all interfaces in a package as mappers
 	<mappers>
 		<package name="sql"/>
-	</mappers> -->
+	</mappers>
+	<plugins>
+        <plugin interceptor="info.yinhua.core.data.plugin.PaginationInterceptor">
+			<property name="dialect" value="h2" /> 
+			<property name="pageSqlId" value=".*Page$" /> 
+        </plugin>
+	</plugins> -->
 </configuration>

@@ -1,6 +1,6 @@
 package info.yinhua.core.cache;
 
-import info.yinhua.core.db.model.MCode;
+import info.yinhua.core.data.model.MCode;
 import info.yinhua.web.service.IMCodeService;
 
 import java.util.List;

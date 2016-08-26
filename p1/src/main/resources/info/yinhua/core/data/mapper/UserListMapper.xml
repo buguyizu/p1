@@ -3,20 +3,86 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="info.yinhua.core.data.mapper.UserListMapper">
+<!-- 
+http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-with-mybatis-safely-and-db-agnostic
+ -->
     <select id="getUserList" resultMap="userList">
-        select username, enabled, id_number, code, name, gender, department, comment, create_user, create_date, update_user, update_date, version from users
+        <bind name="_code" value="_parameter.getCd() + '%'"/>
+        <bind name="_name" value="_parameter.getName() + '%'"/>
+        select u.username, u.enabled, u.id_number, u.code, u.name, m1.f_value gender, m2.f_value department, u.comment, u.create_user, u.create_date, u.update_user, u.update_date, u.version
+        from users u
+        left join m_code m1
+        on m1.f_type = '02'
+        and m1.f_code = u.gender
+        left join m_code m2
+        on m2.f_type = '01'
+        and m2.f_code = u.department
         <where>
             enabled = true
             <if test='username != null and username != ""'>
-        	   and username = #{username}
+        	   and u.username = #{username}
             </if>
         	<if test='cd != null and cd != ""'>
-               and code like #{cd}"%"
+               and u.code like #{_code}
         	</if>
+            <if test='name != null and name != ""'>
+               and u.name like #{_name}
+            </if>
+            <if test='department != null and department != ""'>
+               and u.department = #{department}
+            </if>
+            <if test='gender != null and gender != ""'>
+               and u.gender = #{gender}
+            </if>
+            <if test='status != null and status != ""'>
+               and u.enabled = #{status, jdbcType=BOOLEAN}
+            </if>
         </where>
+        order by
+        <if test="sortCriterion == null">
+            username
+        </if>
+        <if test="sortCriterion != null">
+            ${sortCriterion}
+        </if>
+        <if test="sortType != null">
+            ${sortType}
+        </if>
+        <if test="objectsPerPage != null">
+            limit #{objectsPerPage}
+        </if>
+        <if test="offset != null">
+            offset #{offset}
+        </if>
     </select>
     <resultMap id="userList" type="UserBean">
 	  <result property="username" column="username"/>
 	  <result property="enabled" column="enabled"/>
 	</resultMap>
+    <select id="getUserSize" resultType="int">
+        <bind name="_code" value="_parameter.getCd() + '%'"/>
+        <bind name="_name" value="_parameter.getName() + '%'"/>
+        select count(1) from users
+        <where>
+            enabled = true
+            <if test='username != null and username != ""'>
+               and username = #{username}
+            </if>
+            <if test='cd != null and cd != ""'>
+               and code like #{_code}
+            </if>
+            <if test='name != null and name != ""'>
+               and name like #{_name}
+            </if>
+            <if test='department != null and department != ""'>
+               and department = #{department}
+            </if>
+            <if test='gender != null and gender != ""'>
+               and gender = #{gender}
+            </if>
+            <if test='status != null and status != ""'>
+               and enabled = #{status, jdbcType=BOOLEAN}
+            </if>
+        </where>
+    </select>
 </mapper>
