@@ -28,6 +28,9 @@
     
     <bean id="sessionListener" class="info.yinhua.core.context.Listener">
     </bean>
+     
+    <bean id="userDwr" class="info.yinhua.web.dwr.UserDwr">
+    </bean>
     
     <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
     	<constructor-arg value="CODE_DATA,USER_DATA"></constructor-arg>

@@ -18,7 +18,7 @@ http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-wit
         on m2.f_type = '01'
         and m2.f_code = u.department
         <where>
-            enabled = true
+            1 = 1
             <if test='username != null and username != ""'>
         	   and u.username = #{username}
             </if>

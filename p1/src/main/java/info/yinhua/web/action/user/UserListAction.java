@@ -1,7 +1,9 @@
 package info.yinhua.web.action.user;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,16 +64,17 @@ public class UserListAction extends PagingAction {
 		
 		userListService.search(p);
 		dt = new DataTablesType();
-		dt.setDraw(1);
-		List<List<String>> rows = new ArrayList<List<String>>();
+		//dt.setDraw(2);
+		List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
 		for (UserBean bean : p.getList()) {
-			List<String> row = new ArrayList<String>();
-			row.add(bean.getUsername());
-			row.add(bean.getCode());
-			row.add(bean.getName());
-			row.add(bean.getGender());
-			row.add(bean.getDepartment());
-			row.add(bean.getComment());
+			Map<String, String> row = new HashMap<String, String>();
+			row.put("DT_RowId", "R_" + bean.getUsername());
+			row.put("0", bean.getUsername());
+			row.put("1", bean.getCode());
+			row.put("2", bean.getName());
+			row.put("3", bean.getGender());
+			row.put("4", bean.getDepartment());
+			row.put("5", bean.getComment());
 			rows.add(row);
 		}
 		dt.setData(rows);

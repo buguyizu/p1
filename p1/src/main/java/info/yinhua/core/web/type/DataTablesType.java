@@ -2,6 +2,7 @@ package info.yinhua.core.web.type;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class DataTablesType implements Serializable {
 	/**
@@ -12,7 +13,7 @@ public class DataTablesType implements Serializable {
 	private int draw;
 	private int recordsTotal;
 	private int recordsFiltered;
-	private List<List<String>> data;
+	private List<Map<String, String>> data;
 	/**
 	 * @return the draw
 	 */
@@ -52,13 +53,13 @@ public class DataTablesType implements Serializable {
 	/**
 	 * @return the data
 	 */
-	public List<List<String>> getData() {
+	public List<Map<String, String>> getData() {
 		return data;
 	}
 	/**
 	 * @param data the data to set
 	 */
-	public void setData(List<List<String>> data) {
+	public void setData(List<Map<String, String>> data) {
 		this.data = data;
 	}
 	
