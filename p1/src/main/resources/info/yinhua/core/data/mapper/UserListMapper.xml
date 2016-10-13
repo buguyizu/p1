@@ -9,7 +9,20 @@ http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-wit
     <select id="getUserList" resultMap="userList">
         <bind name="_code" value="_parameter.getCd() + '%'"/>
         <bind name="_name" value="_parameter.getName() + '%'"/>
-        select u.username, u.enabled, u.id_number, u.code, u.name, m1.f_value gender, m2.f_value department, u.comment, u.create_user, u.create_date, u.update_user, u.update_date, u.version
+        select
+            u.username,
+            u.enabled,
+            u.id_number,
+			u.code,
+			u.name,
+			m1.f_value gender,
+			m2.f_value department,
+			u.comment,
+			u.create_user,
+			u.create_date,
+			u.update_user,
+			u.update_date,
+			u.version
         from users u
         left join m_code m1
         on m1.f_type = '02'

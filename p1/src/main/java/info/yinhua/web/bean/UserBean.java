@@ -17,6 +17,7 @@ public class UserBean implements UserDetails {
 	private String department;
 	private String comment;
 	private String status;
+	private String version;
 
 	private Set<GrantedAuthority> authorities;
 	private boolean accountNonExpired;
@@ -85,6 +86,12 @@ public class UserBean implements UserDetails {
 		this.status = status;
 	}
 	
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
 	public void setAuthorities(Set<GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}

@@ -15,12 +15,16 @@
 	    tr.highlight {
 		    background-color: #e6e6e6 !important;
 		}
+		td .btn-group {
+		  margin: -8px;
+		}
     </style>
 	<script type="text/javascript" charset="utf8" src="../js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="../js/dataTables.bootstrap.min.js"></script>
     <script src='../dwr/engine.js'></script>
     <script src='../dwr/interface/UserDwr.js'></script>
     <script type="text/javascript">
+        var table = null;
         function pageLoad() {
         	//https://datatables.net/manual/server-side
         	//https://datatables.net/reference/option/language
@@ -54,11 +58,42 @@
                 },
                 "lengthMenu": [ 2, 25, 50 ]
             });
-        	$('#h,#d').hide();
+
+            $('#t').on('error.dt', function ( e, settings, techNote, message ) {
+                console.log( 'An error has been reported by DataTables: ', message );
+                alert('<s:text name="MI-SESSION-001"/>');
+                location.reload(true);
+            });
+            
+            $('#d1').on('show.bs.modal', function (event) {
+                var tr = $(event.relatedTarget).parents('tr'), username = tr.data('username'), version = tr.data('version'), modal = $(this);
+                $('#c_username').val(username);
+                $('#c_version').val(version);
+
+                var u = $('#c_username').val();
+                UserDwr.getUser(u, function(str) {
+                    $('[name="username"]').val(u);
+                    $('[name="cd"]').val(str['cd']);
+                    $('[name="name"]').val(str['name']);
+                    var g = $('[name="gender"][value="' + str['gender'] + '"]');
+                    g.parent().trigger("click");
+                    //g.prop('checked', true);
+                    $('[name="department"]').val(str['department']);
+                    $('[name="comment"]').val(str['comment']);
+                    $('#d1').data("version", str['version']);
+                });
+            });
+            $('#d2').on('show.bs.modal', function (event) {
+                var tr = $(event.relatedTarget).parents('tr'), username = tr.data('username'), version = tr.data('version'), modal = $(this);
+                $('#c_username').val(username);
+                $('#c_version').val(version);
+                modal.find('.username').text(username);
+            });
+            //$('#h,#d').hide();
         }
         function searchData() {
-            $('#h,#d').show();
-            var table = $('#t')
+            //$('#h,#d').show();
+            table = $('#t')
 /*                .on('error.dt', function ( e, settings, techNote, message ) {
                     console.log( 'An error has been reported by DataTables: ', message );
                     alert('<s:text name="MI-SESSION-001"/>');
@@ -106,31 +141,62 @@
                         "data":      "0",
                         //https://datatables.net/reference/option/columns.render
                         "render":    function ( data, type, full, meta ) {
-                        	return '<a href="javascript:void();" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1" data-username="' + data + '"><span class="glyphicon glyphicon-edit"></span></a>'
-                            + '<a href="javascript:void();" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2" data-username="' + data + '"><span class="glyphicon glyphicon-remove"></span></a>';
+                        	return "";
                         }
                     }
                 ],
                 "rowCallback": function( row, data, index ) {
-                	//$('td:eq(4)', row).html( '<b>A</b>' );
+                    $("#temp .btn-group").clone().appendTo($('td:eq(6)', row));
+                    //$('td:eq(6)', row).find("button:eq(0)").attr('id', "b1_" + data['0']);
+                    //$('td:eq(6)', row).find("button:eq(1)").attr('id', "b2_" + data['0']);
+                	//$('td:eq(6)', row).find("button:eq(1)").data("username", data['0']).data("version", data['6']);
+                    $(row).data("username", data['0']);
+                    $(row).data("version", data['6']);
                 }
             });
 
-            $('#t').on('error.dt', function ( e, settings, techNote, message ) {
-                console.log( 'An error has been reported by DataTables: ', message );
-                alert('<s:text name="MI-SESSION-001"/>');
-                location.reload(true);
-            });
-            
             $('#t tbody').on( 'mouseenter', 'tr', function () {
-            	 $('#t tr').removeClass( 'highlight' );
-            	$(this).addClass( 'highlight' );
+                $('#t tr').removeClass( 'highlight' );
+                $(this).addClass( 'highlight' );
             }).on( 'mouseleave', 'tr', function () {
-                 $('#t tr').removeClass( 'highlight' );
+                $('#t tr').removeClass( 'highlight' );
             });
         }
         function removeUser() {
-        	UserDwr.removeUser();
+        	var u = $('#c_username').val();
+        	UserDwr.removeUser(u, $('#c_version').val(), function(str) {
+        		if (str['cd'] == undefined) {
+                    alert('<s:text name="MI-SESSION-001"/>');
+                    location.reload(true);
+        		} else {
+        			alert(str['msg']);
+        			$('#d2').modal('hide');
+	        		if (str['cd'] == '0')
+	        			table.ajax.reload();
+	        	}
+        	});
+        }
+        function updateUser() {
+        	UserDwr.updateUser({
+                "username": $("[name='username']").val(),
+        		"cd": $("[name='cd']").val(),
+                "name": $("[name='name']").val(),
+                "gender": $(":checked[name='gender']").val(),
+                "department": $("[name='department']").val(),
+                "comment": $("[name='comment']").val(),
+                "version": $('#d1').data("version")
+        	}, function(str) {
+        		if (str['cd'] == undefined) {
+	                alert('<s:text name="MI-SESSION-001"/>');
+	                location.reload(true);
+	            } else {
+	                alert(str['msg']);
+	                if (str['cd'] == '0') {
+		                $('#d1').modal('hide');
+		                table.ajax.reload();
+	                }
+	            }
+        	});
         }
     </script>
 </head>
@@ -189,13 +255,21 @@
                 </div>
               </div>
             </div>
+          </s:form>
+          <div class="pull-right">
             <button type="button" class="btn btn-primary" onclick="searchData();"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><s:text name="search"/></button>
             <button type="button" class="btn btn-default" ><s:text name="clear"/></button>
-          </s:form>
+          </div>
           <h3 class="sub-header" id="h"><s:text name="list.info"/></h3>
           
           <div class="table-responsive" id="d">
-            <table id="t" class="table table-striped">
+            <div id="temp" style="display: none;">
+	         <div class="btn-group" role="group" aria-label="...">
+	             <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
+	             <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-remove"></span></button>
+	         </div>
+	        </div>
+            <table id="t" class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th><s:text name="username"/></th>
@@ -208,6 +282,7 @@
                 </tr>
               </thead>
             </table>
+            <input type="hidden" id="c_username" /><input type="hidden" id="c_version" />
           </div>
           <div id="d1" class="modal fade" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
@@ -217,29 +292,79 @@
                     <h4 class="modal-title"><s:text name="user.edit"/></h4>
                   </div>
                   <div class="modal-body">
-                    <p>One fine body&hellip;</p>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="username"/></span>
+                            <input type="text" name="username" class="form-control" readonly="readonly" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="user.code"/></span>
+                            <input type="text" name="cd" class="form-control" maxlength="20" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="user.name"/></span>
+                            <input type="text" name="name" class="form-control" maxlength="20" />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="gender"/></span>
+                            <div class="form-control btn-group" data-toggle="buttons">
+                                <s:radio name="gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="department"/></span>
+                              <s:select name="department" class="form-control"
+                                 emptyOption="true"
+                                 list="getCodeList('01')"
+                                 listKey="fCode" listValue="fValue"
+                              />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group form-group">
+                            <span class="input-group-addon"><s:text name="user.enabled"/></span>
+                            <div class="form-control btn-group" data-toggle="buttons">
+                                <s:radio name="status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="input-group form-group">
+                          <span class="input-group-addon"><s:text name="user.comment"/></span>
+                            <s:textarea name="comment" class="form-control" rows="3"></s:textarea>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
-                    <button type="button" class="btn btn-primary"><s:text name="ok"/></button>
+                    <button type="button" class="btn btn-primary" onclick="updateUser();"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
                   </div>
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-        </div>
-          <div id="d2" class="modal fade" tabindex="-1" role="dialog">
-			  <div class="modal-dialog" role="document">
+            <div id="d2" class="modal fade" tabindex="-1" role="dialog">
+			  <div class="modal-dialog modal-sm" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        <h4 class="modal-title"><s:text name="user.remove"/></h4>
 			      </div>
 			      <div class="modal-body">
-			        <p><s:text name="MC-USER-001"/></p>
+			        <h2><span class="label label-default glyphicon glyphicon-user username"></span></h2><s:text name="MC-USER-001"/>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
-			        <button type="button" class="btn btn-primary"><s:text name="ok"/></button>
+			        <button type="button" class="btn btn-primary" onclick="removeUser();"><s:text name="ok"/></button>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->

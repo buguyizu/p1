@@ -75,6 +75,7 @@ public class UserListAction extends PagingAction {
 			row.put("3", bean.getGender());
 			row.put("4", bean.getDepartment());
 			row.put("5", bean.getComment());
+			row.put("6", bean.getVersion());
 			rows.add(row);
 		}
 		dt.setData(rows);

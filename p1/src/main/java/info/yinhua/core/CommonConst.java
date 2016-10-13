@@ -46,6 +46,9 @@ public interface CommonConst {
 	public static final String ME_INPUT_005 = "ME-INPUT-005";
 	public static final String ME_INPUT_006 = "ME-INPUT-006";
 
+	/** 用户已存在 */
+	public static final String ME_SIGNUP_001 = "ME-SIGNUP-001";
+
 	/** 注册成功 */
 	public static final String MI_SIGNUP_001 = "MI-SIGNUP-001";
 	public static final String MI_USER_001 = "MI-USER-001";
@@ -72,4 +75,11 @@ public interface CommonConst {
 	
 	public static final String PAGE_LOGIN = "login";
 	public static final String PAGE_SIGNUP = "signup";
+
+	/** 1:用户注册;2:修改用户信息;3:删除用户;99:其它; */
+	public static final String LOG_TYPE_1 = "1";
+	public static final String LOG_TYPE_2 = "2";
+	public static final String LOG_TYPE_3 = "3";
+	public static final String LOG_TYPE_4 = "4";
+	public static final String LOG_TYPE_99 = "99";
 }

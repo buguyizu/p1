@@ -34,6 +34,8 @@ import org.springframework.util.Assert;
 
 import info.yinhua.core.CommonConst;
 import info.yinhua.core.data.mapper.NormalUserMapper;
+import info.yinhua.core.data.model.TLog;
+import info.yinhua.core.service.TLogService;
 import info.yinhua.web.bean.UserBean;
 
 /**
@@ -58,6 +60,9 @@ public class UserManager implements UserDetailsManager {
 
 	@Autowired
 	private NormalUserMapper userMapper;
+	
+	@Autowired
+	private TLogService logService;
 	
 	// ~ Methods
 	// ========================================================================================================
@@ -95,6 +100,10 @@ public class UserManager implements UserDetailsManager {
 		if (getEnableAuthorities()) {
 			insertUserAuthorities(user);
 		}
+		
+		TLog log = new TLog();
+		log.setLogType(CommonConst.LOG_TYPE_1);
+		logService.create(log);
 	}
 
 	@Override
@@ -109,27 +118,30 @@ public class UserManager implements UserDetailsManager {
 					"Can't update user as no Authentication object found in context "
 							+ "for current user.");
 		}
-		
-		Assert.isInstanceOf(UserBean.class, user);
+
 		validateUserDetails(user);
-
-		NormalUser normalUser = new NormalUser(user.getUsername(),
-				user.getPassword(),
-				user.isEnabled(),
-				user.isAccountNonExpired(),
-				user.isCredentialsNonExpired(),
-				user.isAccountNonLocked(),
-				user.getAuthorities());
-
-		normalUser.setIdNumber(((UserBean) user).getIdNumber());
-		normalUser.setCode(((UserBean) user).getCode());
-		normalUser.setName(((UserBean) user).getName());
-		normalUser.setGender(((UserBean) user).getGender());
-		normalUser.setDepartment(((UserBean) user).getDepartment());
-		normalUser.setComment(((UserBean) user).getComment());
-		normalUser.setUpdateUser(user.getUsername());
-		userMapper.update(normalUser);
-
+		if (user instanceof UserBean) {
+	
+			NormalUser normalUser = new NormalUser(user.getUsername(),
+					user.getPassword(),
+					user.isEnabled(),
+					user.isAccountNonExpired(),
+					user.isCredentialsNonExpired(),
+					user.isAccountNonLocked(),
+					user.getAuthorities());
+	
+			normalUser.setIdNumber(((UserBean) user).getIdNumber());
+			normalUser.setCode(((UserBean) user).getCode());
+			normalUser.setName(((UserBean) user).getName());
+			normalUser.setGender(((UserBean) user).getGender());
+			normalUser.setDepartment(((UserBean) user).getDepartment());
+			normalUser.setComment(((UserBean) user).getComment());
+			normalUser.setUpdateUser(user.getUsername());
+			userMapper.update(normalUser);
+		} else if (user instanceof NormalUser) {
+			userMapper.update((NormalUser) user);
+		}
+		
 		if (getEnableAuthorities()) {
 			userMapper.deleteRoles(user.getUsername());
 			insertUserAuthorities(user);

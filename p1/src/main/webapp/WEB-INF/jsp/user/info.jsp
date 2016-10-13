@@ -115,14 +115,14 @@
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="user.comment"/></span>
-                              <s:textarea name="p.comment" class="form-control" rows="3"></s:textarea>
-                            </div>
+                        <div class="input-group form-group">
+                          <span class="input-group-addon"><s:text name="user.comment"/></span>
+                            <s:textarea name="p.comment" class="form-control" rows="3"></s:textarea>
                           </div>
                         </div>
-                        <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
-                      </s:form>
+                      </div>
+                      <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
+                    </s:form>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="change">
                     <c:if test="${source eq 3}">

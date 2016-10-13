@@ -114,6 +114,12 @@ public class UserAction extends BaseAction {
 	            addFieldError( "user.password", getText(CommonConst.ME_INPUT_004, 
 	            		new String[] { getText("password") } ) );
 	        }
+	    	
+	    	if (!hasFieldErrors()) {
+	    		if (userManager.userExists(user.getUsername())) {
+	    			addActionError(getText(CommonConst.ME_SIGNUP_001));
+	    		}
+	    	}
     	}
     }
     
