@@ -21,11 +21,11 @@
 			<sec:csrfInput />
 	        <div class="form-group">
 				<label><s:text name="username"/></label >
-				<s:textfield name='u' autofocus="autofocus" maxlength="5" class="form-control" />
+				<s:textfield name='u' autofocus="autofocus" maxlength="5" class="form-control" required="required" />
 	        </div>
 			<div class="form-group">
 				<label><s:text name="password"/></label>
-				<s:password name='p' maxlength="10" class="form-control" />
+				<s:password name='p' maxlength="10" class="form-control" required="required" />
 			</div>
 			<div class="form-group">
 				<s:checkbox name="r"/>

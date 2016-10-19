@@ -33,7 +33,13 @@ String sessiondId = session.getId();
 		<base href="${base}"> -->
         <script src="${base}/js/jquery-1.10.2.min.js"></script>
         <script src="${base}/js/bootstrap.min.js"></script>
-        <script type="text/javascript" charset="UTF-8" src="${base}/js/common.js"></script>
+        <script type="text/javascript" charset="utf-8" src="${base}/js/common.js"></script>
+        <script type="text/javascript">
+        function pageLoad() {
+        	listener();
+		}
+        
+        </script>
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 	</head>

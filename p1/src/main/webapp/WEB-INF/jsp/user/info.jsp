@@ -27,7 +27,10 @@
                 $('#tabs li:eq(0) a').tab('show')
 				break;
 			}
-        };
+        }
+        function permit() {
+        	notify('<s:text name="notification.title"/>', { icon: "../img/favicon.ico", body: '<s:text name="notification.msg"/>' });
+        }
     </script>
 </head>
 <body>
@@ -121,7 +124,10 @@
                           </div>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
+                      <div class="pull-right">
+	                      <button type="button" class="btn btn-default" onclick="permit();"><span class="glyphicon glyphicon-bell"></span><s:text name="brower.notification"/></button>
+	                      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
+                      </div>
                     </s:form>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="change">

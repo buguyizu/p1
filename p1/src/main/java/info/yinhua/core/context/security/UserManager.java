@@ -2,6 +2,7 @@ package info.yinhua.core.context.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,12 @@ public class UserManager implements UserDetailsManager {
 		}
 		
 		TLog log = new TLog();
-		log.setLogType(CommonConst.LOG_TYPE_1);
+		log.setLogType(CommonConst.LogType.USER_REGIST.type());
+		log.setLogContent(CommonConst.LogType.USER_REGIST.content());
+		Map<String, String> param = new HashMap<String, String>();
+		param.put(CommonConst.LOG_PARAM_USERNAME, normalUser.getUsername());
+		log.setLogParam(param.toString());
+		
 		logService.create(log);
 	}
 
@@ -153,6 +159,15 @@ public class UserManager implements UserDetailsManager {
 		userCache.removeUserFromCache(user.getUsername());
 //http://stackoverflow.com/questions/4664893/how-to-manually-set-an-authenticated-user-in-spring-security-springmvc/4672083#4672083
 //http://stackoverflow.com/questions/892733/how-to-immediately-enable-the-authority-after-update-user-authority-in-spring-se
+
+		TLog log = new TLog();
+		log.setLogType(CommonConst.LogType.USER_EDIT.type());
+		log.setLogContent(CommonConst.LogType.USER_EDIT.content());
+		Map<String, String> param = new HashMap<String, String>();
+		param.put(CommonConst.LOG_PARAM_USERNAME, user.getUsername());
+		log.setLogParam(param.toString());
+		
+		logService.create(log);
 	}
 
 	private void insertUserAuthorities(UserDetails user) {
@@ -169,6 +184,15 @@ public class UserManager implements UserDetailsManager {
 		}
 		userMapper.delete(username);
 		userCache.removeUserFromCache(username);
+		
+		TLog log = new TLog();
+		log.setLogType(CommonConst.LogType.USER_DELETE.type());
+		log.setLogContent(CommonConst.LogType.USER_DELETE.content());
+		Map<String, String> param = new HashMap<String, String>();
+		param.put(CommonConst.LOG_PARAM_USERNAME, username);
+		log.setLogParam(param.toString());
+		
+		logService.create(log);
 	}
 
 	@Override

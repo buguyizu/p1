@@ -1,11 +1,13 @@
 package info.yinhua.web.dwr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import com.opensymphony.xwork2.TextProvider;
 import com.opensymphony.xwork2.TextProviderFactory;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
+import info.yinhua.core.CommonConst;
 import info.yinhua.core.context.security.NormalUser;
 import info.yinhua.core.context.security.UserManager;
 
@@ -24,6 +27,9 @@ public class UserDwr {
 
 	@Autowired
 	private UserManager userManager;
+	
+	@Autowired
+    private SessionRegistry sessionRegistry;    
 	
 	private TextProvider textProvider;
 	
@@ -48,6 +54,21 @@ public class UserDwr {
 		return textProvider;
 	}
 	
+	/**
+	 * logout invalidate-session="false"
+	 * 可以实时看到登录状态
+	 */
+	
+	public boolean logged(String username) {
+		final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+		for (final Object principal : allPrincipals)
+			if (principal instanceof NormalUser)
+				if (((NormalUser) principal).getUsername().equals(username))
+						return true;
+
+		return false;
+	}
+	
 	public Map<String, String> getUser(String username) {
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -65,9 +86,9 @@ public class UserDwr {
 			e.printStackTrace();
 			map.put("cd", "-1");
 			if (e instanceof UsernameNotFoundException)
-				map.put("msg",  getTextProvider().getText("ME-USER-002"));
+				map.put("msg",  getTextProvider().getText(CommonConst.ME_USER_002));
 			else
-				map.put("msg",  getTextProvider().getText("ME-BACK-001"));
+				map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
 		}
 		return map;
 	}
@@ -82,7 +103,7 @@ public class UserDwr {
 			NormalUser user = (NormalUser) userManager.loadUserByUsername(username);
 			if (!((NormalUser) user).getVersion().toString().equals(version)) {
 				map.put("cd", "1");
-				map.put("msg", getTextProvider().getText("ME-USER-001"));
+				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
 			} else {
 				user.setCode(frontUser.get("cd"));
 				user.setName(frontUser.get("name"));
@@ -93,13 +114,13 @@ public class UserDwr {
 				userManager.updateUser(user);
 
 				map.put("cd", "0");
-				map.put("msg", getTextProvider().getText("MI-USER-001", new String[] { username }));
+				map.put("msg", getTextProvider().getText(CommonConst.MI_USER_001, new String[] { username }));
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("cd", "-1");
-			map.put("msg",  getTextProvider().getText("ME-BACK-001"));
+			map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
 		}
 		
 		return map;
@@ -110,18 +131,26 @@ public class UserDwr {
 		
 		try {
 			UserDetails user = userManager.loadUserByUsername(username);
-			if (!((NormalUser) user).getVersion().toString().equals(version)) {
+			
+			if ((((NormalUser) user).getVersion().toString()).equals(version)) {
+				userManager.deleteUser(username);
+				map.put("cd", "0");
+				map.put("msg", getTextProvider().getText(CommonConst.MI_USER_003, new String[] { username }));
+			} else {
 				map.put("cd", "1");
-				map.put("msg", getTextProvider().getText("ME-USER-001"));
+				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
 			}
 			
-			userManager.deleteUser(username);
-			map.put("cd", "0");
-			map.put("msg", getTextProvider().getText("MI-USER-003", new String[] { username }));
 		} catch (Exception e) {
 			e.printStackTrace();
-			map.put("cd", "-1");
-			map.put("msg",  getTextProvider().getText("ME-BACK-001"));
+			
+			if (e instanceof UsernameNotFoundException) {
+				map.put("cd", "2");
+				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
+			} else {
+				map.put("cd", "-1");
+				map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
+			}
 		}
 		return map;
 	}

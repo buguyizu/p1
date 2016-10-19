@@ -46,6 +46,13 @@ public interface CommonConst {
 	public static final String ME_INPUT_005 = "ME-INPUT-005";
 	public static final String ME_INPUT_006 = "ME-INPUT-006";
 
+	public static final String ME_USER_001 = "ME-USER-001";
+	public static final String ME_USER_002 = "ME-USER-002";
+
+	public static final String ME_BACK_001 = "ME-BACK-001";
+	
+	
+
 	/** 用户已存在 */
 	public static final String ME_SIGNUP_001 = "ME-SIGNUP-001";
 
@@ -53,6 +60,7 @@ public interface CommonConst {
 	public static final String MI_SIGNUP_001 = "MI-SIGNUP-001";
 	public static final String MI_USER_001 = "MI-USER-001";
 	public static final String MI_USER_002 = "MI-USER-002";
+	public static final String MI_USER_003 = "MI-USER-003";
 	
 
 	//same to
@@ -77,9 +85,31 @@ public interface CommonConst {
 	public static final String PAGE_SIGNUP = "signup";
 
 	/** 1:用户注册;2:修改用户信息;3:删除用户;99:其它; */
-	public static final String LOG_TYPE_1 = "1";
-	public static final String LOG_TYPE_2 = "2";
-	public static final String LOG_TYPE_3 = "3";
-	public static final String LOG_TYPE_4 = "4";
-	public static final String LOG_TYPE_99 = "99";
+	public static final String LOG_PARAM_USERNAME = "用户名";
+	public static final String LOG_PARAM_2 = "2";
+	public static final String LOG_PARAM_3 = "3";
+	public static final String LOG_PARAM_4 = "4";
+	public static final String LOG_PARAM_99 = "99";
+	
+	enum LogType{
+
+		USER_REGIST("1", "用户注册"),
+		USER_EDIT("2", "修改用户信息"),
+		USER_DELETE("3", "删除用户"),
+		OTHER("99", "其它")
+		;
+		
+		private String type;
+		private String content;
+		private LogType(String type , String content) {
+			this.type = type;
+			this.content = content;
+		}
+		public String type() {
+			return this.type;
+		}
+		public String content() {
+			return this.content;
+		}
+	}
 }

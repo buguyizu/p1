@@ -20,8 +20,12 @@
             http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
 
     <!-- 激活spring的注解.
-    <context:annotation-config /> -->
+    <context:annotation-config />
     
+    Enable AspectJ style of Spring AOP
+    加上这句话后，报错:Error creating bean with name 'dataSource': Requested bean is currently in creation
+    <aop:aspectj-autoproxy />
+     -->
     <cache:annotation-driven cache-manager="cacheManager" />
     
     <context:component-scan base-package="info.yinhua.web.action,info.yinhua.web.service.impl,info.yinhua.core.listener,info.yinhua.core.service" />

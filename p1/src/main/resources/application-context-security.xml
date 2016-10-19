@@ -51,14 +51,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<!--  authentication-failure-url="/login?error=1" -->
 		<form-login login-page="/login?source" login-processing-url="/auth" authentication-failure-handler-ref="customFailureHandler" username-parameter="u" password-parameter="p"/>
 		<http-basic/>
+
 		<!-- invalidate-session="true" show invalid-session-url -->
-		<logout invalidate-session="false" logout-success-url="/login?source=logout" logout-url="/logout" />
+		<logout invalidate-session="true" logout-success-url="/login?source=logout" logout-url="/logout" />
 		<remember-me remember-me-parameter="r" />
 		<csrf disabled="true"/>
 		<!--
 		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER"/> -->
 		<session-management invalid-session-url="/error?error=timeout" session-fixation-protection="none">
-			<concurrency-control max-sessions="2" expired-url="/login?error=4" error-if-maximum-exceeded="true"/>
+			<concurrency-control max-sessions="2" expired-url="/login?error=4" error-if-maximum-exceeded="true" session-registry-alias="sessionRegistry" />
 		</session-management>
 	</http>
 	

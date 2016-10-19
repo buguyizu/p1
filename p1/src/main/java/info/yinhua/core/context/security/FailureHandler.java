@@ -14,6 +14,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.util.UrlUtils;
@@ -62,7 +63,9 @@ public class FailureHandler implements
 		else {
 			saveException(request, exception);
 			//start 2016/07/22
-			if (exception instanceof BadCredentialsException) {
+			if (exception instanceof SessionAuthenticationException) {
+				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=4");
+			} else if (exception instanceof BadCredentialsException) {
 				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=2");
 			} else if (exception instanceof DisabledException) {
 				defaultFailureUrl = defaultFailureUrl.replaceFirst("error=\\d", "error=3");

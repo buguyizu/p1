@@ -35,6 +35,12 @@
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
 	</filter>
+	
+	<!-- https://github.com/alexcheng1982/server-sent-events-sample -->
+    <filter>
+        <filter-name>continuation</filter-name>
+        <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
+    </filter>
 
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -61,6 +67,12 @@
     </filter-mapping>
      -->
      
+    <filter-mapping>
+        <filter-name>continuation</filter-name>
+        <url-pattern>/sse/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 也可以用http://directwebremoting.org/dwr/documentation/server/integration/spring.html#dwrSpringServlet -->
 	<servlet>
 	  <display-name>DWR Servlet</display-name>
 	  <servlet-name>dwr-invoker</servlet-name>  
@@ -75,6 +87,17 @@
 	  <servlet-name>dwr-invoker</servlet-name>
 	  <url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
+	
+    <!-- https://github.com/jetty-project/jetty-eventsource-servlet/wiki -->
+	<servlet>
+        <servlet-name>eventsource</servlet-name>
+        <servlet-class>info.yinhua.web.jetty.UserEventSourceServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>eventsource</servlet-name>
+        <url-pattern>/sse/*</url-pattern>
+    </servlet-mapping>
 
 	<!--
 	 spring配置
@@ -90,6 +113,7 @@
 		<session-timeout>10</session-timeout>
 	</session-config>
 
+    <!-- displaytag
 	<jsp-config>
 		<taglib>
 			<taglib-uri>http://displaytag.sf.net</taglib-uri>
@@ -100,6 +124,7 @@
 			<taglib-location>/WEB-INF/tld/displaytag-el.tld</taglib-location>
 		</taglib>
 	</jsp-config>
+     -->
     
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -122,7 +147,6 @@
         <role-name>no-users</role-name>
     </security-role>
 
-<!-- 只有404页面可以显示 -->
 	<error-page>
 		<error-code>403</error-code>
 		<location>/WEB-INF/jsp/common/error.jsp?type=403</location>

@@ -88,6 +88,14 @@
                 $('#c_username').val(username);
                 $('#c_version').val(version);
                 modal.find('.username').text(username);
+
+                var u = $('#c_username').val();
+                UserDwr.logged(u, function(str) {
+                	if (str)
+                	    $("#d2Msg").text('<s:text name="MW-USER-001"/>');
+                	else
+                		$("#d2Msg").text('<s:text name="MC-USER-001"/>');
+                });
             });
             //$('#h,#d').hide();
         }
@@ -360,7 +368,7 @@
 			        <h4 class="modal-title"><s:text name="user.remove"/></h4>
 			      </div>
 			      <div class="modal-body">
-			        <h2><span class="label label-default glyphicon glyphicon-user username"></span></h2><s:text name="MC-USER-001"/>
+			        <h2><span class="label label-default glyphicon glyphicon-user username"></span></h2><span id="d2Msg"></span>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>

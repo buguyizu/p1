@@ -9,6 +9,8 @@
         <pattern>/fonts/*</pattern>
         <pattern>/img/*</pattern>
         <pattern>/js/*</pattern>
+        <pattern>/dwr/*</pattern>
+        <pattern>/sse/*</pattern>
     </excludes>
     <decorator name="basic" page="basic-theme.jsp">
         <pattern>/*</pattern>
