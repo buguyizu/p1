@@ -15,6 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jetty.version>9.2.14.v20151106</jetty.version>
 		<!-- http://struts.apache.org/docs/version-notes-25.html -->
 		<struts2.version>2.5.2</struts2.version>
 		<!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#maven-bom -->
@@ -115,6 +116,21 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.8.9</version>
+        </dependency>
 		<!-- 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -304,6 +320,18 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
 			<version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
         </dependency>
 	</dependencies>
 	<build>
