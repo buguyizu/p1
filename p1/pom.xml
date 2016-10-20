@@ -5,7 +5,7 @@
 	<artifactId>p1</artifactId>
 
 	<!-- jdk1.7 -->
-	<!-- jetty-distribution-9.2.14.v20151106 -->
+	<!-- jetty-distribution-9.2.14.v20151106, servlet是3.1版本-->
 	<!-- http://www.eclipse.org/jetty/download.html -->
 	<!-- http://eclipse-jetty.github.io/ -->
 	<!-- 如果版本中不加入SNAPSHOT（适用于开发阶段），则在版本号没变时，引用该包的工程是不会主动更新该包的。 -->
@@ -28,6 +28,13 @@
 	<!-- ［工程属性Deployment Assembly中设定］publish时的lib包不许选择［Maven Dependencies］， 
 		而选择target下的...WEB-INF/lib文件夹，所以在pom.xml中scope为provided的包不会被引入。 -->
 	<dependencies>
+        <!-- tomcat中有，不需要打入war包(scope=provided)。
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
@@ -38,6 +45,31 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+            <scope>provided</scope>
+        </dependency> -->
+        <!-- 以下四个包和版本参考jetty安装目录jetty/lib/ -->
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.servlet.jsp.jstl</artifactId>
+            <version>1.2.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>${jetty.version}</version>
             <scope>provided</scope>
         </dependency>
 		<dependency>
@@ -56,21 +88,6 @@
 			<artifactId>common-annotations</artifactId>
 			<version>3.0.0</version>
 		</dependency> -->
-		<!-- tomcat包中有这两个包，所以不需要打入war包(scope=provided)，以免版本冲突。
-		用jetty debug plugin时可以不引入。
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency> -->
-		<!-- jetty的servlet应该是3.0版本，用jetty debug plugin时不需要引入。写在这里是测试的。
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>9.2.14.v20151106</version>
-            <scope>provided</scope>
-        </dependency> -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
@@ -320,18 +337,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
 			<version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <version>${jetty.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>${jetty.version}</version>
-            <scope>provided</scope>
         </dependency>
 	</dependencies>
 	<build>
