@@ -71,16 +71,20 @@
                 $('#c_version').val(version);
 
                 var u = $('#c_username').val();
-                UserDwr.getUser(u, function(str) {
-                    $('[name="username"]').val(u);
-                    $('[name="cd"]').val(str['cd']);
-                    $('[name="name"]').val(str['name']);
-                    var g = $('[name="gender"][value="' + str['gender'] + '"]');
-                    g.parent().trigger("click");
-                    //g.prop('checked', true);
-                    $('[name="department"]').val(str['department']);
-                    $('[name="comment"]').val(str['comment']);
-                    $('#d1').data("version", str['version']);
+                UserDwr.getUser(u, {
+                	callback: function(str) {
+	                    $('[name="username"]').val(u);
+	                    $('[name="cd"]').val(str['cd']);
+	                    $('[name="name"]').val(str['name']);
+	                    var g = $('[name="gender"][value="' + str['gender'] + '"]');
+	                    g.parent().trigger("click");
+	                    //g.prop('checked', true);
+	                    $('[name="department"]').val(str['department']);
+	                    $('[name="comment"]').val(str['comment']);
+	                    $('#d1').data("version", str['version']);
+	                }, errorHandler:function(message) {
+	                	alert(message);
+	                }
                 });
             });
             $('#d2').on('show.bs.modal', function (event) {
@@ -109,8 +113,6 @@
                 })
 */
                 .DataTable({
-                "processing": true,
-                "serverSide": true,
                 "order": [[ 0, "asc" ]],
                 "ajax": {
                 	"url": "./search",
@@ -172,15 +174,21 @@
         }
         function removeUser() {
         	var u = $('#c_username').val();
-        	UserDwr.removeUser(u, $('#c_version').val(), function(str) {
-        		if (str['cd'] == undefined) {
-                    alert('<s:text name="MI-SESSION-001"/>');
-                    location.reload(true);
-        		} else {
-        			alert(str['msg']);
-        			$('#d2').modal('hide');
-	        		if (str['cd'] == '0')
-	        			table.ajax.reload();
+        	UserDwr.removeUser(u, $('#c_version').val(), {
+        		callback: function(str) {
+	        		if (str['cd'] == undefined) {
+	                    alert('<s:text name="MI-SESSION-001"/>');
+	                    location.reload(true);
+	        		} else {
+	        			alert(str['msg']);
+	        			$('#d2').modal('hide');
+		        		if (str['cd'] == '0')
+		        			table.ajax.reload();
+		        	}
+	        	}, errorHandler: function(message) {
+	        		alert(message);
+	        		$('#d2').modal('hide');
+	        		table.ajax.reload();
 	        	}
         	});
         }
@@ -193,16 +201,21 @@
                 "department": $("[name='department']").val(),
                 "comment": $("[name='comment']").val(),
                 "version": $('#d1').data("version")
-        	}, function(str) {
-        		if (str['cd'] == undefined) {
-	                alert('<s:text name="MI-SESSION-001"/>');
-	                location.reload(true);
-	            } else {
-	                alert(str['msg']);
-	                if (str['cd'] == '0') {
-		                $('#d1').modal('hide');
-		                table.ajax.reload();
-	                }
+        	}, {
+        		callback: function(str) {
+	        		if (str['cd'] == undefined) {
+		                alert('<s:text name="MI-SESSION-001"/>');
+		                location.reload(true);
+		            } else {
+		                alert(str['msg']);
+		                if (str['cd'] == '0') {
+			                $('#d1').modal('hide');
+			                table.ajax.reload();
+		                }
+		            }
+	            }, errorHandler: function(message) {
+	            	alert(message);
+	            	table.ajax.reload();
 	            }
         	});
         }

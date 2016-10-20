@@ -1,6 +1,13 @@
 package info.yinhua.core;
 
+import java.util.Locale;
+
 public interface CommonConst {
+	
+	//for message bundle
+	//local also defined in struts.xml
+	public static final Locale LOCALE = Locale.SIMPLIFIED_CHINESE;
+	
 	//table M_CODE
 	enum Code {
 		TYPE("-1"),

@@ -2,9 +2,7 @@ package info.yinhua.web.dwr;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionRegistry;
@@ -12,15 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.LocaleProvider;
-import com.opensymphony.xwork2.TextProvider;
-import com.opensymphony.xwork2.TextProviderFactory;
-import com.opensymphony.xwork2.util.LocalizedTextUtil;
-
 import info.yinhua.core.CommonConst;
 import info.yinhua.core.context.security.NormalUser;
 import info.yinhua.core.context.security.UserManager;
+import info.yinhua.core.util.Messages;
 
 @Component
 public class UserDwr {
@@ -29,36 +22,12 @@ public class UserDwr {
 	private UserManager userManager;
 	
 	@Autowired
-    private SessionRegistry sessionRegistry;    
-	
-	private TextProvider textProvider;
-	
-	private TextProvider getTextProvider() {
-		
-		if (textProvider != null)
-			return textProvider;
-
-		TextProviderFactory tpf = new TextProviderFactory();
-		
-		//DelegatingValidatorContext 258
-		LocaleProvider localeProvider = new LocaleProvider() {
-			
-			@Override
-			public Locale getLocale() {
-				return ActionContext.getContext().getLocale();
-			}
-			
-		};
-		ResourceBundle bundle = LocalizedTextUtil.findResourceBundle("message", localeProvider.getLocale());
-		textProvider = tpf.createInstance(bundle, localeProvider);
-		return textProvider;
-	}
+    private SessionRegistry sessionRegistry;
 	
 	/**
 	 * logout invalidate-session="false"
 	 * 可以实时看到登录状态
 	 */
-	
 	public boolean logged(String username) {
 		final List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
 		for (final Object principal : allPrincipals)
@@ -86,9 +55,9 @@ public class UserDwr {
 			e.printStackTrace();
 			map.put("cd", "-1");
 			if (e instanceof UsernameNotFoundException)
-				map.put("msg",  getTextProvider().getText(CommonConst.ME_USER_002));
+				map.put("msg",  Messages.getString(CommonConst.ME_USER_002));
 			else
-				map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
+				map.put("msg",  Messages.getString(CommonConst.ME_BACK_001));
 		}
 		return map;
 	}
@@ -103,7 +72,7 @@ public class UserDwr {
 			NormalUser user = (NormalUser) userManager.loadUserByUsername(username);
 			if (!((NormalUser) user).getVersion().toString().equals(version)) {
 				map.put("cd", "1");
-				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
+				map.put("msg", Messages.getString(CommonConst.ME_USER_001));
 			} else {
 				user.setCode(frontUser.get("cd"));
 				user.setName(frontUser.get("name"));
@@ -114,13 +83,13 @@ public class UserDwr {
 				userManager.updateUser(user);
 
 				map.put("cd", "0");
-				map.put("msg", getTextProvider().getText(CommonConst.MI_USER_001, new String[] { username }));
+				map.put("msg", Messages.getString(CommonConst.MI_USER_001, username));
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("cd", "-1");
-			map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
+			map.put("msg",  Messages.getString(CommonConst.ME_BACK_001));
 		}
 		
 		return map;
@@ -133,12 +102,12 @@ public class UserDwr {
 			UserDetails user = userManager.loadUserByUsername(username);
 			
 			if ((((NormalUser) user).getVersion().toString()).equals(version)) {
-				userManager.deleteUser(username);
+//				userManager.deleteUser(username);
 				map.put("cd", "0");
-				map.put("msg", getTextProvider().getText(CommonConst.MI_USER_003, new String[] { username }));
+				map.put("msg", Messages.getString(CommonConst.MI_USER_003, username));
 			} else {
 				map.put("cd", "1");
-				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
+				map.put("msg", Messages.getString(CommonConst.ME_USER_001));
 			}
 			
 		} catch (Exception e) {
@@ -146,10 +115,10 @@ public class UserDwr {
 			
 			if (e instanceof UsernameNotFoundException) {
 				map.put("cd", "2");
-				map.put("msg", getTextProvider().getText(CommonConst.ME_USER_001));
+				map.put("msg", Messages.getString(CommonConst.ME_USER_001));
 			} else {
 				map.put("cd", "-1");
-				map.put("msg",  getTextProvider().getText(CommonConst.ME_BACK_001));
+				map.put("msg",  Messages.getString(CommonConst.ME_BACK_001));
 			}
 		}
 		return map;
