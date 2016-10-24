@@ -1,8 +1,15 @@
 package info.yinhua.core.context;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import info.yinhua.core.data.model.MSession;
+import info.yinhua.core.util.Messages;
+import info.yinhua.web.jetty.EventSource;
+import info.yinhua.web.jetty.UserEventSource;
+import info.yinhua.core.CommonConst;
+import info.yinhua.core.context.security.NormalUser;
 import info.yinhua.core.data.mapper.MSessionMapper;
 
 import javax.servlet.http.HttpSession;
@@ -16,12 +23,15 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
 import org.springframework.security.web.session.HttpSessionCreatedEvent;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 public class Listener implements ApplicationListener<ApplicationEvent> {
 
@@ -29,6 +39,14 @@ public class Listener implements ApplicationListener<ApplicationEvent> {
 	
 	@Autowired
 	private MSessionMapper mSessionMapper;
+	@Autowired
+	private SessionRegistry sessionRegistry;
+	
+	private List<EventSource> esList;
+	
+	public void setEsList(List<EventSource> esList) {
+		this.esList = esList;
+	}
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -109,5 +127,26 @@ public class Listener implements ApplicationListener<ApplicationEvent> {
 		
 		mSessionMapper.update(s);
 		logger.trace("auth updated.");
+		
+		emitter(user.getUsername(), event.getAuthentication());
+	}
+	
+	//send data to same sessions where user login
+	private void emitter(String username, Authentication auth) {
+
+		if (esList == null)
+			return;
+
+		List<SessionInformation> siList = sessionRegistry.getAllSessions(auth.getPrincipal(), false);
+		
+		for (SessionInformation si : siList) {
+			for (EventSource es : esList) {
+				try {
+					((UserEventSource) es).emitData(Messages.getString(CommonConst.MW_USER_002, username), si.getSessionId());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

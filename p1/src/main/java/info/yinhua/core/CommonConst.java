@@ -57,12 +57,13 @@ public interface CommonConst {
 	public static final String ME_USER_002 = "ME-USER-002";
 
 	public static final String ME_BACK_001 = "ME-BACK-001";
-	
-	
+
 
 	/** 用户已存在 */
 	public static final String ME_SIGNUP_001 = "ME-SIGNUP-001";
 
+	public static final String MW_USER_002 = "MW-USER-002";
+	
 	/** 注册成功 */
 	public static final String MI_SIGNUP_001 = "MI-SIGNUP-001";
 	public static final String MI_USER_001 = "MI-USER-001";

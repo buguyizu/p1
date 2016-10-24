@@ -98,12 +98,17 @@ http://stackoverflow.com/questions/20643970/asyncsupported-exception-when-switch
 	  <url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
 	
-    <!-- https://github.com/jetty-project/jetty-eventsource-servlet/wiki -->
+    <!-- https://github.com/jetty-project/jetty-eventsource-servlet/wiki 后改用WebServlet注解
 	<servlet>
         <servlet-name>eventSourceServlet</servlet-name>
         <servlet-class>info.yinhua.web.jetty.UserEventSourceServlet</servlet-class>
         <async-supported>true</async-supported>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>eventSourceServlet</servlet-name>
+        <url-pattern>/sse/*</url-pattern>
+    </servlet-mapping>
+     -->
     <!-- http://www.madbit.org/blog/programming/168/make-servlets-with-spring/
     http://blogs.sourceallies.com/2012/02/injecting-spring-beans-into-java-servlets/
     因为这样通过sprint创建的servlet不执行init方法，在application-context.xml中的bean里加上init-method="init"，也会有其他问题。所以放弃。
@@ -112,10 +117,6 @@ http://stackoverflow.com/questions/20643970/asyncsupported-exception-when-switch
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
         <async-supported>true</async-supported>
     </servlet> -->
-    <servlet-mapping>
-        <servlet-name>eventSourceServlet</servlet-name>
-        <url-pattern>/sse/*</url-pattern>
-    </servlet-mapping>
 
 	<!--
 	 spring配置

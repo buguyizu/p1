@@ -22,10 +22,11 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,9 +41,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.continuation.ContinuationSupport;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import info.yinhua.core.context.Listener;
 
 //2016/10/20
 //copy from https://github.com/alexcheng1982/server-sent-events-sample
+//2016/10/21
+//add tyr catch of continuation.complete
+//add esList
 
 /**
  * <p>A servlet that implements the <a href="http://www.w3.org/TR/eventsource/">event source protocol</a>,
@@ -65,6 +73,8 @@ public abstract class EventSourceServlet extends HttpServlet
     private static final byte[] DATA_FIELD;
     private static final byte[] ID_FIELD;
     private static final byte[] COMMENT_FIELD;
+	private List<EventSource> esList;
+	
     static
     {
         try
@@ -82,6 +92,10 @@ public abstract class EventSourceServlet extends HttpServlet
 
     private ScheduledExecutorService scheduler;
     private int heartBeatPeriod = 10;
+    
+    public List<EventSource> getEsList() {
+    	return esList;
+    }
 
     @Override
     public void init() throws ServletException
@@ -90,6 +104,12 @@ public abstract class EventSourceServlet extends HttpServlet
         if (heartBeatPeriodParam != null)
             heartBeatPeriod = Integer.parseInt(heartBeatPeriodParam);
         scheduler = Executors.newSingleThreadScheduledExecutor();
+        esList = new ArrayList<EventSource>();
+
+        //便于sessionListener发送消息
+		ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		Listener sessionListener = (Listener) context.getBean("sessionListener");
+		sessionListener.setEsList(esList);
     }
 
     @Override
@@ -107,6 +127,8 @@ public abstract class EventSourceServlet extends HttpServlet
         	Map<String, String> params = parsePostBody(request.getInputStream());
     		String clientId = params.get("clientId");
             EventSource eventSource = newEventSource(request, clientId);
+            esList.add(eventSource);
+            
             if (eventSource == null)
             {
                 response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
@@ -121,6 +143,7 @@ public abstract class EventSourceServlet extends HttpServlet
                 continuation.suspend(response);
                 EventSourceEmitter emitter = new EventSourceEmitter(eventSource, continuation);
                 emitter.scheduleHeartBeat();
+                
                 String lastEventId = params.get("Last-Event-ID");
                 if (lastEventId != null && !"".equals(lastEventId.trim()))
                 {
@@ -292,7 +315,11 @@ public abstract class EventSourceServlet extends HttpServlet
                 closed = true;
                 heartBeat.cancel(false);
             }
-            continuation.complete();
+            try {
+            	continuation.complete();
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
         }
 
         private void scheduleHeartBeat()
