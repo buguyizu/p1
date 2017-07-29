@@ -4,11 +4,6 @@
 	<groupId>info.yinhua</groupId>
 	<artifactId>p1</artifactId>
 
-	<!-- jdk1.7 -->
-	<!-- jetty-distribution-9.2.14.v20151106, servlet是3.1版本-->
-	<!-- http://www.eclipse.org/jetty/download.html -->
-	<!-- http://eclipse-jetty.github.io/ -->
-	<!-- 如果版本中不加入SNAPSHOT（适用于开发阶段），则在版本号没变时，引用该包的工程是不会主动更新该包的。 -->
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>p1</name>
@@ -16,37 +11,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty.version>9.2.14.v20151106</jetty.version>
-		<!-- http://struts.apache.org/docs/version-notes-25.html -->
-		<struts2.version>2.5.2</struts2.version>
-		<!-- http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#maven-bom -->
+		<struts.version>2.5.2</struts.version>
 		<springframework.version>4.2.2.RELEASE</springframework.version>
 		<spring-security.version>4.0.3.RELEASE</spring-security.version>
 		<sitemesh.version>3.0.1</sitemesh.version>
 		<log4j.version>2.5</log4j.version>
 	</properties>
 
-	<!-- ［工程属性Deployment Assembly中设定］publish时的lib包不许选择［Maven Dependencies］， 
-		而选择target下的...WEB-INF/lib文件夹，所以在pom.xml中scope为provided的包不会被引入。 -->
 	<dependencies>
-        <!-- tomcat中有，不需要打入war包(scope=provided)。
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-            <scope>provided</scope>
-        </dependency> -->
         <!-- 以下四个包和版本参考jetty安装目录jetty/lib/ -->
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -91,13 +63,13 @@
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
-			<version>${struts2.version}</version>
+			<version>${struts.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-spring-plugin</artifactId>
-			<version>${struts2.version}</version>
+			<version>${struts.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -231,12 +203,12 @@
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-json-plugin</artifactId>
-            <version>${struts2.version}</version>
+            <version>${struts.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-sitemesh-plugin</artifactId>
-			<version>${struts2.version}</version>
+			<version>${struts.version}</version>
 		</dependency>
 		<!-- 用struts2-sitemesh-plugin中带的2.4.2版本
 		<dependency>
