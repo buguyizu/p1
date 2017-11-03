@@ -6,23 +6,23 @@
 <html>
 <head>
 	<title><s:text name="user.manager"/></title>
-	<!-- <link href="../css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" /> -->
-    <link href="../css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<%
+String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+%>
+    <c:set var="base" value="<%=base %>" scope="request"></c:set>
+    <%@ include file="../../decorators/fw-datatables.jsp" %>
+    <%@ include file="../../decorators/fw-dwr.jsp" %>
     <style type="text/css">
-	    table.dataTable tbody tr.selected {
-	        background-color: #B0BED9;
-	    }
-	    tr.highlight {
-		    background-color: #e6e6e6 !important;
-		}
-		td .btn-group {
-		  margin: -8px;
-		}
+        table.dataTable tbody tr.selected {
+            background-color: #B0BED9;
+        }
+        tr.highlight {
+            background-color: #e6e6e6 !important;
+        }
+        td .btn-group {
+          margin: -8px;
+        }
     </style>
-	<script type="text/javascript" charset="utf8" src="../js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../js/dataTables.bootstrap.min.js"></script>
-    <script src='../dwr/engine.js'></script>
-    <script src='../dwr/interface/UserDwr.js'></script>
     <script type="text/javascript">
         var table = null;
         function pageLoad() {

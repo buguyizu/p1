@@ -26,14 +26,10 @@ String sessiondId = session.getId();
 		<c:set var="base" value="<%=base %>" scope="request"></c:set>
 		<link rel="icon" href="${base}/img/favicon.ico">
         <s:head />
-		<link href="${base}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- http://www.w3schools.com/tags/tag_base.asp
+        <base href="${base}"> -->
+        <%@ include file="./fw-front.jsp" %>
 		<link href="${base}/css/custom.css" rel="stylesheet" type="text/css" />
-		
-		<!-- http://www.w3schools.com/tags/tag_base.asp
-		<base href="${base}"> -->
-        <script src="${base}/js/jquery-1.10.2.min.js"></script>
-        <script src="${base}/js/bootstrap.min.js"></script>
-        <script src="${base}/js/eventsource.js"></script>
         <script type="text/javascript" charset="utf-8" src="${base}/js/common.js"></script>
         <script type="text/javascript">
         window.addEventListener("load", listener, false);

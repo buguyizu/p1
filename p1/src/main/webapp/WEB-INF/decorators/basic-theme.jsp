@@ -15,8 +15,7 @@
     <decorator:head/>
     <c:set var="contextPath" value="<%=request.getContextPath() %>" scope="request"></c:set>
     <link rel="icon" href="${contextPath}/img/favicon.ico">
-    <link href="${contextPath}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="${contextPath}/css/custom.css" rel="stylesheet" type="text/css" />
+    <%@ include file="./fw-basic-css.jsp" %>
     <s:head />
 </head>
 <body>
@@ -31,13 +30,15 @@
         </div>
     </nav>
     <decorator:body />
+<%
+String sessiondId = session.getId();
+%>
     <footer class="footer">
         <div class="container">
             <p><s:text name="statement.copyright"/></p>
+            <p class="text-muted">session: <%=sessiondId %></p>
         </div>
     </footer>
-    <script src="${contextPath}/js/jquery-1.10.2.min.js"></script>
-    <script src="${contextPath}/js/bootstrap.min.js"></script>
-    <script src="${contextPath}/js/common.js"></script>
+    <%@ include file="./fw-basic-js.jsp" %>
 </body>
 </html>
