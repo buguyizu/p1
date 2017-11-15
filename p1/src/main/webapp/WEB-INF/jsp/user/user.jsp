@@ -14,7 +14,10 @@
 <body>
     <div class="container-fluid">
       <div class="row">
-      	<%@ include file="../menu_side.jsp" %>
+      	
+        <jsp:include page="../menu_side.jsp">
+            <jsp:param name="index" value="x"/>
+        </jsp:include>
         <div class="col-sm-9 col-md-10 main">
           <ol class="breadcrumb">
             <li><a href="${base}/home">主页</a></li>

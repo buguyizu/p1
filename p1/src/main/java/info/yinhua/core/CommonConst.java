@@ -34,6 +34,7 @@ public interface CommonConst {
 	public static final String LOGIN_ERROR_2 = "2";
 	public static final String LOGIN_ERROR_3 = "3";
 	public static final String LOGIN_ERROR_4 = "4";
+	public static final String LOGIN_ERROR_5 = "5";
 	public static final String LOGIN_ERROR_6 = "6";
 	public static final String LOGIN_ERROR_11 = "11";
 
@@ -69,7 +70,9 @@ public interface CommonConst {
 	public static final String MI_USER_001 = "MI-USER-001";
 	public static final String MI_USER_002 = "MI-USER-002";
 	public static final String MI_USER_003 = "MI-USER-003";
-	
+
+	/** 会话 */
+	public static final String MI_SESSION_001 = "MI-SESSION-001";
 
 	//same to
 	//application-context-security.xml
@@ -91,6 +94,7 @@ public interface CommonConst {
 	
 	public static final String PAGE_LOGIN = "login";
 	public static final String PAGE_SIGNUP = "signup";
+	public static final String PAGE_ELSE = "else";
 
 	/** 1:用户注册;2:修改用户信息;3:删除用户;99:其它; */
 	public static final String LOG_PARAM_USERNAME = "用户名";

@@ -1,10 +1,11 @@
 package info.yinhua.core.context.security;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -15,8 +16,8 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
-import info.yinhua.core.CommonConst;
 import info.yinhua.core.data.model.BaseModel;
+import info.yinhua.core.data.model.TMenu;
 
 /**
  * 代码从以下类复制修改。
@@ -25,11 +26,16 @@ import info.yinhua.core.data.model.BaseModel;
  */
 public class NormalUser extends BaseModel implements UserDetails, CredentialsContainer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// ~ Instance fields
 	// ================================================================================================
 	private String password;
 	private final String username;
 	private final Set<GrantedAuthority> authorities;
+	private List<Map<String, List<TMenu>>> menuList;
 	private final boolean accountNonExpired;
 	private final boolean accountNonLocked;
 	private final boolean credentialsNonExpired;
@@ -70,6 +76,14 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 
 	public Collection<GrantedAuthority> getAuthorities() {
 		return authorities;
+	}
+
+	public void setMenuList(List<Map<String, List<TMenu>>> menuList) {
+		this.menuList = menuList;
+	}
+
+	public List<Map<String, List<TMenu>>> getMenuList() {
+		return menuList;
 	}
 
 	public String getIdNumber() {

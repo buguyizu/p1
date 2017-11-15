@@ -38,7 +38,9 @@ public class LoginAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	//看定数的注释
+	/**
+	 * 看定数的注释
+	 */
 	@Override
     public String execute() throws Exception {
 		
@@ -53,6 +55,8 @@ public class LoginAction extends BaseAction {
 				addActionError(getText(CommonConst.ME_LOGIN_002));
 			} else if (CommonConst.LOGIN_ERROR_4.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_004));
+			} else if (CommonConst.LOGIN_ERROR_5.equals(error)) {
+				addActionError(getText(CommonConst.MI_SESSION_001));
 			} else if (CommonConst.LOGIN_ERROR_11.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_011));
 			}

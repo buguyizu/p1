@@ -1,14 +1,16 @@
 package info.yinhua.web.action;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import info.yinhua.core.CommonConst;
+import info.yinhua.core.context.security.UserUtil;
 import info.yinhua.core.data.model.MCode;
+import info.yinhua.core.data.model.TMenu;
 import info.yinhua.web.service.ICommonService;
 import info.yinhua.web.service.IMCodeService;
 
@@ -37,6 +39,10 @@ public abstract class BaseAction extends ActionSupport {
 	public String getCodeText(String type, String cd) {
 		MCode code = mCodeService.getCode(type, cd);
 		return code == null ? "" : code.getfValue();
+	}
+
+	public List<Map<String, List<TMenu>>> getMenuList() {
+		return UserUtil.getMenuList();
 	}
 	
 	//初期化

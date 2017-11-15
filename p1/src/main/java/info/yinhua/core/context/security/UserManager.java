@@ -35,7 +35,9 @@ import org.springframework.util.Assert;
 
 import info.yinhua.core.CommonConst;
 import info.yinhua.core.data.mapper.NormalUserMapper;
+import info.yinhua.core.data.mapper.TMenuMapper;
 import info.yinhua.core.data.model.TLog;
+import info.yinhua.core.data.model.TMenu;
 import info.yinhua.core.service.TLogService;
 import info.yinhua.web.bean.UserBean;
 
@@ -61,7 +63,8 @@ public class UserManager implements UserDetailsManager {
 
 	@Autowired
 	private NormalUserMapper userMapper;
-	
+	@Autowired
+	private TMenuMapper tMenuMapper;
 	@Autowired
 	private TLogService logService;
 	
@@ -416,7 +419,7 @@ public class UserManager implements UserDetailsManager {
 
 		NormalUser normalUser = new NormalUser(returnUsername, userFromUserQuery.getPassword(),
 				userFromUserQuery.isEnabled(), true, true, true, combinedAuthorities);
-		
+
 		Assert.isInstanceOf(NormalUser.class, userFromUserQuery);
 		NormalUser normalUserFromUserQuery = (NormalUser) userFromUserQuery;
 		normalUser.setIdNumber(normalUserFromUserQuery.getIdNumber());
@@ -426,7 +429,45 @@ public class UserManager implements UserDetailsManager {
 		normalUser.setDepartment(normalUserFromUserQuery.getDepartment());
 		normalUser.setComment(normalUserFromUserQuery.getComment());
 		normalUser.setVersion(normalUserFromUserQuery.getVersion());
+		List<String> authorityList = Authority.superAuthorities(combinedAuthorities);
+		// get menu list form db
+		List<TMenu> menuList = tMenuMapper.getList(authorityList);
+
+		// generate group-menu list
+		List<TMenu> hMenuList =  new ArrayList<TMenu>();
+		List<TMenu> bMenuList =  new ArrayList<TMenu>();
+		for (TMenu menu : menuList) {
+			if (menu.getMenuCode().endsWith("0")) {
+				hMenuList.add(menu);
+			} else {
+				bMenuList.add(menu);
+			}
+		}
+
+		List<Map<String, List<TMenu>>> menuMapList = new ArrayList<Map<String, List<TMenu>>>();
+		HashMap<String, List<TMenu>> menuMap = null;
+		for (TMenu hMenu : hMenuList) {
+
+			menuMap = new HashMap<String, List<TMenu>>();
+			
+			List<TMenu> hbMenuList = new ArrayList<TMenu>();
+			hbMenuList.add(hMenu);
+			menuMap.put("h", hbMenuList);
+
+			hbMenuList = new ArrayList<TMenu>();
+
+			String h = hMenu.getMenuCode().substring(0, 1);
+			for (TMenu bMenu : bMenuList) {
+				if (bMenu.getMenuCode().startsWith(h)) {
+					hbMenuList.add(bMenu);
+				}
+			}
+			menuMap.put("b", hbMenuList);
+			menuMapList.add(menuMap);
+		}
 		
+		normalUser.setMenuList(menuMapList);
+
 		return normalUser;
 	}
 }

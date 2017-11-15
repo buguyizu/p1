@@ -1,4 +1,4 @@
-package info.yinhua.web.action.user;
+package info.yinhua.web.action.hr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class UserListAction extends PagingAction {
 	private static final long serialVersionUID = 1L;
 
 	//override ActionSupport
-    protected static Logger LOG = LogManager.getLogger(UserAction.class);
+    protected static Logger LOG = LogManager.getLogger(UserListAction.class);
 	
 	private PageUserListBean p = new PageUserListBean();
 	private DataTablesType dt;

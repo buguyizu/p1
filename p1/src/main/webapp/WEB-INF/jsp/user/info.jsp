@@ -36,7 +36,9 @@
 <body>
     <div class="container-fluid">
       <div class="row">
-        <%@ include file="../menu_side.jsp" %>
+        <jsp:include page="../menu_side.jsp">
+            <jsp:param name="index" value="11"/>
+        </jsp:include>
         <div class="col-sm-9 col-md-10 main">
           <h2 class="page-header"><s:text name="user.info"/></h2>
           <div class="row">

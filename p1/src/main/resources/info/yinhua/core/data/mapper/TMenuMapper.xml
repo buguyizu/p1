@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.yinhua.core.data.mapper.TMenuMapper">
+    <select id="getList" resultType="TMenu">
+        select menu_code, menu_name, menu_url, menu_level
+        from t_menu
+        where menu_authority in
+		<foreach item="item" collection="collection" open="(" separator="," close=")">
+		  #{item}
+		</foreach>
+		order by menu_order
+    </select>
+</mapper>

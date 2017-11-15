@@ -15,10 +15,15 @@
     </div>
     <div class="container">
 		<div class="row">
+            <div class="col-md-4">
+              <h2>用户信息</h2>
+              <p>用户信息... </p>
+              <p><a class="btn btn-default" href="./user/" role="button">进入 &raquo;</a></p>
+            </div>
 	        <div class="col-md-4">
 	          <h2>用户管理</h2>
 	          <p>用户管理... </p>
-	          <p><a class="btn btn-default" href="./userlist/" role="button">进入 &raquo;</a></p>
+	          <p><a class="btn btn-default" href="./hr/" role="button">进入 &raquo;</a></p>
 	        </div>
 	        <div class="col-md-4">
 	          <h2>BOM</h2>

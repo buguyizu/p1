@@ -224,7 +224,9 @@ String base = request.getScheme()+"://"+request.getServerName()+":"+request.getS
 <body>
     <div class="container-fluid">
       <div class="row">
-      	<%@ include file="../menu_side.jsp" %>
+        <jsp:include page="../menu_side.jsp">
+            <jsp:param name="index" value="21"/>
+        </jsp:include>
         <div class="col-sm-9 col-md-10 main">
           <h3 class="page-header"><s:text name="user.manager"/></h3>
           <div class="alert alert-danger" role="alert" style="display: none;">
