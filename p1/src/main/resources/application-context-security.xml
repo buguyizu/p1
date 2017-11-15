@@ -18,27 +18,24 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   <!-- <protect-pointcut expression="execution(* com.mycompany.*Service.*(..))" access="ROLE_USER"/> -->
 	</global-method-security>
 
+    <http pattern="/fw/**/*" security="none"/>
 	<http pattern="/**/*.ico" security="none"/>
-	<http pattern="/**/*.jpg" security="none"/>
-	<http pattern="/**/*.png" security="none"/>
-	<http pattern="/**/*.gif" security="none"/>
-	<http pattern="/**/*.svg" security="none"/>
-	<http pattern="/**/*.ttf" security="none"/>
-    <http pattern="/**/*.woff" security="none"/>
-    <http pattern="/**/*.woff2" security="none"/>
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/**/*.js" security="none"/>
-    <http pattern="/fw/**/*.*" security="none"/>
+    <http pattern="/**/*.jpg" security="none"/>
+    <http pattern="/**/*.png" security="none"/>
+    <http pattern="/**/*.gif" security="none"/>
 
 	<!-- use-expressions: WebSecurityExpressionRoot
 	access-decision-manager-ref="accessDecisionManager"
+	用use-expressions的话,就不能用accessDecisionManager.
 	 -->
 	<http>
 		<intercept-url pattern="/"				access="permitAll()"/>
 		<intercept-url pattern="/struts*"		access="permitAll()"/>
 		<intercept-url pattern="/error"			access="permitAll()"/>
 		<intercept-url pattern="/default.html"	access="permitAll()"/>
-		<intercept-url pattern="/login*"		access="permitAll()"/>
+		<intercept-url pattern="/login**"		access="permitAll()"/>
 		<intercept-url pattern="/join"			access="isAnonymous()"/>
 		<intercept-url pattern="/hello.html"	access="isAnonymous()"/>
 		<!--
@@ -46,6 +43,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
 		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
 
+        <intercept-url pattern="/user/*"        access="hasRole('USER')"/>
+        <intercept-url pattern="/hr/*"          access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
 		<access-denied-handler error-page="/error?source=access-denied"/>
 
@@ -108,8 +107,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<!--
 	http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#authz-hierarchical-roles
 	http://haohaoxuexi.iteye.com/blog/2247057
-	角色继承
-	 -->
+	角色继承(http中使用表达式时,无法使用该角色继承.)
 	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<beans:constructor-arg name="decisionVoters">
 			<beans:list>
@@ -130,7 +128,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 			</beans:value>
 		</beans:property>
 	</beans:bean>
-	
+     -->
 
 	<!-- Filter used to switch the user context. Note: the switch and exit url must be secured
 		based on the role granted the ability to 'switch' to another user -->

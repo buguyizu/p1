@@ -1,7 +1,8 @@
 package info.yinhua.core.context.security;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,36 +11,26 @@ public enum Authority {
 	STAFF,
 	USER;
 	
-	static List<String> superAuthorities(List<GrantedAuthority> authorities) {
+	static Set<String> superAuthorities(List<GrantedAuthority> authorities) {
 		if (authorities == null) {
 			return null;
 		}
-		List<String> list = new ArrayList<String>();
+		Set<String> set = new TreeSet<String>();
 		for (GrantedAuthority grantedAuthority : authorities) {
-			if (ADMIN.name().equals(grantedAuthority.getAuthority())) {
 
-				if (!list.contains(ADMIN.name())) {
-					list.add(ADMIN.name());
-				}
-				if (!list.contains(STAFF.name())) {
-					list.add(STAFF.name());
-				}
-				if (!list.contains(USER.name())) {
-					list.add(USER.name());
-				}
-			} else if (STAFF.name().equals(grantedAuthority.getAuthority())) {
-				if (!list.contains(STAFF.name())) {
-					list.add(STAFF.name());
-				}
-				if (!list.contains(USER.name())) {
-					list.add(USER.name());
-				}
+			if (grantedAuthority.getAuthority().endsWith(ADMIN.name())) {
+				set.add(ADMIN.name());
+				set.add(STAFF.name());
+				set.add(USER.name());
+
+			} else if (grantedAuthority.getAuthority().endsWith(STAFF.name())) {
+				set.add(STAFF.name());
+				set.add(USER.name());
+
 			} else {
-				if (!list.contains(USER.name())) {
-					list.add(USER.name());
-				}
+				set.add(USER.name());
 			}
 		}
-		return list;
+		return set;
 	}
 }

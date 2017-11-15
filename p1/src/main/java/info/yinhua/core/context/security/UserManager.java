@@ -295,7 +295,7 @@ public class UserManager implements UserDetailsManager {
 	protected final MessageSourceAccessor messages = SpringSecurityMessageSource
 			.getAccessor();
 
-	private String rolePrefix = "";
+	private String rolePrefix = "ROLE_";
 	private boolean usernameBasedPrimaryKey = true;
 	private boolean enableAuthorities = true;
 	private boolean enableGroups;
@@ -429,9 +429,9 @@ public class UserManager implements UserDetailsManager {
 		normalUser.setDepartment(normalUserFromUserQuery.getDepartment());
 		normalUser.setComment(normalUserFromUserQuery.getComment());
 		normalUser.setVersion(normalUserFromUserQuery.getVersion());
-		List<String> authorityList = Authority.superAuthorities(combinedAuthorities);
+		Set<String> authorities = Authority.superAuthorities(combinedAuthorities);
 		// get menu list form db
-		List<TMenu> menuList = tMenuMapper.getList(authorityList);
+		List<TMenu> menuList = tMenuMapper.getList(authorities);
 
 		// generate group-menu list
 		List<TMenu> hMenuList =  new ArrayList<TMenu>();

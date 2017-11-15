@@ -31,7 +31,7 @@ http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-wit
         on m2.f_type = '01'
         and m2.f_code = u.department
         <where>
-            1 = 1
+            u.username != 'admin'
             <if test='username != null and username != ""'>
         	   and u.username = #{username}
             </if>
@@ -77,7 +77,7 @@ http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-wit
         <bind name="_name" value="_parameter.getName() + '%'"/>
         select count(1) from users
         <where>
-            enabled = true
+            username != 'admin'
             <if test='username != null and username != ""'>
                and username = #{username}
             </if>

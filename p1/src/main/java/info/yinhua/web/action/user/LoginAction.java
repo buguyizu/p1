@@ -47,16 +47,22 @@ public class LoginAction extends BaseAction {
 //		SPRING_SECURITY_LAST_EXCEPTION.message
 //		info.yinhua.core.context.security.FailureHandler
 		if (error != null) {
+
 			if (CommonConst.LOGIN_ERROR_1.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_001));
+
 			} else if (CommonConst.LOGIN_ERROR_2.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_001));
+
 			} else if (CommonConst.LOGIN_ERROR_3.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_002));
+
 			} else if (CommonConst.LOGIN_ERROR_4.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_004));
+
 			} else if (CommonConst.LOGIN_ERROR_5.equals(error)) {
 				addActionError(getText(CommonConst.MI_SESSION_001));
+
 			} else if (CommonConst.LOGIN_ERROR_11.equals(error)) {
 				addActionError(getText(CommonConst.ME_LOGIN_011));
 			}
@@ -65,6 +71,7 @@ public class LoginAction extends BaseAction {
 		if (CommonConst.PAGE_SIGNUP.equals(source) && CommonConst.ERROR_0.equals(error)) {
 			addActionMessage(getText(CommonConst.MI_SIGNUP_001, new String[] { u }));
 			return LOGIN;
+
 		} else {
 		
 			//http://stackoverflow.com/questions/26101738/why-is-the-anonymoususer-authenticated-in-spring-security
@@ -74,12 +81,14 @@ public class LoginAction extends BaseAction {
 			//认证失败时保持用户名
 			LOG.debug("name: " + auth.getName());
 			if (auth instanceof AnonymousAuthenticationToken && StringUtils.isEmpty(u)) {
+
 				HttpServletRequest request = ServletActionContext.getRequest();
 				u = (String) request.getSession().getAttribute(CommonConst.KEY_USERNAME);
 				r = (String) request.getSession().getAttribute(CommonConst.KEY_REMEMBER);
 				request.getSession().removeAttribute(CommonConst.KEY_USERNAME);
 				request.getSession().removeAttribute(CommonConst.KEY_REMEMBER);
 				return LOGIN;
+
 			} else {
 				return HOME;
 			}
