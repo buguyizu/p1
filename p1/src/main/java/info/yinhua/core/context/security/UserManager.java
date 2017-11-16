@@ -23,6 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,6 +68,8 @@ public class UserManager implements UserDetailsManager {
 	private TMenuMapper tMenuMapper;
 	@Autowired
 	private TLogService logService;
+	@Autowired
+	protected GrantedAuthoritiesMapper grantedAuthoritiesMapper;
 	
 	// ~ Methods
 	// ========================================================================================================
@@ -290,8 +293,6 @@ public class UserManager implements UserDetailsManager {
 		}
 	}
 	
-	//from JdbcDaoImpl
-
 	protected final MessageSourceAccessor messages = SpringSecurityMessageSource
 			.getAccessor();
 
@@ -307,21 +308,27 @@ public class UserManager implements UserDetailsManager {
 	protected String getRolePrefix() {
 		return rolePrefix;
 	}
+
 	protected boolean getEnableAuthorities() {
 		return enableAuthorities;
 	}
+
 	public void setEnableAuthorities(boolean enableAuthorities) {
 		this.enableAuthorities = enableAuthorities;
 	}
+
 	protected boolean getEnableGroups() {
 		return enableGroups;
 	}
+
 	public void setEnableGroups(boolean enableGroups) {
 		this.enableGroups = enableGroups;
 	}
-	protected void addCustomAuthorities(String username,
-			List<GrantedAuthority> authorities) {
+
+	protected void addCustomAuthorities(String username, List<GrantedAuthority> authorities) {
 	}
+	
+	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		List<UserDetails> users = loadUsersByUsername(username);
@@ -330,7 +337,7 @@ public class UserManager implements UserDetailsManager {
 			logger.debug("Query returned no results for user '" + username + "'");
 
 			throw new UsernameNotFoundException(messages.getMessage(
-					"JdbcDaoImpl.notFound", new Object[] { username },
+					"Username.notFound", new Object[] { username },
 					"Username {0} not found"));
 		}
 
@@ -355,7 +362,7 @@ public class UserManager implements UserDetailsManager {
 					+ "' has no authorities and will be treated as 'not found'");
 
 			throw new UsernameNotFoundException(messages.getMessage(
-					"JdbcDaoImpl.noAuthority", new Object[] { username },
+					"User.noAuthority", new Object[] { username },
 					"User {0} has no GrantedAuthority"));
 		}
 
@@ -429,7 +436,10 @@ public class UserManager implements UserDetailsManager {
 		normalUser.setDepartment(normalUserFromUserQuery.getDepartment());
 		normalUser.setComment(normalUserFromUserQuery.getComment());
 		normalUser.setVersion(normalUserFromUserQuery.getVersion());
-		Set<String> authorities = Authority.superAuthorities(combinedAuthorities);
+		
+		Collection<? extends GrantedAuthority> mapAuthorities = grantedAuthoritiesMapper
+				.mapAuthorities(combinedAuthorities);
+		Set<String> authorities = Authority.getAuthorities(rolePrefix, mapAuthorities);
 		// get menu list form db
 		List<TMenu> menuList = tMenuMapper.getList(authorities);
 

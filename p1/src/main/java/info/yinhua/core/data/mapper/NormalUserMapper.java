@@ -1,13 +1,8 @@
 package info.yinhua.core.data.mapper;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.OBJECT_NOT_EXIST;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import info.yinhua.core.context.security.NormalUser;

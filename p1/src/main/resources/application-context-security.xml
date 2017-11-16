@@ -18,19 +18,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   <!-- <protect-pointcut expression="execution(* com.mycompany.*Service.*(..))" access="ROLE_USER"/> -->
 	</global-method-security>
 
-    <http pattern="/fw/**/*" security="none"/>
+    <http pattern="/fw/**/*"  security="none"/>
 	<http pattern="/**/*.ico" security="none"/>
 	<http pattern="/**/*.css" security="none"/>
-	<http pattern="/**/*.js" security="none"/>
+	<http pattern="/**/*.js"  security="none"/>
     <http pattern="/**/*.jpg" security="none"/>
     <http pattern="/**/*.png" security="none"/>
     <http pattern="/**/*.gif" security="none"/>
 
-	<!-- use-expressions: WebSecurityExpressionRoot
-	access-decision-manager-ref="accessDecisionManager"
-	用use-expressions的话,就不能用accessDecisionManager.
+	<!-- 
+	The base class for expression root objects is SecurityExpressionRoot. This provides some common expressions which are available in both web and method security.
 	 -->
-	<http>
+	<http use-expressions="true" access-decision-manager-ref="accessDecisionManager">
 		<intercept-url pattern="/"				access="permitAll()"/>
 		<intercept-url pattern="/struts*"		access="permitAll()"/>
 		<intercept-url pattern="/error"			access="permitAll()"/>
@@ -45,6 +44,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
         <intercept-url pattern="/user/*"        access="hasRole('USER')"/>
         <intercept-url pattern="/hr/*"          access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/biz/*"         access="hasRole('STAFF')"/>
+        <intercept-url pattern="/site/*"        access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
 		<access-denied-handler error-page="/error?source=access-denied"/>
 
@@ -77,23 +78,27 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	</beans:bean>
 
 	<authentication-manager alias="authenticationManager">
+	    <!-- DaoAuthenticationProvider -->
 		<authentication-provider user-service-ref="userManager">
-			<!-- TODO -->
+			<!-- TODO md5 plaintext
 			<password-encoder hash="plaintext"/>
+            <password-encoder ref="bcryptEncoder"/>
+			 -->
+            <password-encoder hash="plaintext"/>
 		</authentication-provider>
 	</authentication-manager>
 
-	<!-- break at JdbcDaoImpl.loadUserByUsername -->
 	<beans:bean id="userManager" class="info.yinhua.core.context.security.UserManager">
 		<beans:property name="enableAuthorities" value="true" />
 		<beans:property name="enableGroups" value="false" />
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 	</beans:bean>
+	
+	<beans:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 	<!-- Automatically receives AuthenticationEvent messages -->
 	<beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
-	
-	
+
 	<beans:bean id="runAsManager"
 	    class="org.springframework.security.access.intercept.RunAsManagerImpl">
 	   <beans:property name="key" value="my_run_as_password"/>
@@ -101,23 +106,42 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 	<beans:bean id="runAsAuthenticationProvider"
 	    class="org.springframework.security.access.intercept.RunAsImplAuthenticationProvider">
-	<beans:property name="key" value="my_run_as_password"/>
+	   <beans:property name="key" value="my_run_as_password"/>
 	</beans:bean>
 	
 	<!--
 	http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#authz-hierarchical-roles
 	http://haohaoxuexi.iteye.com/blog/2247057
-	角色继承(http中使用表达式时,无法使用该角色继承.)
+	如果http的use-expressions为真的话, accessDecisionManager中用的是WebExpressionVoter, 而不是roleVoter, 这样roleVoter中的角色继承将不可用.
+    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+    </beans:bean>
+	 -->
 	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<beans:constructor-arg name="decisionVoters">
 			<beans:list>
-				<beans:ref bean="roleVoter"/>
+				<beans:ref bean="webExpressionVoter"/>
 			</beans:list>
 		</beans:constructor-arg>
 	</beans:bean>
-	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
-		<beans:constructor-arg ref="roleHierarchy" />
-	</beans:bean>
+
+    <beans:bean id="webExpressionVoter" class="org.springframework.security.web.access.expression.WebExpressionVoter">
+        <beans:property name="expressionHandler" ref="expressionHandler" />
+    </beans:bean>
+
+    <beans:bean id="expressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+        <beans:property name="roleHierarchy" ref="roleHierarchy" />
+    </beans:bean>
+
+    <beans:bean id="grantedAuthoritiesMapper" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper">
+        <beans:constructor-arg name="roleHierarchy" ref="roleHierarchy" />
+    </beans:bean>
+
+    <!--
+    <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+    </beans:bean>
+     -->
 	<beans:bean id="roleHierarchy"
 			class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<beans:property name="hierarchy">
@@ -128,7 +152,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 			</beans:value>
 		</beans:property>
 	</beans:bean>
-     -->
+
 
 	<!-- Filter used to switch the user context. Note: the switch and exit url must be secured
 		based on the role granted the ability to 'switch' to another user -->

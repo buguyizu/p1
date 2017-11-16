@@ -30,11 +30,13 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	// ~ Instance fields
 	// ================================================================================================
 	private String password;
 	private final String username;
 	private final Set<GrantedAuthority> authorities;
+	private Set<GrantedAuthority> mapAuthorities;
 	private List<Map<String, List<TMenu>>> menuList;
 	private final boolean accountNonExpired;
 	private final boolean accountNonLocked;
@@ -69,6 +71,7 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 		this.credentialsNonExpired = credentialsNonExpired;
 		this.accountNonLocked = accountNonLocked;
 		this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
+
 	}
 
 	// ~ Methods
@@ -76,6 +79,14 @@ public class NormalUser extends BaseModel implements UserDetails, CredentialsCon
 
 	public Collection<GrantedAuthority> getAuthorities() {
 		return authorities;
+	}
+
+	public void setMapAuthorities(Set<GrantedAuthority> mapAuthorities) {
+		this.mapAuthorities = mapAuthorities;
+	}
+
+	public Set<GrantedAuthority> getMapAuthorities() {
+		return mapAuthorities;
 	}
 
 	public void setMenuList(List<Map<String, List<TMenu>>> menuList) {
