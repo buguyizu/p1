@@ -29,6 +29,7 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +71,9 @@ public class UserManager implements UserDetailsManager {
 	private TLogService logService;
 	@Autowired
 	protected GrantedAuthoritiesMapper grantedAuthoritiesMapper;
-	
+	@Autowired
+	protected PasswordEncoder bcryptEncoder;
+
 	// ~ Methods
 	// ========================================================================================================
 
@@ -93,7 +96,7 @@ public class UserManager implements UserDetailsManager {
 		validateUserDetails(user);
 
 		NormalUser normalUser = new NormalUser(user.getUsername(),
-				user.getPassword(),
+				bcryptEncoder.encode(user.getPassword()),
 				user.isEnabled(),
 				user.isAccountNonExpired(),
 				user.isCredentialsNonExpired(),
@@ -178,7 +181,9 @@ public class UserManager implements UserDetailsManager {
 
 	private void insertUserAuthorities(UserDetails user) {
 		for (GrantedAuthority auth : user.getAuthorities()) {
-			userMapper.insertRoles(user.getUsername(), auth.getAuthority());
+
+			String authority = Authority.getAuthority(auth.getAuthority());
+			userMapper.insertRoles(user.getUsername(), authority);
 		}
 	}
 
@@ -225,11 +230,11 @@ public class UserManager implements UserDetailsManager {
 
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 					username, oldPassword));
-		}
-		else {
+		} else {
 			logger.debug("No authentication manager set. Password won't be re-checked.");
 		}
 
+		newPassword = bcryptEncoder.encode(newPassword);
 		logger.debug("Changing password for user '" + username + "'");
 		userMapper.changePassword(username, newPassword);
 
@@ -327,7 +332,7 @@ public class UserManager implements UserDetailsManager {
 
 	protected void addCustomAuthorities(String username, List<GrantedAuthority> authorities) {
 	}
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
@@ -368,10 +373,7 @@ public class UserManager implements UserDetailsManager {
 
 		return createUserDetails(username, user, dbAuths);
 	}
-	/**
-	 * Executes the SQL <tt>usersByUsernameQuery</tt> and returns a list of UserDetails
-	 * objects. There should normally only be one matching user.
-	 */
+
 	protected List<UserDetails> loadUsersByUsername(String username) {
 		List<Map<String, Object>> users = userMapper.getUsers(username);
 		List<UserDetails> userList = new ArrayList<UserDetails>();
@@ -409,7 +411,11 @@ public class UserManager implements UserDetailsManager {
 		List<GrantedAuthority> rolesList = new ArrayList<GrantedAuthority>();
 		if (roles != null) {
 			for (Map<String, Object> role : roles) {
-				rolesList.add(new SimpleGrantedAuthority(rolePrefix + (String) role.get("AUTHORITY")));
+				String authority = (String) role.get("AUTHORITY");
+				if (!authority.startsWith(rolePrefix)) {
+					authority = rolePrefix + authority;
+				}
+				rolesList.add(new SimpleGrantedAuthority(authority));
 			}
 		}
 		

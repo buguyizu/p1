@@ -102,7 +102,7 @@ public class UserDwr {
 			UserDetails user = userManager.loadUserByUsername(username);
 			
 			if ((((NormalUser) user).getVersion().toString()).equals(version)) {
-//				userManager.deleteUser(username);
+				userManager.deleteUser(username);
 				map.put("cd", "0");
 				map.put("msg", Messages.getString(CommonConst.MI_USER_003, username));
 			} else {

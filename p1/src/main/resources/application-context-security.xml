@@ -44,6 +44,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
         <intercept-url pattern="/user/*"        access="hasRole('USER')"/>
         <intercept-url pattern="/hr/*"          access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/dwr/call/plaincall/userdwr.*"          access="hasRole('ADMIN')"/>
         <intercept-url pattern="/biz/*"         access="hasRole('STAFF')"/>
         <intercept-url pattern="/site/*"        access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
@@ -80,11 +81,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	<authentication-manager alias="authenticationManager">
 	    <!-- DaoAuthenticationProvider -->
 		<authentication-provider user-service-ref="userManager">
-			<!-- TODO md5 plaintext
+			<!-- md5 plaintext
 			<password-encoder hash="plaintext"/>
-            <password-encoder ref="bcryptEncoder"/>
 			 -->
-            <password-encoder hash="plaintext"/>
+            <password-encoder ref="bcryptEncoder"/>
 		</authentication-provider>
 	</authentication-manager>
 
@@ -93,7 +93,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<beans:property name="enableGroups" value="false" />
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 	</beans:bean>
-	
+
 	<beans:bean name="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 	<!-- Automatically receives AuthenticationEvent messages -->

@@ -2,6 +2,8 @@ package info.yinhua.core;
 
 import java.util.Locale;
 
+import info.yinhua.core.context.security.Authority;
+
 public interface CommonConst {
 	
 	//for message bundle
@@ -89,8 +91,8 @@ public interface CommonConst {
 	public static final String PARAM_SOURCE = "source";
 	
 	//defalut role (authority)
-	public static final String ROLE_USER = "USER";
-	public static final String USER_SYSTEM = "system";
+	public static final String ROLE_USER = Authority.USER.name();
+	public static final String USER_SYSTEM = Authority.ADMIN.name();
 	
 	public static final String PAGE_LOGIN = "login";
 	public static final String PAGE_SIGNUP = "signup";
