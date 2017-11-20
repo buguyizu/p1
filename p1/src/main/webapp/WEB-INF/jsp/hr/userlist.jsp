@@ -280,19 +280,19 @@ String base = request.getScheme()+"://"+request.getServerName()+":"+request.getS
             </div>
           </s:form>
           <div class="pull-right">
-            <button type="button" class="btn btn-primary" onclick="searchData();"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><s:text name="search"/></button>
+            <button type="button" class="btn btn-primary" onclick="searchData();"><span class="glyphicon glyphicon-search"></span><s:text name="search"/></button>
             <button type="button" class="btn btn-default" ><s:text name="clear"/></button>
           </div>
           <h3 class="sub-header" id="h"><s:text name="list.info"/></h3>
           
           <div class="table-responsive" id="d">
             <div id="temp" style="display: none;">
-	         <div class="btn-group" role="group" aria-label="...">
+	         <div class="btn-group" role="group">
 	             <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
 	             <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-remove"></span></button>
 	         </div>
 	        </div>
-            <table id="t" class="table table-striped table-bordered">
+            <table id="t" class="table table-striped table-bordered" style="width: 100%;">
               <thead>
                 <tr>
                   <th><s:text name="username"/></th>
@@ -311,7 +311,7 @@ String base = request.getScheme()+"://"+request.getServerName()+":"+request.getS
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                     <h4 class="modal-title"><s:text name="user.edit"/></h4>
                   </div>
                   <div class="modal-body">
@@ -379,7 +379,7 @@ String base = request.getScheme()+"://"+request.getServerName()+":"+request.getS
 			  <div class="modal-dialog modal-sm" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 			        <h4 class="modal-title"><s:text name="user.remove"/></h4>
 			      </div>
 			      <div class="modal-body">

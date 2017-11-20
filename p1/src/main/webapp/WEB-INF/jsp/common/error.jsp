@@ -11,8 +11,9 @@
 <s:text name="error.page" />
 <s:text name="error.cd" />
  --%>
-    <div class="container">
+	<div class="container">
 	<dl>
+<%-- param["type"], is "error" in action --%>
 		<dt>error code： ${param.type}</dt>
 		<dd>
 			<c:choose>
@@ -28,12 +29,15 @@
 				<c:when test="${param.type eq 'timeout'}">
 					会话已结束！
 				</c:when>
+				<c:when test="${param.type eq 'denied'}">
+					拒绝访问！
+				</c:when>
 				<c:otherwise>
 				</c:otherwise>
 			</c:choose>
 		</dd>
 	</dl>
-    <a href="<%=request.getContextPath()%>/home">home</a>
+	<a href="<%=request.getContextPath()%>/home">home</a>
 	</div>
 </body>
 </html>

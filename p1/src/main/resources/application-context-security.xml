@@ -40,7 +40,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<!--
 		<intercept-url pattern="/j_spring_security_check" access="isAnonymous()"/>
 		<intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
-		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/> -->
+		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/>
+		 -->
 
         <intercept-url pattern="/user/*"        access="hasRole('USER')"/>
         <intercept-url pattern="/hr/*"          access="hasRole('ADMIN')"/>
@@ -48,7 +49,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <intercept-url pattern="/biz/*"         access="hasRole('STAFF')"/>
         <intercept-url pattern="/site/*"        access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
-		<access-denied-handler error-page="/error?source=access-denied"/>
+
+        <!-- 使用servlet路径会出错 -->
+        <access-denied-handler error-page="/WEB-INF/jsp/common/error.jsp?type=denied&amp;source=else"/>
 
 		<!--  always-use-default-target为真时, 跳转default-target-url(默认为/), 否则调用SavedRequestAwareAuthenticationSuccessHandler取savedRequest中的url. -->
 		<form-login always-use-default-target='false' login-page="/login?source" login-processing-url="/auth"
@@ -65,7 +68,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 			<concurrency-control max-sessions="2" expired-url="/login?error=4" error-if-maximum-exceeded="true" session-registry-alias="sessionRegistry" />
 		</session-management>
 	</http>
-	
+
 	<!-- 
 	http://stackoverflow.com/questions/1373407/how-to-display-custom-error-message-in-jsp-for-spring-security-auth-exception
 	http://stackoverflow.com/questions/26484440/how-to-customize-spring-security-last-exception-message-according-to-the-error-i

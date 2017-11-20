@@ -24,7 +24,7 @@ public class LoginAction extends BaseAction {
 	private String u;
 	private String p;
 	private String r;
-	private String source;
+//	private String source;
 	private String exception;
 
 	@Override
@@ -120,13 +120,13 @@ public class LoginAction extends BaseAction {
 		this.r = r;
 	}
 
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
+//	public String getSource() {
+//		return source;
+//	}
+//
+//	public void setSource(String source) {
+//		this.source = source;
+//	}
 
 	public String getException() {
 		return exception;
