@@ -19,6 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	</global-method-security>
 
     <http pattern="/fw/**/*"  security="none"/>
+    <http pattern="/webjars/**/*"  security="none"/>
 	<http pattern="/**/*.ico" security="none"/>
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/**/*.js"  security="none"/>
@@ -43,11 +44,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/>
 		 -->
 
-        <intercept-url pattern="/user/*"        access="hasRole('USER')"/>
-        <intercept-url pattern="/hr/*"          access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/user/**"       access="hasRole('USER')"/>
+        <intercept-url pattern="/hr/**"         access="hasRole('ADMIN')"/>
         <intercept-url pattern="/dwr/call/plaincall/userdwr.*"          access="hasRole('ADMIN')"/>
-        <intercept-url pattern="/biz/*"         access="hasRole('STAFF')"/>
-        <intercept-url pattern="/site/*"        access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/biz/**"        access="hasRole('STAFF')"/>
+        <intercept-url pattern="/site/**"       access="hasRole('ADMIN')"/>
 		<intercept-url pattern="/**"			access="isAuthenticated()"/>
 
         <!-- 使用servlet路径会出错 -->
