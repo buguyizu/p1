@@ -10,22 +10,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="basic">
-    <link rel="icon" href="./img/favicon.ico">
     <title><s:text name="app.nm" />-<decorator:title default="welcome" /></title>
-    <decorator:head/>
-    <c:set var="contextPath" value="<%=request.getContextPath() %>" scope="request"></c:set>
-    <link rel="icon" href="${contextPath}/img/favicon.ico">
+    <c:set var="base" value="<%=request.getContextPath() %>" scope="session"></c:set>
+    <link rel="icon" href="${base}/img/favicon.ico">
     <%@ include file="./fw-basic-css.jsp" %>
+    <script src="${base}/js/require.config.js"></script>
+    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
+    <decorator:head/>
     <s:head />
 </head>
 <body>
     <nav id="top" class="navbar navbar-default navbar-static-top">
         <div class="container">
 	        <div class="navbar-header">
-                <a class="navbar-brand" href="${contextPath}/home">
-                    <img alt="Brand" src="${contextPath}/img/favicon.ico">
+                <a class="navbar-brand" href="${base}/home">
+                    <img alt="Brand" src="${base}/img/favicon.ico">
                 </a>
-	            <a href="${contextPath}/home" class="navbar-brand"><s:text name="app.nm" /></a>
+	            <a href="${base}/home" class="navbar-brand"><s:text name="app.nm" /></a>
 	        </div>
         </div>
     </nav>
@@ -39,6 +40,5 @@ String sessiondId = session.getId();
             <p class="text-muted">session: <%=sessiondId %></p>
         </div>
     </footer>
-    <%@ include file="./fw-basic-js.jsp" %>
 </body>
 </html>

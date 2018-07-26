@@ -7,57 +7,57 @@
 
 	<!-- https://struts.apache.org/docs/tag-reference.html -->
 	<!-- struts2 默认的配置文件 default.properties.位置在 struts2-core-2.x.x.jar 的 org.apache.struts2 包 下面的 -->
-	
+
 	<!-- 设置浏览器是否缓存静态内容，默认值为true（生产环境下使用），开发阶段最好关闭 -->
 	<constant name="struts.serve.static.browserCache" value="false" />
-	
+
 	<!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认值为false（生产环境下使用），开发阶段最好打开 -->
 	<constant name="struts.configuration.xml.reload" value="true" />
-	
+
 	<!-- 开发模式下使用，这样可以打印出更详细的错误信息 -->
 	<constant name="struts.devMode" value="true" />
-	
+
 	<!-- 默认的视图主题 -->
 	<constant name="struts.ui.theme" value="simple" />
-	
+
 	<!-- 该属性指定Struts 2中的action由Spring容器创建 -->
 	<constant name="struts.objectFactory" value="spring" />
-	
+
 	<!-- 该属性指定Struts 2应用所需要的国际化资源文件，如果有多份国际化资源文件，则多个资源文件的文件名以英文逗号（,）隔开。 -->
 	<constant name="struts.custom.i18n.resources" value="global,message" />
-	
+
 	<constant name="struts.locale" value="zh_CN" />
-	
+
 	<!-- http://stackoverflow.com/questions/12607075/struts2-action-extension-causing-css-javascript-and-struts-dojo-to-break -->
 	<constant name="struts.action.extension" value=","/>
-	
+
 	<constant name="struts.action.excludePattern" value="/dwr,/dwr/.*,/sse/.*"/>
-	
+
 	<package name="default" extends="struts-default" namespace="/">
-        <result-types>
-		    <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult"/>
 		</result-types>
 		<interceptors>
-            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
-        </interceptors>
+			<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+		</interceptors>
 		<global-results>
 			<result type="redirectAction" name="login">
-                <param name="namespace">/</param>
-                <param name="actionName">login</param>
-                <param name="source">${source}</param>
-                <param name="error">${error}</param>
-                <param name="u">${user.username}</param>
+				<param name="namespace">/</param>
+				<param name="actionName">login</param>
+				<param name="source">${source}</param>
+				<param name="error">${error}</param>
+				<param name="u">${user.username}</param>
 			</result>
 			<result type="redirectAction" name="home">
-                <param name="namespace">/</param>
-                <param name="actionName">home</param>
+				<param name="namespace">/</param>
+				<param name="actionName">home</param>
 			</result>
 			<result type="redirectAction" name="exception">
-                <param name="namespace">/</param>
-                <param name="actionName">error</param>
-                <param name="error">exception</param>
-                <param name="source">${source}</param>
-                <param name="exception">${exception}</param>
+				<param name="namespace">/</param>
+				<param name="actionName">error</param>
+				<param name="error">exception</param>
+				<param name="source">${source}</param>
+				<param name="exception">${exception}</param>
 			</result>
 		</global-results>
 
@@ -65,16 +65,16 @@
 			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
 		</global-exception-mappings>
 	</package>
-	
+
 	<package name="home" extends="default" namespace="/">
 		<default-action-ref name="defaultPage"></default-action-ref>
-		
+
 		<action name="defaultPage">
 			<result type="redirectAction">
-                <param name="namespace">/</param>
-                <param name="actionName">error</param>
-                <param name="error">0</param>
-                <param name="source">root</param>
+				<param name="namespace">/</param>
+				<param name="actionName">error</param>
+				<param name="error">0</param>
+				<param name="source">root</param>
 			</result>
 		</action>
 		<action name="error" class="info.yinhua.web.action.user.LoginAction" method="error">
@@ -94,55 +94,74 @@
 			<result>/WEB-INF/jsp/index.jsp</result>
 		</action>
 	</package>
-	
+
 	<package name="user" extends="default" namespace="/user">
 		<default-action-ref name="homepage"></default-action-ref>
-        <action name="homepage">
-            <result type="redirectAction">
-                <param name="actionName">homepage</param>
-            </result>
-        </action>
-        <action name="homepage" class="info.yinhua.web.action.user.UserAction" method="init">
-            <result name="input">/WEB-INF/jsp/user/homepage.jsp</result>
-            <result>/WEB-INF/jsp/user/homepage.jsp</result>
-        </action>
+		<action name="homepage">
+			<result type="redirectAction">
+				<param name="actionName">homepage</param>
+			</result>
+		</action>
+		<action name="homepage" class="info.yinhua.web.action.user.UserAction" method="init">
+			<result>/WEB-INF/jsp/user/homepage.jsp</result>
+		</action>
 		<action name="info" class="info.yinhua.web.action.user.UserAction" method="init">
-            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
+			<result name="input">/WEB-INF/jsp/user/info.jsp</result>
 			<result>/WEB-INF/jsp/user/info.jsp</result>
 		</action>
-        <action name="update" class="info.yinhua.web.action.user.UserAction" method="update">
-            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
-            <result type="redirectAction">
-                <param name="actionName">info</param>
-                <param name="source">4</param>
-            </result>
-        </action>
+		<action name="update" class="info.yinhua.web.action.user.UserAction" method="update">
+			<result name="input">/WEB-INF/jsp/user/info.jsp</result>
+			<result type="redirectAction">
+				<param name="actionName">info</param>
+				<param name="source">4</param>
+			</result>
+		</action>
 		<action name="changePassword" class="info.yinhua.web.action.user.UserAction" method="changePassword">
-            <result name="input">/WEB-INF/jsp/user/info.jsp</result>
-            <result type="redirectAction">
-                <param name="actionName">info</param>
-                <param name="source">5</param>
-            </result>
-        </action>
+			<result name="input">/WEB-INF/jsp/user/info.jsp</result>
+			<result type="redirectAction">
+				<param name="actionName">info</param>
+				<param name="source">5</param>
+			</result>
+		</action>
 	</package>
-    
-    <package name="hr" extends="default" namespace="/hr">
-        <default-action-ref name="init"></default-action-ref>
-        <global-results>
-            <result name="error">/WEB-INF/jsp/hr/userlist.jsp</result>
-            <result name="success">/WEB-INF/jsp/hr/userlist.jsp</result>
-        </global-results>
-        <action name="init" class="info.yinhua.web.action.hr.UserListAction" method="init" />
-        <action name="search" class="info.yinhua.web.action.hr.UserListAction" method="search">
-            <result type="json">
-                <param name="root">
-                    dt
-                </param>
-            </result>
-        </action>
-        <action name="list" class="info.yinhua.web.action.hr.UserListAction" method="list" />
-    </package>
-	
+
+	<package name="user-info" extends="user" namespace="/user/info">
+		<default-action-ref name="info"></default-action-ref>
+	</package>
+	<package name="user-setting" extends="user" namespace="/user/setting">
+		<default-action-ref name="setting"></default-action-ref>
+		<action name="setting" class="info.yinhua.web.action.user.UserAction">
+			<result>/WEB-INF/jsp/user/setting.jsp</result>
+		</action>
+	</package>
+
+	<package name="hr" extends="default" namespace="/hr">
+		<default-action-ref name="init"></default-action-ref>
+		<global-results>
+			<result name="error">/WEB-INF/jsp/hr/userlist.jsp</result>
+			<result name="success">/WEB-INF/jsp/hr/userlist.jsp</result>
+		</global-results>
+		<action name="init" class="info.yinhua.web.action.hr.UserListAction" method="init" />
+		<action name="search" class="info.yinhua.web.action.hr.UserListAction" method="search">
+			<result type="json">
+				<param name="root">
+					dt
+				</param>
+			</result>
+		</action>
+		<action name="list" class="info.yinhua.web.action.hr.UserListAction" method="list" />
+	</package>
+
+	<package name="hr-userlist" extends="hr" namespace="/hr/userlist">
+		<default-action-ref name="list"></default-action-ref>
+	</package>
+	<package name="hr-authority" extends="hr" namespace="/hr/authority">
+		<default-action-ref name="setting"></default-action-ref>
+		<action name="setting" class="info.yinhua.web.action.user.UserAction">
+			<result>/WEB-INF/jsp/hr/authority.jsp</result>
+		</action>
+	</package>
+
 	<package name="bom" extends="default" namespace="/bom">
 		<default-action-ref name="init"></default-action-ref>
 		<global-results>

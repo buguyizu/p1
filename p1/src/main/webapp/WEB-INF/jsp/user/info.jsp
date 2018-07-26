@@ -14,23 +14,29 @@
             margin-bottom: 15px;
         }
     </style>
+    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
     <script type="text/javascript">
-        function pageLoad() {
-            switch ("${source}") {
-            case "2":
-            	$('#tabs li:eq(1) a').tab('show')
-				break;
-            case "3":
-                $('#tabs li:eq(2) a').tab('show')
-                break;
-			default:
-                $('#tabs li:eq(0) a').tab('show')
-				break;
-			}
-        }
-        function permit() {
-        	notify('<s:text name="notification.title"/>', { icon: "../img/favicon.ico", body: '<s:text name="notification.msg"/>' });
-        }
+        require(['jquery', 'sse'], function($, sse) {
+            function pageLoad() {
+                switch ("${source}") {
+                case "2":
+                    $('#tabs li:eq(1) a').tab('show')
+                    break;
+                case "3":
+                    $('#tabs li:eq(2) a').tab('show')
+                    break;
+                default:
+                    $('#tabs li:eq(0) a').tab('show')
+                    break;
+                }
+            }
+	        function permit() {
+	        	sse.notify('<s:text name="notification.title"/>',
+	        		{ icon: "../img/favicon.ico", body: '<s:text name="notification.msg"/>' });
+	        }
+            this.pageLoad = pageLoad;
+            this.permit = permit;
+        });
     </script>
 </head>
 <body>

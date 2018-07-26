@@ -16,26 +16,24 @@
 		<meta name="author" content="">
 		<sec:csrfMetaTags />
 		<title><s:text name="app.nm"/>-<decorator:title/></title>
-<%
-String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-
-//Authentication auth = (Authentication) request.getUserPrincipal();
-//User user = (User) auth.getPrincipal();
-String sessiondId = session.getId();
-%>
-		<c:set var="base" value="<%=base %>" scope="request"></c:set>
+<%--
+	String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+	Authentication auth = (Authentication) request.getUserPrincipal();
+	User user = (User) auth.getPrincipal();
+--%>
 		<link rel="icon" href="${base}/img/favicon.ico">
         <s:head />
-        <!-- http://www.w3schools.com/tags/tag_base.asp
-        <base href="${base}"> -->
+        <%-- http://www.w3schools.com/tags/tag_base.asp
+        <base href="${base}"> --%>
         <%@ include file="./fw-front.jsp" %>
 		<link href="${base}/css/custom.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" charset="utf-8" src="${base}/js/common.js"></script>
-        <script type="text/javascript">
-        window.addEventListener("load", listener, false);
-        </script>
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
+        <script type="text/javascript">
+        require(['sse'], function(sse) {
+            window.addEventListener("load", sse.listener, false);
+        });
+        </script>
 	</head>
 	<body>
 		<nav id="top" class="navbar navbar-default navbar-static-top">
@@ -75,10 +73,10 @@ String sessiondId = session.getId();
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>${user.username}<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-header"><s:text name="private"/></li>
-								<li><a href="${base}/user/msg"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><s:text name="message"/></a></li>
-                                <li><a href="${base}/user/info?source=2"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
-								<li><a href="${base}/user/info?source=3"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
-								<li><a href="javascript:void(0);" onclick="logout('<c:url value="logout"/>');">
+								<li><a href="${base}/user/homepage/"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><s:text name="message"/></a></li>
+                                <li><a href="${base}/user/info/?source=2"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><s:text name="info.upate"/></a></li>
+								<li><a href="${base}/user/info/?source=3"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><s:text name="password.change"/></a></li>
+								<li><a href="javascript:void(0);" onclick="logout();">
 									<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><s:text name="logout"/></a>
 									<div style="display: none;">
 									<form id="f" action='${base}/<c:url value="logout"/>' method="post" class="navbar-form navbar-right">
@@ -97,11 +95,33 @@ String sessiondId = session.getId();
 			</div>
 		</nav>
 		<decorator:body />
+        <div style="display: none;">
+          <span id="msg1"><s:text name="MI-SESSION-001"/></span>
+          <span id="msg2"><s:text name="MW-USER-001"/></span>
+          <span id="msg3"><s:text name="MC-USER-001"/></span>
+          <span id="dt-lan">
+{
+    "emptyTable": "表格无数据",
+    "info": "总件数：_TOTAL_ 总页数：_PAGES_",
+    "infoEmpty": "显示无数据",
+    "lengthMenu": "每页件数： _MENU_",
+    "search": "搜索：",
+    "processing": "处理中...",
+    "paginate": {
+        "first": "|&lt;",
+        "last": "&gt;|",
+        "next": "&raquo;",
+        "previous": "&laquo;"
+    },
+    "zeroRecords": "无匹配数据"
+}
+          </span>
+        </div>
 		<footer class="footer">
 			<div class="container">
 				<p><s:text name="statement.copyright"/></p>
 				<p><a href="#top"><s:text name="top.go"/></a></p>
-				<p class="text-muted">session: <%=sessiondId %></p>
+				<p class="text-muted">session: <%=session.getId() %></p>
 			</div>
 		</footer>
 	</body>

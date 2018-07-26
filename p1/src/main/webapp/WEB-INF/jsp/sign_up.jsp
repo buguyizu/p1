@@ -11,10 +11,10 @@
         }
     </style>
     <script type="text/javascript">
-    function pageLoad() {
-    	$("[name='user.username']" ).attr('maxlength', 10);
-        $("[name='user.password']" ).attr('maxlength', 10);
-        $("[name='user.password2']").attr('maxlength', 10);
+    this.pageLoad = function() {
+    	$("[name='user.username']" ).attr('maxlength', 10).prop('required', true);
+        $("[name='user.password']" ).attr('maxlength', 10).prop('required', true);
+        $("[name='user.password2']").attr('maxlength', 10).prop('required', true);
         $("[name='user.idNumber']" ).attr('maxlength', 10);
         $("[name='user.code']"     ).attr('maxlength', 10);
         $("[name='user.name']"     ).attr('maxlength', 10);

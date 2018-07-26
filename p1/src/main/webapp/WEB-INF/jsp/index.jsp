@@ -1,9 +1,11 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" %>
+<%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>${action.getText("homepage")}</title>
+<script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
 </head>
 <body>
     <div class="jumbotron">

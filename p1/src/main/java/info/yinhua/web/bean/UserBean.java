@@ -7,6 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserBean implements UserDetails {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8669528106307727073L;
 	private String username;
 	private String password;
 	private String password2;

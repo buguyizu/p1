@@ -2,10 +2,6 @@
 <%@ taglib prefix='c' uri='http://java.sun.com/jstl/core_rt' %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <div class="col-sm-3 col-md-2 sidebar">
-<%
-String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
-%>
-<c:set var="base" value="<%=base %>" scope="request"></c:set>
 <c:set var="index" value='<%=request.getParameter("index") %>' scope="request"></c:set>
 <!-- 
   <ul class="nav nav-sidebar">

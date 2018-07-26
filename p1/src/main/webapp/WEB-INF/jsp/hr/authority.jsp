@@ -19,16 +19,16 @@
           margin: -8px;
         }
     </style>
-    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/hr/userlist.js"></script>
+    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/hr/authority.js"></script>
 </head>
 <body>
     <div class="container-fluid">
       <div class="row">
         <jsp:include page="../menu_side.jsp">
-            <jsp:param name="index" value="21"/>
+            <jsp:param name="index" value="22"/>
         </jsp:include>
         <div class="col-sm-9 col-md-10 main">
-          <h3 class="page-header"><s:text name="user.manager"/></h3>
+          <h3 class="page-header"><s:text name="authority.manager"/></h3>
           <div class="alert alert-danger" role="alert" style="display: none;">
             <p>test</p>
           </div>
@@ -87,10 +87,10 @@
           
           <div class="table-responsive" id="d">
             <div id="temp" style="display: none;">
-	          <div class="btn-group" role="group">
-	            <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
-	            <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-remove"></span></button>
-	          </div>
+	         <div class="btn-group" role="group">
+	             <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
+	             <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-remove"></span></button>
+	         </div>
 	        </div>
             <table id="t" class="table table-striped table-bordered" style="width: 100%;">
               <thead>
