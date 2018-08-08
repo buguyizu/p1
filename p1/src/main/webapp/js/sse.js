@@ -32,7 +32,7 @@ define(['eventsource'], function(eventsource) {
 	//http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/
 	//https://github.com/byjg/jquery-sse
 	//https://github.com/jetty-project/jetty-eventsource-servlet
-	function listener() {
+	(function listener() {
 		/*
 		var es = new EventSource('events');
 		es.onmessage = function(e) {
@@ -54,10 +54,9 @@ define(['eventsource'], function(eventsource) {
 			console.info("error");
 			eventSource.close();
 		};
-	}
+	})();
 
 	return {
-		notify:   notify,
-		listener: listener
+		notify:   notify
 	};
 });

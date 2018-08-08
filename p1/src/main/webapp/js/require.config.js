@@ -14,7 +14,8 @@ var require = {
 		'datatables.net':   'datatables/1.10.19/js/jquery.dataTables',
 		datatables:       'datatables/1.10.19/js/dataTables.bootstrap',
 		eventsource: '../fw/eventsource/eventsource',
-		sse:         '../js/sse'
+		sse:         '../js/sse',
+		base:         '../js/base'
 	},
 	map: {
 		'*': {

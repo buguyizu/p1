@@ -1,19 +1,56 @@
 require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, bootstrap, dn, datatables) {
 
-    this.dt_lan = JSON.parse($('#dt-lan').text());
-    this.msgs = {
-		session_001i: $('#msg1').text(),
-		user_001w: $('#msg2').text(),
-		user_001c: $('#msg3').text()
-    };
+/*{
+	"emptyTable": "表格无数据",
+	"info": "总件数：_TOTAL_ 总页数：_PAGES_",
+	"infoEmpty": "显示无数据",
+	"lengthMenu": "每页件数： _MENU_",
+	"search": "搜索：",
+	"processing": "处理中...",
+	"paginate": {
+		"first": "|&lt;",
+		"last": "&gt;|",
+		"next": "&raquo;",
+		"previous": "&laquo;"
+	},
+	"zeroRecords": "无匹配数据"
+}*/
+	
+	var dt_text = [
+		decodeURIComponent("%E8%A1%A8%E6%A0%BC%E6%97%A0%E6%95%B0%E6%8D%AE"),
+		decodeURIComponent("%E6%80%BB%E4%BB%B6%E6%95%B0%EF%BC%9A_TOTAL_%20%E6%80%BB%E9%A1%B5%E6%95%B0%EF%BC%9A_PAGES_"),
+		decodeURIComponent("%E6%98%BE%E7%A4%BA%E6%97%A0%E6%95%B0%E6%8D%AE"),
+		decodeURIComponent("%E6%AF%8F%E9%A1%B5%E4%BB%B6%E6%95%B0%EF%BC%9A%20_MENU_"),
+		decodeURIComponent("%E6%90%9C%E7%B4%A2%EF%BC%9A"),
+		decodeURIComponent("%E5%A4%84%E7%90%86%E4%B8%AD..."),
+		decodeURIComponent("%E6%97%A0%E5%8C%B9%E9%85%8D%E6%95%B0%E6%8D%AE")
+	],
+	dt_lan = {
+		"emptyTable": dt_text[0],
+		"info":       dt_text[1],
+		"infoEmpty":  dt_text[2],
+		"lengthMenu": dt_text[3],
+		"search":     dt_text[4],
+		"processing": dt_text[5],
+		"paginate": {
+			"first": "|&lt;",
+			"last": "&gt;|",
+			"next": "&raquo;",
+			"previous": "&laquo;"
+		},
+		"zeroRecords": dt_text[6]
+	},
+	msgs = {
+		session_001i: $('#msgs span').eq(0).text(),
+		user_001w: $('#msgs span').eq(1).text(),
+		user_001c: $('#msgs span').eq(2).text()
+	},
+	table = null;
 
 	$(document).ready(function() {
-		if (typeof pageLoad === 'function') {
-			pageLoad();
-		}
+		pageLoad();
 	});
 
-    var table = null;
     function pageLoad() {
         //https://datatables.net/manual/server-side
         //https://datatables.net/reference/option/language
@@ -23,7 +60,7 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
             "columnDefs": [
                 { "searchable": false, "targets": "_all" }
             ],
-            "language": this.dt_lan,
+            "language": dt_lan,
             "destroy": true,
             "searching": false,
             "processing": true,
@@ -36,7 +73,7 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
 
         $('#t').on('error.dt', function ( e, settings, techNote, message ) {
             console.log( 'An error has been reported by DataTables: ', message );
-            alert(this.msgs.session_001i);
+            alert(msgs.session_001i);
             location.reload(true);
         });
         
@@ -71,9 +108,9 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
             var u = $('#c_username').val();
             UserDwr.logged(u, function(str) {
                 if (str)
-                    $("#d2Msg").text(this.msgs.user_001w);
+                    $("#d2Msg").text(msgs.user_001w);
                 else
-                    $("#d2Msg").text(this.msgs.user_001c);
+                    $("#d2Msg").text(msgs.user_001c);
             });
         });
         //$('#h,#d').hide();
@@ -83,7 +120,7 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
         table = $('#t')
 /*                .on('error.dt', function ( e, settings, techNote, message ) {
                     console.log( 'An error has been reported by DataTables: ', message );
-                    alert(this.msgs.session_001i);
+                    alert(msgs.session_001i);
                     location.reload(true);
                 })
 */
@@ -152,7 +189,7 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
         UserDwr.removeUser(u, $('#c_version').val(), {
             callback: function(str) {
                 if (str['cd'] == undefined) {
-                    alert(this.msgs.session_001i);
+                    alert(msgs.session_001i);
                     location.reload(true);
                 } else {
                     alert(str['msg']);
@@ -179,7 +216,7 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
         }, {
             callback: function(str) {
                 if (str['cd'] == undefined) {
-                    alert(this.msgs.session_001i);
+                    alert(msgs.session_001i);
                     location.reload(true);
                 } else {
                     alert(str['msg']);
@@ -198,11 +235,4 @@ require(['jquery', 'bootstrap', 'datatables.net', 'datatables'], function($, boo
     this.searchData = searchData;
     this.removeUser = removeUser;
     this.updateUser = updateUser;
-	this.logout = function() {
-		/*
-		$.post(url, d, function(data) {
-			console.log(data);
-		});*/
-		$('#f').submit();
-	}
 });

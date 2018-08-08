@@ -8,8 +8,6 @@ import info.yinhua.core.data.model.MSession;
 import info.yinhua.core.util.Messages;
 import info.yinhua.web.jetty.EventSource;
 import info.yinhua.web.jetty.UserEventSource;
-import info.yinhua.core.CommonConst;
-import info.yinhua.core.context.security.NormalUser;
 import info.yinhua.core.data.mapper.MSessionMapper;
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +29,6 @@ import org.springframework.security.web.authentication.session.SessionFixationPr
 import org.springframework.security.web.session.HttpSessionCreatedEvent;
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 public class Listener implements ApplicationListener<ApplicationEvent> {
 
@@ -142,7 +139,7 @@ public class Listener implements ApplicationListener<ApplicationEvent> {
 		for (SessionInformation si : siList) {
 			for (EventSource es : esList) {
 				try {
-					((UserEventSource) es).emitData(Messages.getString(CommonConst.MW_USER_002, username), si.getSessionId());
+					((UserEventSource) es).emitData(Messages.getString(Messages.MW_USER_002, username), si.getSessionId());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

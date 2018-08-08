@@ -4,11 +4,4 @@ require(['jquery', 'bootstrap'], function($, bootstrap) {
 			pageLoad();
 		}
 	});
-	this.logout = function() {
-		/*
-		$.post(url, d, function(data) {
-			console.log(data);
-		});*/
-		$('#f').submit();
-	}
 });

@@ -1,21 +1,19 @@
 package info.yinhua.web.action.hr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 
-import info.yinhua.core.service.UserListService;
-import info.yinhua.core.web.type.DataTablesParam;
-import info.yinhua.core.web.type.DataTablesType;
+import info.yinhua.core.context.security.Authority;
+import info.yinhua.core.context.security.NormalUser;
+import info.yinhua.core.context.security.UserManager;
 import info.yinhua.web.action.PagingAction;
-import info.yinhua.web.bean.PageUserListBean;
-import info.yinhua.web.bean.UserBean;
 
 @Controller
 public class AuthorityAction extends PagingAction {
@@ -27,94 +25,50 @@ public class AuthorityAction extends PagingAction {
 
 	//override ActionSupport
     protected static Logger LOG = LogManager.getLogger(AuthorityAction.class);
-	
-	private PageUserListBean p = new PageUserListBean();
-	private DataTablesType dt;
-	private DataTablesParam dp;
-	
+
 	@Autowired
-	private UserListService userListService;
+	private UserManager userManager;
+
+	private Set<String> authorities;
+	private String[] users;
+
+	public String[] getUsers() {
+		return users;
+	}
+
+	public void setUsers(String[] users) {
+		this.users = users;
+	}
+
+	public Set<String> getAuthorities() {
+		return authorities;
+	}
 
 	@Override
 	public String init() throws Exception {
-		p.setStatus(Boolean.TRUE.toString());
 
 		return SUCCESS;
 	}
-	
 
-	public String search() throws Exception {
+	public String users() throws Exception {
 		
-//http://prathap-puppala.blogspot.hk/2011/06/struts-2-pagination-example.html
-//https://www.datatables.net/manual/styling/bootstrap-simple.html
-		if (dp.getOrderColumn() == 0) {
-			p.setSortCriterion("username");
-		} else if (dp.getOrderColumn() == 1) {
-			p.setSortCriterion("code");
-		} else if (dp.getOrderColumn() == 2) {
-			p.setSortCriterion("name");
-		} else if (dp.getOrderColumn() == 3) {
-			p.setSortCriterion("gender");
-		} else if (dp.getOrderColumn() == 4) {
-			p.setSortCriterion("department");
+		return SUCCESS;
+	}
+
+	public String authorities() throws Exception {
+
+		if (users != null) {
+			NormalUser user = (NormalUser) userManager.loadUserByUsername(users[0]);
+			Collection<GrantedAuthority> collection = user.getAuthorities();
+
+			if (authorities == null) {
+				authorities = new LinkedHashSet<>();
+			}
+			for (GrantedAuthority a : collection) {
+				String role = Authority.getAuthority(a.getAuthority());
+				authorities.add(role);
+			}
 		}
-		p.setSortType(dp.getOrderDir());
-		p.setObjectsPerPage(dp.getLength());
-		p.setPageNumber(1);
-		
-		userListService.search(p);
-		dt = new DataTablesType();
-		//dt.setDraw(2);
-		List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
-		for (UserBean bean : p.getList()) {
-			Map<String, String> row = new HashMap<String, String>();
-			row.put("DT_RowId", "R_" + bean.getUsername());
-			row.put("0", bean.getUsername());
-			row.put("1", bean.getCode());
-			row.put("2", bean.getName());
-			row.put("3", bean.getGender());
-			row.put("4", bean.getDepartment());
-			row.put("5", bean.getComment());
-			row.put("6", bean.getVersion());
-			rows.add(row);
-		}
-		dt.setData(rows);
-		dt.setRecordsTotal(rows.size());
-		dt.setRecordsFiltered(rows.size());
-		
 		return SUCCESS;
-	}
-
-	@Override
-	public String list() throws Exception {
-
-		
-		return SUCCESS;
-	}
-
-	public PageUserListBean getP() {
-		return p;
-	}
-
-	public void setP(PageUserListBean p) {
-		this.p = p;
-	}
-
-	public DataTablesType getDt() {
-		return dt;
-	}
-
-	public void setDt(DataTablesType dt) {
-		this.dt = dt;
-	}
-
-
-	public DataTablesParam getDp() {
-		return dp;
-	}
-
-
-	public void setDp(DataTablesParam dp) {
-		this.dp = dp;
 	}
 }

@@ -156,11 +156,18 @@
 		<default-action-ref name="list"></default-action-ref>
 	</package>
 	<package name="hr-authority" extends="hr" namespace="/hr/authority">
-		<default-action-ref name="setting"></default-action-ref>
-		<action name="setting" class="info.yinhua.web.action.user.UserAction">
+		<default-action-ref name="init"></default-action-ref>
+		<action name="init" class="info.yinhua.web.action.hr.AuthorityAction" method="init">
 			<result>/WEB-INF/jsp/hr/authority.jsp</result>
 		</action>
 	</package>
+    <package name="hr-authority-json" extends="json-default" namespace="/hr/authority">
+        <action name="authorities" class="info.yinhua.web.action.hr.AuthorityAction" method="authorities">
+            <result type="json">
+                <param name="root">authorities</param>
+            </result>
+        </action>
+    </package>
 
 	<package name="bom" extends="default" namespace="/bom">
 		<default-action-ref name="init"></default-action-ref>

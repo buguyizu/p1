@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import info.yinhua.core.CommonConst;
+import info.yinhua.core.context.security.Authority;
 import info.yinhua.core.context.security.NormalUser;
 import info.yinhua.core.context.security.UserManager;
+import info.yinhua.core.util.Messages;
 import info.yinhua.web.action.BaseAction;
 import info.yinhua.web.bean.PageUserBean;
 import info.yinhua.web.bean.UserBean;
@@ -72,10 +73,10 @@ public class UserAction extends BaseAction {
 			setSource("1");
 		} else if ("4".equals(source)) {
 			setSource("1");
-			addActionMessage(getText(CommonConst.MI_USER_001, new String[] { user.getUsername() }));
+			addActionMessage(getText(Messages.MI_USER_001, new String[] { user.getUsername() }));
 		} else if ("5".equals(source)) {
 			setSource("1");
-			addActionMessage(getText(CommonConst.MI_USER_002, new String[] { user.getUsername() }));
+			addActionMessage(getText(Messages.MI_USER_002, new String[] { user.getUsername() }));
 		}
 		
 		return SUCCESS;
@@ -103,21 +104,21 @@ public class UserAction extends BaseAction {
     	if (CommonConst.PAGE_SIGNUP.equals(source)) {
     		
 	    	if ( !StringUtils.hasText(user.getUsername()) ) { 
-	            addFieldError( "user.username", getText(CommonConst.ME_INPUT_001,
+	            addFieldError( "user.username", getText(Messages.ME_INPUT_001,
 	            		new String[] { getText("username") } ) );
 	        }
 	    	if ( !StringUtils.hasText(user.getPassword())) {
-	            addFieldError( "user.password", getText(CommonConst.ME_INPUT_001, 
+	            addFieldError( "user.password", getText(Messages.ME_INPUT_001, 
 	            		new String[] { getText("password") } ) );
 	    	} else if (!StringUtils.hasText(user.getPassword2())
 	    			|| !user.getPassword().equals(user.getPassword2())) { 
-	            addFieldError( "user.password", getText(CommonConst.ME_INPUT_004, 
+	            addFieldError( "user.password", getText(Messages.ME_INPUT_004, 
 	            		new String[] { getText("password") } ) );
 	        }
 	    	
 	    	if (!hasFieldErrors()) {
 	    		if (userManager.userExists(user.getUsername())) {
-	    			addActionError(getText(CommonConst.ME_SIGNUP_001));
+	    			addActionError(getText(Messages.ME_SIGNUP_001));
 	    		}
 	    	}
     	}
@@ -129,7 +130,7 @@ public class UserAction extends BaseAction {
     	if (CommonConst.PAGE_SIGNUP.equals(source)) {
     		try {
     			Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-    			authorities.add(new SimpleGrantedAuthority(CommonConst.ROLE_USER));
+    			authorities.add(Authority.granted(Authority.ROLE_USER));
     			user.setAuthorities(authorities);
     			user.setEnabled(true);
     			userManager.createUser(user);
@@ -180,15 +181,15 @@ public class UserAction extends BaseAction {
 		p.setComment(user.getComment());
 		
     	if ( !StringUtils.hasText(p.getPasswordOrigin()) ) { 
-            addFieldError( "p.passwordOrigin", getText(CommonConst.ME_INPUT_001, 
+            addFieldError( "p.passwordOrigin", getText(Messages.ME_INPUT_001, 
             		new String[] { getText("user.password.origin") } ) );
         }
     	if ( !StringUtils.hasText(p.getPasswordNew()) ) { 
-            addFieldError( "p.passwordNew", getText(CommonConst.ME_INPUT_001, 
+            addFieldError( "p.passwordNew", getText(Messages.ME_INPUT_001, 
             		new String[] { getText("user.password.new") } ) );
         } else if ( !StringUtils.hasText(p.getPasswordNew2())
     			|| !p.getPasswordNew().equals(p.getPasswordNew2())) { 
-            addFieldError( "p.passwordNew", getText(CommonConst.ME_INPUT_004, 
+            addFieldError( "p.passwordNew", getText(Messages.ME_INPUT_004, 
             		new String[] { getText("password") } ) );
         }
     }

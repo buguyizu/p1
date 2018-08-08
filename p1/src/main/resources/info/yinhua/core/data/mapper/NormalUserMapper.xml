@@ -3,68 +3,71 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="info.yinhua.core.data.mapper.NormalUserMapper">
-    <select id="exists" resultType="string">
-        select username from users
-        <where>
-        	username = #{username}
-        </where>
-    </select>
-    <select id="getUsers" resultType="HashMap">
-        select username, password, enabled, id_number, code, name, gender, department, comment, create_user, create_date, update_user, update_date, version from users
-        <where>
-        	username = #{username}
-        </where>
-    </select>
-    <select id="getRoles" resultType="HashMap">
-        select authority from authorities
-        <where>
-        	username = #{username}
-        </where>
-    </select>
-    <insert id="create" parameterType="NormalUser">
-    	insert into users
-		    values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, default)
+	<select id="exists" resultType="string">
+		select username from users
+		<where>
+			username = #{username}
+		</where>
+	</select>
+	<select id="getUsers" resultType="HashMap">
+		select username, password, enabled, id_number, code, name, gender, department, comment, create_user, create_date, update_user, update_date, version from users
+		<where>
+			username = #{username}
+		</where>
+	</select>
+	<select id="getRoles" resultType="HashMap">
+		select authority from authorities
+		<where>
+			username = #{username}
+		</where>
+	</select>
+	<insert id="create" parameterType="NormalUser">
+		insert into users
+			values (#{username}, #{password}, #{enabled}, #{idNumber}, #{code}, #{name}, #{gender}, #{department}, #{comment}, #{createUser}, default, #{updateUser}, default, default)
 	</insert>
-    <insert id="insertRoles">
-    	insert into authorities
-		    values (#{param1}, #{param2})
+	<insert id="insertRole">
+		insert into authorities
+			values (#{param1}, #{param2})
 	</insert>
-    <delete id="delete">
-    	delete from users
-        <where>
-        	username = #{username}
-        </where>
+	<delete id="delete">
+		delete from users
+		<where>
+			username = #{username}
+		</where>
 	</delete>
-    <delete id="deleteRoles">
-    	delete from authorities
-        <where>
-        	username = #{username}
-        </where>
+	<delete id="deleteRoles">
+		delete from authorities
+		<where>
+			username = #{username}
+			<if test="authority != null">
+				and authority = #{authority}
+			</if>
+		</where>
 	</delete>
-    <update id="update" parameterType="NormalUser">
-    	update users set
-		    enabled = #{enabled},
-		    id_number = #{idNumber},
-		    code = #{code},
-		    name = #{name},
-		    gender = #{gender},
-		    department = #{department},
-		    comment = #{comment},
-		    update_user = #{updateUser},
-		    update_date = default,
-		    version = version + 1
-        <where>
-        	username = #{username}
-        </where>
+	<update id="update" parameterType="NormalUser">
+		update users set
+			enabled = #{enabled},
+			id_number = #{idNumber},
+			code = #{code},
+			name = #{name},
+			gender = #{gender},
+			department = #{department},
+			comment = #{comment},
+			update_user = #{updateUser},
+			update_date = default,
+			version = version + 1
+		<where>
+			username = #{username}
+		</where>
 	</update>
-    <update id="changePassword" parameterType="NormalUser">
-    	update users set
-		    password = #{param2},
-		    update_user = #{param1},
-		    update_date = default,
-		    version = version + 1
-        <where>
-        	username = #{param1}
-        </where>
+	<update id="changePassword" parameterType="NormalUser">
+		update users set
+			password = #{param2},
+			update_user = #{param1},
+			update_date = default,
+			version = version + 1
+		<where>
+			username = #{param1}
+		</where>
 	</update>
 </mapper>

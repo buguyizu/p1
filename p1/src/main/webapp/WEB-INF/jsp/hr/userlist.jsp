@@ -84,7 +84,6 @@
             <button type="button" class="btn btn-default" ><s:text name="clear"/></button>
           </div>
           <h3 class="sub-header" id="h"><s:text name="list.info"/></h3>
-          
           <div class="table-responsive" id="d">
             <div id="temp" style="display: none;">
 	          <div class="btn-group" role="group">

@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import info.yinhua.core.CommonConst;
+import info.yinhua.core.util.Messages;
 import info.yinhua.web.action.BaseAction;
 
 @Controller
@@ -49,27 +50,27 @@ public class LoginAction extends BaseAction {
 		if (error != null) {
 
 			if (CommonConst.LOGIN_ERROR_1.equals(error)) {
-				addActionError(getText(CommonConst.ME_LOGIN_001));
+				addActionError(getText(Messages.ME_LOGIN_001));
 
 			} else if (CommonConst.LOGIN_ERROR_2.equals(error)) {
-				addActionError(getText(CommonConst.ME_LOGIN_001));
+				addActionError(getText(Messages.ME_LOGIN_001));
 
 			} else if (CommonConst.LOGIN_ERROR_3.equals(error)) {
-				addActionError(getText(CommonConst.ME_LOGIN_002));
+				addActionError(getText(Messages.ME_LOGIN_002));
 
 			} else if (CommonConst.LOGIN_ERROR_4.equals(error)) {
-				addActionError(getText(CommonConst.ME_LOGIN_004));
+				addActionError(getText(Messages.ME_LOGIN_004));
 
 			} else if (CommonConst.LOGIN_ERROR_5.equals(error)) {
-				addActionError(getText(CommonConst.MI_SESSION_001));
+				addActionError(getText(Messages.MI_SESSION_001));
 
 			} else if (CommonConst.LOGIN_ERROR_11.equals(error)) {
-				addActionError(getText(CommonConst.ME_LOGIN_011));
+				addActionError(getText(Messages.ME_LOGIN_011));
 			}
 		}
 		
 		if (CommonConst.PAGE_SIGNUP.equals(source) && CommonConst.ERROR_0.equals(error)) {
-			addActionMessage(getText(CommonConst.MI_SIGNUP_001, new String[] { u }));
+			addActionMessage(getText(Messages.MI_SIGNUP_001, new String[] { u }));
 			return LOGIN;
 
 		} else {

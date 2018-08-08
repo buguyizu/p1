@@ -22,7 +22,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserCache;
@@ -38,7 +37,6 @@ import org.springframework.util.Assert;
 import info.yinhua.core.CommonConst;
 import info.yinhua.core.data.mapper.NormalUserMapper;
 import info.yinhua.core.data.mapper.TMenuMapper;
-import info.yinhua.core.data.model.TLog;
 import info.yinhua.core.data.model.TMenu;
 import info.yinhua.core.service.TLogService;
 import info.yinhua.web.bean.UserBean;
@@ -102,23 +100,16 @@ public class UserManager implements UserDetailsManager {
 				user.isCredentialsNonExpired(),
 				user.isAccountNonLocked(),
 				user.getAuthorities());
-		normalUser.setCreateUser(CommonConst.USER_SYSTEM);
-		normalUser.setUpdateUser(CommonConst.USER_SYSTEM);
+		normalUser.setCreateUser(Authority.ROLE_ADMIN);
+		normalUser.setUpdateUser(Authority.ROLE_ADMIN);
 		
 		userMapper.create(normalUser);
 
 		if (getEnableAuthorities()) {
 			insertUserAuthorities(user);
 		}
-		
-		TLog log = new TLog();
-		log.setLogType(CommonConst.LogType.USER_REGIST.type());
-		log.setLogContent(CommonConst.LogType.USER_REGIST.content());
-		Map<String, String> param = new HashMap<String, String>();
-		param.put(CommonConst.LOG_PARAM_USERNAME, normalUser.getUsername());
-		log.setLogParam(param.toString());
-		
-		logService.create(log);
+
+		logService.out(CommonConst.LogType.USER_REGIST, normalUser.getUsername());
 	}
 
 	@Override
@@ -158,7 +149,7 @@ public class UserManager implements UserDetailsManager {
 		}
 		
 		if (getEnableAuthorities()) {
-			userMapper.deleteRoles(user.getUsername());
+			userMapper.deleteRoles(user.getUsername(), null);
 			insertUserAuthorities(user);
 		}
 
@@ -169,21 +160,14 @@ public class UserManager implements UserDetailsManager {
 //http://stackoverflow.com/questions/4664893/how-to-manually-set-an-authenticated-user-in-spring-security-springmvc/4672083#4672083
 //http://stackoverflow.com/questions/892733/how-to-immediately-enable-the-authority-after-update-user-authority-in-spring-se
 
-		TLog log = new TLog();
-		log.setLogType(CommonConst.LogType.USER_EDIT.type());
-		log.setLogContent(CommonConst.LogType.USER_EDIT.content());
-		Map<String, String> param = new HashMap<String, String>();
-		param.put(CommonConst.LOG_PARAM_USERNAME, user.getUsername());
-		log.setLogParam(param.toString());
-		
-		logService.create(log);
+		logService.out(CommonConst.LogType.USER_EDIT, user.getUsername());
 	}
 
 	private void insertUserAuthorities(UserDetails user) {
 		for (GrantedAuthority auth : user.getAuthorities()) {
 
 			String authority = Authority.getAuthority(auth.getAuthority());
-			userMapper.insertRoles(user.getUsername(), authority);
+			userMapper.insertRole(user.getUsername(), authority);
 		}
 	}
 
@@ -191,19 +175,13 @@ public class UserManager implements UserDetailsManager {
 	@Transactional
 	public void deleteUser(String username) {
 		if (getEnableAuthorities()) {
-			userMapper.deleteRoles(username);
+			userMapper.deleteRoles(username, null);
 		}
 		userMapper.delete(username);
 		userCache.removeUserFromCache(username);
-		
-		TLog log = new TLog();
-		log.setLogType(CommonConst.LogType.USER_DELETE.type());
-		log.setLogContent(CommonConst.LogType.USER_DELETE.content());
-		Map<String, String> param = new HashMap<String, String>();
-		param.put(CommonConst.LOG_PARAM_USERNAME, username);
-		log.setLogParam(param.toString());
-		
-		logService.create(log);
+
+		logService.out(CommonConst.LogType.USER_DELETE, username);
+
 	}
 
 	@Override
@@ -415,13 +393,13 @@ public class UserManager implements UserDetailsManager {
 				if (!authority.startsWith(rolePrefix)) {
 					authority = rolePrefix + authority;
 				}
-				rolesList.add(new SimpleGrantedAuthority(authority));
+				rolesList.add(Authority.granted(authority));
 			}
 		}
-		
+
 		return rolesList;
 	}
-	
+
 	protected UserDetails createUserDetails(String username,
 			UserDetails userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
 		String returnUsername = userFromUserQuery.getUsername();
@@ -485,5 +463,42 @@ public class UserManager implements UserDetailsManager {
 		normalUser.setMenuList(menuMapList);
 
 		return normalUser;
+	}
+
+	/**
+	 * 修改用户权限
+	 * @param username
+	 * @param authority
+	 * @param opFlg 1: add; -1: delete
+	 * @return 1: 正常操作结束; 0: 无需操作; -1: 异常
+	 */
+	@Transactional
+	public int updateAuthorities(String username, String authority, int opFlg) {
+		List<Map<String, Object>> roles = userMapper.getRoles(username);
+		if (roles != null) {
+			Set<String> set = new HashSet<>();
+			for (Map<String, Object> role : roles) {
+				String v = (String) role.get("AUTHORITY");
+				set.add(v);
+			}
+			if (opFlg > 0) {
+				if (!set.contains(authority)) {
+					userMapper.insertRole(username, authority);
+					logService.out(CommonConst.LogType.AUTHORITY_ADD, username, authority);
+					return 1;
+				} else {
+					return 0;
+				}
+			} else if (opFlg < 0) {
+				if (set.contains(authority)) {
+					userMapper.deleteRoles(username, authority);
+					logService.out(CommonConst.LogType.AUTHORITY_DELETE, username, authority);
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		}
+		return -1;
 	}
 }

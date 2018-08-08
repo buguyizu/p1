@@ -1,4 +1,4 @@
-/* 全体 */
+/* main */
 div, span, h1, div ul li,
 .ui-header .ui-btn,
 .ui-navbar li .ui-btn,
@@ -9,12 +9,12 @@ input {
 	ime-mode: disabled;
 }
 
-/* 规格列表 */
+/* icon list */
 #tblList {border: 0px solid blue;}
 #tblList div {line-height: 20px; padding:5px; margin:3px; cursor:hand;
 border: 1px solid gray; color: seagreen; width: 40px; height: 40px; float:left;}
 
-/* 规格图标 */
+/* icon */
 .tbl-shadow {
 	box-shadow:5px 5px 5px #888888,0 9px 25px rgba(0,0,0,0.2),0 9px 25px rgba(0,0,0,0.1) inset;
 }
@@ -38,23 +38,12 @@ border: 1px solid gray; color: seagreen; width: 40px; height: 40px; float:left;}
 	background-color: lightblue;
 }
 
-/* 查询区域 */
-span.infoCol1 {width:45%; float:left;padding-left:6px;}
-span.infoCol2 {float:left;}
+
 
 #page2 ul li.ui-body-inherit {
 	background-color: transparent;
 }
-/* 票据已结算 */
-.payed {
-   	color: orange;
-   	font-weight: bold;
-}
-/* 票据已无效 */
-.invalid {
-	color: red;
-	font-weight: bold;
-}
+
 
 .stamp {
 	position: absolute;
