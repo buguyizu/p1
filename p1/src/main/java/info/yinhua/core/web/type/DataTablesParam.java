@@ -3,7 +3,7 @@ package info.yinhua.core.web.type;
 import java.io.Serializable;
 
 public class DataTablesParam implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -13,7 +13,7 @@ public class DataTablesParam implements Serializable {
 	private int length;
 	private int orderColumn;
 	private String orderDir;
-	
+
 	public int getDraw() {
 		return draw;
 	}
@@ -44,5 +44,5 @@ public class DataTablesParam implements Serializable {
 	public void setOrderDir(String orderDir) {
 		this.orderDir = orderDir;
 	}
-	
+
 }

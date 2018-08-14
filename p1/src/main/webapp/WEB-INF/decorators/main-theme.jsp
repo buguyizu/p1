@@ -30,10 +30,10 @@
 		<decorator:head/>
 		<sec:authentication property="principal" var="user"/>
 		<script type="text/javascript">
-		require(['jquery', 'sse', 'base'], function($, sse, base) {
-			$('#logout a').click(base.logout);
-		});
-		</script>
+        require(['base'], function(base) {
+        	base.listen()
+        })
+        </script>
 	</head>
 	<body>
 		<nav id="top" class="navbar navbar-default navbar-static-top">
@@ -95,17 +95,23 @@
 			</div>
 		</nav>
 		<decorator:body />
-		<div id="msgs" style="display: none;">
-		  <span><s:text name="MI-SESSION-001"/></span>
-		  <span><s:text name="MW-USER-001"/></span>
-		  <span><s:text name="MC-USER-001"/></span>
-          <span><s:text name="MC-AUTHORITY-001"/></span>
-		</div>
+		<dl id="msgs" style="display: none;">
+          <dt>session_001i</dt>
+		  <dd><s:text name="MI-SESSION-001"/></dd>
+          <dt>user_001w</dt>
+		  <dd><s:text name="MW-USER-001"/></dd>
+          <dt>user_001c</dt>
+		  <dd><s:text name="MC-USER-001"/></dd>
+          <dt>user_004i</dt>
+          <dd><s:text name="MI-USER-004"/></dd>
+          <dt>authority_001c</dt>
+          <dd><s:text name="MC-AUTHORITY-001"/></dd>
+		</dl>
 		<footer class="footer">
 			<div class="container">
 				<p><s:text name="statement.copyright"/></p>
 				<p><a href="#top"><s:text name="top.go"/></a></p>
-				<p class="text-muted">session: <%=session.getId() %></p>
+<%-- 				<p class="text-muted">session: <%=session.getId() %></p> --%>
 			</div>
 		</footer>
 	</body>

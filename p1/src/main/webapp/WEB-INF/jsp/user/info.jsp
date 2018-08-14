@@ -16,7 +16,7 @@
     </style>
     <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
     <script type="text/javascript">
-        require(['jquery', 'sse'], function($, sse) {
+        require(['jquery', 'base'], function($, base) {
             function pageLoad() {
                 switch ("${source}") {
                 case "2":
@@ -30,10 +30,10 @@
                     break;
                 }
             }
-	        function permit() {
-	        	sse.notify('<s:text name="notification.title"/>',
-	        		{ icon: "../img/favicon.ico", body: '<s:text name="notification.msg"/>' });
-	        }
+            function permit() {
+                base.notify('<s:text name="notification.title"/>',
+                    { icon: "../img/favicon.ico", body: '<s:text name="notification.msg"/>' });
+            }
             this.pageLoad = pageLoad;
             this.permit = permit;
         });

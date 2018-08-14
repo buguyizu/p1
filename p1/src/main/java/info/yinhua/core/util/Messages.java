@@ -43,6 +43,10 @@ public class Messages {
 	public static final String MI_USER_001 = "MI-USER-001";
 	public static final String MI_USER_002 = "MI-USER-002";
 	public static final String MI_USER_003 = "MI-USER-003";
+	public static final String MI_USER_004 = "MI-USER-004";
+	public static final String MI_USER_005 = "MI-USER-005";
+	public static final String MI_USER_006 = "MI-USER-006";
+	public static final String MI_USER_007 = "MI-USER-007";
 
 	public static final String MC_AUTHORITY_001 = "MC-AUTHORITY-001";
 

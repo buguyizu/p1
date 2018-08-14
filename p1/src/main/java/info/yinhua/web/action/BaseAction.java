@@ -31,11 +31,11 @@ public abstract class BaseAction extends ActionSupport {
 	protected ICommonService commonService;
 	@Autowired
 	protected IMCodeService mCodeService;
-	
+
 	public List<MCode> getCodeList(String type) {
 		return mCodeService.getList(type);
 	}
-	
+
 	public String getCodeText(String type, String cd) {
 		MCode code = mCodeService.getCode(type, cd);
 		return code == null ? "" : code.getfValue();
@@ -44,7 +44,7 @@ public abstract class BaseAction extends ActionSupport {
 	public List<Map<String, List<TMenu>>> getMenuList() {
 		return UserUtil.getMenuList();
 	}
-	
+
 	//初期化
 	public abstract String init() throws Exception;
 
@@ -56,7 +56,7 @@ public abstract class BaseAction extends ActionSupport {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
+
 	public String getError() {
 		return error;
 	}

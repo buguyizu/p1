@@ -1,5 +1,7 @@
 define(['eventsource'], function(eventsource) {
 
+	var userPath = "/p1/sse/user"
+
 	//Notification
 	//http://www.cnblogs.com/lxshanye/p/3560188.html
 	//http://ju.outofmemory.cn/entry/144855
@@ -13,9 +15,9 @@ define(['eventsource'], function(eventsource) {
 			var notification = new Notification(title, options);
 		} else if (Notification.permission !== "denied") {
 			Notification.requestPermission(function (permission) {
-				if (permission === "granted")
+				if (permission === "granted") {
 					var notification = new Notification(title, options);
-				else {
+				} else {
 					console.info("user " + permission);
 					alert(options.body);
 				}
@@ -32,7 +34,7 @@ define(['eventsource'], function(eventsource) {
 	//http://www.ibm.com/developerworks/cn/web/1307_chengfu_serversentevent/
 	//https://github.com/byjg/jquery-sse
 	//https://github.com/jetty-project/jetty-eventsource-servlet
-	(function listener() {
+	function listen(path) {
 		/*
 		var es = new EventSource('events');
 		es.onmessage = function(e) {
@@ -43,7 +45,9 @@ define(['eventsource'], function(eventsource) {
 		    console.log(e.data);
 		});
 		*/
-		var eventSource = new EventSource("/p1/sse/user");
+		
+		var p = path ? path : userPath,
+			eventSource = new EventSource(p);
 		eventSource.onmessage = function(event)
 		{
 		    console.info("Server-Sent Event: " + event.data);
@@ -54,9 +58,10 @@ define(['eventsource'], function(eventsource) {
 			console.info("error");
 			eventSource.close();
 		};
-	})();
+	}
 
 	return {
-		notify:   notify
+		notify:   notify,
+		listen:   listen
 	};
 });

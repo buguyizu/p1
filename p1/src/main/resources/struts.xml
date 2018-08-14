@@ -96,12 +96,12 @@
 	</package>
 
 	<package name="user" extends="default" namespace="/user">
-		<default-action-ref name="homepage"></default-action-ref>
+		<default-action-ref name="homepage"></default-action-ref><!-- 
 		<action name="homepage">
 			<result type="redirectAction">
 				<param name="actionName">homepage</param>
 			</result>
-		</action>
+		</action> -->
 		<action name="homepage" class="info.yinhua.web.action.user.UserAction" method="init">
 			<result>/WEB-INF/jsp/user/homepage.jsp</result>
 		</action>
@@ -161,12 +161,24 @@
 			<result>/WEB-INF/jsp/hr/authority.jsp</result>
 		</action>
 	</package>
+	<!-- TODO not use -->
     <package name="hr-authority-json" extends="json-default" namespace="/hr/authority">
         <action name="authorities" class="info.yinhua.web.action.hr.AuthorityAction" method="authorities">
             <result type="json">
                 <param name="root">authorities</param>
             </result>
         </action>
+    </package>
+
+    <package name="site" extends="default" namespace="/site">
+        <default-action-ref name="log"></default-action-ref>
+        <global-results>
+            <result name="success">/WEB-INF/jsp/site/log.jsp</result>
+        </global-results>
+        <action name="log" class="info.yinhua.web.action.site.LogAction" method="init" />
+    </package>
+    <package name="site-log" extends="site" namespace="/site/log">
+        <default-action-ref name="log"></default-action-ref>
     </package>
 
 	<package name="bom" extends="default" namespace="/bom">

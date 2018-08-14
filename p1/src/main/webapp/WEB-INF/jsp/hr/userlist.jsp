@@ -55,10 +55,8 @@
               <div class="col-md-6">
                 <div class="input-group form-group">
                   <span class="input-group-addon"><s:text name="department"/></span>
-                  	<s:select class="form-control"
-				       name="p.department" emptyOption="true"
-				       list="getCodeList('01')"
-				       listKey="fCode" listValue="fValue"/>
+                  	<s:select class="form-control" name="p.department" emptyOption="true"
+                      list="getCodeList('01')" listKey="fCode" listValue="fValue"/>
                 </div>
               </div>
               <div class="col-md-6">
@@ -78,19 +76,19 @@
                 </div>
               </div>
             </div>
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span><s:text name="search"/></button>
+              <button type="reset" class="btn btn-default"><span class="glyphicon glyphicon-erase"></span><s:text name="clear"/></button>
+            </div>
           </s:form>
-          <div class="pull-right">
-            <button type="button" class="btn btn-primary" onclick="searchData();"><span class="glyphicon glyphicon-search"></span><s:text name="search"/></button>
-            <button type="button" class="btn btn-default" ><s:text name="clear"/></button>
-          </div>
           <h3 class="sub-header" id="h"><s:text name="list.info"/></h3>
           <div class="table-responsive" id="d">
             <div id="temp" style="display: none;">
-	          <div class="btn-group" role="group">
-	            <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
-	            <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-remove"></span></button>
-	          </div>
-	        </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" title="<s:text name="edit"/>" data-toggle="modal" data-target="#d1"><span class="glyphicon glyphicon-edit"></span></button>
+                <button type="button" class="btn btn-default" title="<s:text name="remove"/>" data-toggle="modal" data-target="#d2"><span class="glyphicon glyphicon-trash"></span></button>
+              </div>
+            </div>
             <table id="t" class="table table-striped table-bordered" style="width: 100%;">
               <thead>
                 <tr>
@@ -106,93 +104,101 @@
             </table>
             <input type="hidden" id="c_username" /><input type="hidden" id="c_version" />
           </div>
-          <div id="d1" class="modal fade" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title"><s:text name="user.edit"/></h4>
-                  </div>
-                  <div class="modal-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="username"/></span>
-                            <input type="text" name="username" class="form-control" readonly="readonly" />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="user.code"/></span>
-                            <input type="text" name="cd" class="form-control" maxlength="20" />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="user.name"/></span>
-                            <input type="text" name="name" class="form-control" maxlength="20" />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="gender"/></span>
-                            <div class="form-control btn-group" data-toggle="buttons">
-                                <s:radio name="gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="department"/></span>
-                              <s:select name="department" class="form-control"
-                                 emptyOption="true"
-                                 list="getCodeList('01')"
-                                 listKey="fCode" listValue="fValue"
-                              />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group form-group">
-                            <span class="input-group-addon"><s:text name="user.enabled"/></span>
-                            <div class="form-control btn-group" data-toggle="buttons">
-                                <s:radio name="status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                        <div class="input-group form-group">
-                          <span class="input-group-addon"><s:text name="user.comment"/></span>
-                            <s:textarea name="comment" class="form-control" rows="3"></s:textarea>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
-                    <button type="button" class="btn btn-primary" onclick="updateUser();"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
-                  </div>
-                </div><!-- /.modal-content -->
-              </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-            <div id="d2" class="modal fade" tabindex="-1" role="dialog">
-			  <div class="modal-dialog modal-sm" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-			        <h4 class="modal-title"><s:text name="user.remove"/></h4>
-			      </div>
-			      <div class="modal-body">
-			        <h2><span class="label label-default glyphicon glyphicon-user username"></span></h2><span id="d2Msg"></span>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
-			        <button type="button" class="btn btn-primary" onclick="removeUser();"><s:text name="ok"/></button>
-			      </div>
-			    </div><!-- /.modal-content -->
-			  </div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
         </div>
       </div>
+      <div id="d1" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-edit"></span><s:text name="user.edit"/></h4>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="username"/></span>
+                        <input type="text" name="username" class="form-control" readonly="readonly" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="user.code"/></span>
+                        <input type="text" name="cd" class="form-control" maxlength="20" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="user.name"/></span>
+                        <input type="text" name="name" class="form-control" maxlength="20" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="gender"/></span>
+                        <div class="form-control btn-group" data-toggle="buttons">
+                            <s:radio name="gender" list="getCodeList('02')" listKey="fCode" listValue="fValue" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="department"/></span>
+                          <s:select name="department" class="form-control"
+                             emptyOption="true"
+                             list="getCodeList('01')"
+                             listKey="fCode" listValue="fValue"
+                          />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group form-group">
+                        <span class="input-group-addon"><s:text name="user.enabled"/></span>
+                        <div class="form-control btn-group" data-toggle="buttons">
+                            <s:radio name="status" list="getCodeList('03')" listKey="fCode" listValue="fValue" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="input-group form-group">
+                      <span class="input-group-addon"><s:text name="user.comment"/></span>
+                        <s:textarea name="comment" class="form-control" rows="3"></s:textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert alert-info" role="alert">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
+                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span><s:text name="ok"/></button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div id="d2" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-trash"></span><s:text name="user.remove"/></h4>
+              </div>
+              <div class="modal-body">
+              <div class="panel panel-default"><div class="panel-body">
+                <span id="d2Msg"></span><span class="label label-warning" style="font-size: 16px;"></span>
+              </div></div>
+                <div class="alert alert-info" role="alert">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><s:text name="back"/></button>
+                <button type="button" class="btn btn-primary"><s:text name="ok"/></button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
 </body>
 </html>

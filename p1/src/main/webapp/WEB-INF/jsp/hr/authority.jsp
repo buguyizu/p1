@@ -9,6 +9,7 @@
     <%@ include file="../../decorators/fw-datatables.jsp" %>
     <%@ include file="../../decorators/fw-dwr.jsp" %>
     <style type="text/css">
+        .modal-backdrop { background-color: initial; }
     </style>
     <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/hr/authority.js"></script>
 </head>
@@ -39,8 +40,8 @@
           <h3 class="sub-header"><s:text name="authority.op"/></h3>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign"></span><strong><s:text name="user.objs"/></strong><span id="objs"></span>
-            <span class="glyphicon glyphicon-ok" style="display: none;color: green;font-size: 16px;"></span>
-            <a href="javascript:void(0);" class="alert-link" style="float: right;"><span class="glyphicon glyphicon-refresh"></span></a>
+            <span class="glyphicon glyphicon-ok" style="display: none; color: green; font-size: 16px;"></span>
+            <a href="javascript:void(0);" class="alert-link pull-right"><span class="glyphicon glyphicon-refresh"></span></a>
           </div>
           <div id="op" class="list-group col-sm-8"></div>
         </div>

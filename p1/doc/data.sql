@@ -25,7 +25,7 @@ insert into "T_MENU" values('23', '责任管理', '/hr/responsibility/', 'ADMIN'
 insert into "T_MENU" values('30', '业务管理', '/biz/',               'STAFF', '3-0', 300, '');
 insert into "T_MENU" values('31', '财务管理', '/biz/finance/',       'STAFF', '3-1', 310, '');
 insert into "T_MENU" values('32', '产品管理', '/biz/product/',       'STAFF', '3-2', 320, '');
-insert into "T_MENU" values('90', '业务管理', '/site/',              'ADMIN', '9-0', 900, '');
+insert into "T_MENU" values('90', '系统管理', '/site/',              'ADMIN', '9-0', 900, '');
 insert into "T_MENU" values('91', '系统设定', '/site/setting/',      'ADMIN', '9-1', 910, '');
 insert into "T_MENU" values('92', '基础数据', '/site/data/',         'ADMIN', '9-2', 920, '');
 insert into "T_MENU" values('93', '流程管理', '/site/flow/',         'ADMIN', '9-3', 930, '');

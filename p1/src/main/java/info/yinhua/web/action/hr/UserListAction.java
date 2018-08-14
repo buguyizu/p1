@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import info.yinhua.core.service.UserListService;
 import info.yinhua.core.web.type.DataTablesParam;
 import info.yinhua.core.web.type.DataTablesType;
+import info.yinhua.core.web.type.PaginatedList;
 import info.yinhua.web.action.PagingAction;
 import info.yinhua.web.bean.PageUserListBean;
 import info.yinhua.web.bean.UserBean;
@@ -41,34 +42,38 @@ public class UserListAction extends PagingAction {
 
 		return SUCCESS;
 	}
-	
+
+	public void validateSearch() {
+
+		// http://prathap-puppala.blogspot.hk/2011/06/struts-2-pagination-example.html
+		// https://www.datatables.net/manual/styling/bootstrap-simple.html
+		String[] sortCriterion = new String[] { "username", "code", "name", "gender", "department" };
+		if (dp.getOrderColumn() >= 0 && dp.getOrderColumn() < sortCriterion.length)
+			p.setSortCriterion(sortCriterion[dp.getOrderColumn()]);
+		else
+			p.setSortCriterion(sortCriterion[0]);
+
+		p.setSortType(dp.getOrderDir());
+
+		if (PaginatedList.SIZE_LIST.contains(dp.getLength()))
+			p.setObjectsPerPage(dp.getLength());
+		else
+			p.setObjectsPerPage(PaginatedList.SIZE_LIST.get(0));
+
+		p.setOffset(dp.getStart());
+	}
 
 	public String search() throws Exception {
-		
-//http://prathap-puppala.blogspot.hk/2011/06/struts-2-pagination-example.html
-//https://www.datatables.net/manual/styling/bootstrap-simple.html
-		if (dp.getOrderColumn() == 0) {
-			p.setSortCriterion("username");
-		} else if (dp.getOrderColumn() == 1) {
-			p.setSortCriterion("code");
-		} else if (dp.getOrderColumn() == 2) {
-			p.setSortCriterion("name");
-		} else if (dp.getOrderColumn() == 3) {
-			p.setSortCriterion("gender");
-		} else if (dp.getOrderColumn() == 4) {
-			p.setSortCriterion("department");
-		}
-		p.setSortType(dp.getOrderDir());
-		p.setObjectsPerPage(dp.getLength());
-		p.setPageNumber(1);
-		
+
 		userListService.search(p);
 		dt = new DataTablesType();
-		//dt.setDraw(2);
+		dt.setDraw(dp.getDraw());
+
 		List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
 		for (UserBean bean : p.getList()) {
 			Map<String, String> row = new HashMap<String, String>();
-			row.put("DT_RowId", "R_" + bean.getUsername());
+			//TODO
+			//row.put(DataTablesType.ROWID, "R_" + bean.getUsername());
 			row.put("0", bean.getUsername());
 			row.put("1", bean.getCode());
 			row.put("2", bean.getName());
@@ -79,9 +84,9 @@ public class UserListAction extends PagingAction {
 			rows.add(row);
 		}
 		dt.setData(rows);
-		dt.setRecordsTotal(rows.size());
-		dt.setRecordsFiltered(rows.size());
-		
+		dt.setRecordsTotal(p.getFullListSize());
+		dt.setRecordsFiltered(dt.getRecordsTotal());
+
 		return SUCCESS;
 	}
 

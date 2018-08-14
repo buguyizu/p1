@@ -1,5 +1,6 @@
 package info.yinhua.core.web.type;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,23 +11,29 @@ import java.util.List;
 public class PaginatedList<T> {
 
 	/**
+	 * Front side lengthMenu is in userlist.js
+	 * TODO if set 2 in the list, front page can not set default value of 2 in first draw
+	 */
+	public static final List<Integer> SIZE_LIST = Arrays.asList(10, 25, 50);
+
+	/**
 	 * 每页的列表
 	 */
 	private List<T> list;
-	
+
 	/**
-	 * 当前页码
+	 * sql获取数据偏移量
 	 */
-	private int pageNumber = 1;
-	
+	private int offset;
+
 	/**
 	 * 每页记录数 page size
 	 */
-	private int objectsPerPage = 15;
+	private int objectsPerPage;
 	/**
 	 * 总记录数
 	 */
-	private int fullListSize = 0;
+	private int fullListSize;
 
     private String sortType;
     private String sortCriterion;
@@ -44,8 +51,11 @@ public class PaginatedList<T> {
 		return objectsPerPage;
 	}
 
+	/**
+	 * 当前页码
+	 */
 	public int getPageNumber() {
-		return pageNumber;
+		return ((offset + 1) / objectsPerPage) + 1;
 	}
 
 	public String getSearchId() {
@@ -65,13 +75,6 @@ public class PaginatedList<T> {
 	 */
 	public void setList(List<T> list) {
 		this.list = list;
-	}
-
-	/**
-	 * @param pageNumber the pageNumber to set
-	 */
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
 	}
 
 	/**
@@ -109,10 +112,11 @@ public class PaginatedList<T> {
 		this.searchId = searchId;
 	}
 
-	/**
-	 * @return the offset
-	 */
 	public int getOffset() {
-		return (pageNumber - 1) * objectsPerPage;
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 }

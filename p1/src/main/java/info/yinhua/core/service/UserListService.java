@@ -24,9 +24,9 @@ public class UserListService {
 //	}
 
 	public List<UserBean> search(PageUserListBean p) {
-		List<UserBean> list = userlistMapper.getUserList(p);
-		p.setList(list);
-		return list;
+		p.setFullListSize(userlistMapper.getUserSize(p));
+		p.setList(userlistMapper.getUserList(p));
+		return p.getList();
 	}
 
 	public Collection<String> getUsers(String username) {

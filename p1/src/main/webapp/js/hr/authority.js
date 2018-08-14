@@ -1,8 +1,5 @@
-require(['jquery', 'bootstrap'], function($, bootstrap) {
+require(['jquery', 'bootstrap', 'base'], function($, bs, base) {
 
-	var msgs = {
-		authority_001c: $('#msgs span').eq(3).text()
-	}
 	$(document).ready(function() {
 		$("#clear").on('click', clearInput);
 		$("#username").on('keyup', getUsers).on('mouseover',
@@ -75,7 +72,7 @@ require(['jquery', 'bootstrap'], function($, bootstrap) {
 				});
 				$('#op a').addClass('list-group-item');
 				$('#op a span').addClass('glyphicon')
-						.not(".glyphicon-check").css('float', 'right');
+						.not(".glyphicon-check").addClass('pull-right');
 				$('#op a.list-group-item-success').click(function() {
 					operate($(this).text(), -1);
 				});
@@ -92,7 +89,7 @@ require(['jquery', 'bootstrap'], function($, bootstrap) {
 
 	function operate(authority, op) {
 		if ($("#users").val() != null) {
-			if ($("#users").val().length > 1 && !confirm(msgs.authority_001c)) {
+			if ($("#users").val().length > 1 && !confirm(base.msgs.authority_001c)) {
 				return;
 			}
 			$(".modal").modal('show');

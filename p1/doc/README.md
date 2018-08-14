@@ -12,4 +12,4 @@
 when other session logined using the same username
 
 #### plan
-pagination, log view, flow
+log view, flow, mst-maintenance

@@ -4,16 +4,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Result of DataTables
+ * @author user
+ *
+ */
 public class DataTablesType implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2398365881621370061L;
-	
+
+	public static final String ROWID = "DT_RowId";
 	private int draw;
 	private int recordsTotal;
 	private int recordsFiltered;
 	private List<Map<String, String>> data;
+
 	/**
 	 * @return the draw
 	 */
@@ -62,5 +69,4 @@ public class DataTablesType implements Serializable {
 	public void setData(List<Map<String, String>> data) {
 		this.data = data;
 	}
-	
 }
