@@ -13,7 +13,7 @@ public class PageUserListBean extends PaginatedList<UserBean> {
 	private String passwordOrigin;
 	private String passwordNew;
 	private String passwordNew2;
-	
+
 	/**
 	 * @return the username
 	 */

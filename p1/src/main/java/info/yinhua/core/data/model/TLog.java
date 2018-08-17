@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 
 public class TLog extends BaseModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8525680068114691708L;
 	private int id;
 	private String logType;
 	private String logContent;

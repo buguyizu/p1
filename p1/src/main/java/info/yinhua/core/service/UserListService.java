@@ -3,12 +3,10 @@ package info.yinhua.core.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import info.yinhua.core.data.mapper.UserListMapper;
-import info.yinhua.web.bean.PageUserBean;
 import info.yinhua.web.bean.PageUserListBean;
 import info.yinhua.web.bean.UserBean;
 
@@ -24,7 +22,6 @@ public class UserListService {
 //	}
 
 	public List<UserBean> search(PageUserListBean p) {
-		p.setFullListSize(userlistMapper.getUserSize(p));
 		p.setList(userlistMapper.getUserList(p));
 		return p.getList();
 	}

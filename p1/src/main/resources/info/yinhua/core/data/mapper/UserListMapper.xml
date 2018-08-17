@@ -65,38 +65,6 @@ http://stackoverflow.com/questions/7491291/how-can-i-use-like-in-sql-queries-wit
 			<if test="sortType != null">
 				${sortType}
 			</if>
-		<if test="objectsPerPage != null">
-			limit #{objectsPerPage}
-		</if>
-		<if test="offset != null">
-			offset #{offset}
-		</if>
-	</select>
-	<select id="getUserSize" resultType="int">
-		<bind name="_code" value="_parameter.getCd() + '%'"/>
-		<bind name="_name" value="_parameter.getName() + '%'"/>
-		select count(1) from users u
-		<where>
-			u.username != 'admin'
-			<if test='username != null and username != ""'>
-				and u.username = #{username}
-			</if>
-			<if test='cd != null and cd != ""'>
-				and u.code like #{_code}
-			</if>
-			<if test='name != null and name != ""'>
-				and u.name like #{_name}
-			</if>
-			<if test='department != null and department != ""'>
-				and u.department = #{department}
-			</if>
-			<if test='gender != null and gender != ""'>
-				and u.gender = #{gender}
-			</if>
-			<if test='status != null and status != ""'>
-				and u.enabled = #{status, jdbcType=BOOLEAN}
-			</if>
-		</where>
 	</select>
 	<select id="getUsernames" resultType="string">
 		<bind name="u" value="'%' + username + '%'" />

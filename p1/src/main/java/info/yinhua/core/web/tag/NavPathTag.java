@@ -11,6 +11,11 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 public class NavPathTag extends TagSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1218263972662410955L;
+
 	/*
 	 * (non-Javadoc)
 	 * 

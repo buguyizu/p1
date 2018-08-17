@@ -6,6 +6,10 @@ import java.sql.Timestamp;
 public class BaseModel implements Serializable, Cloneable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3487568849120202841L;
 	private String createUser;
 	private Timestamp createDate;
 	private String updateUser;

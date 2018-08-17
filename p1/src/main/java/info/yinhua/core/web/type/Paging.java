@@ -5,6 +5,7 @@ import java.util.List;
 import org.displaytag.pagination.PaginatedList;
 import org.displaytag.properties.SortOrderEnum;
 
+@Deprecated
 public class Paging<T> implements PaginatedList {
 
 	/**

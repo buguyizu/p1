@@ -14,7 +14,5 @@ public interface UserListMapper {
 
 	List<UserBean> getUserList(PageUserListBean p);
 
-	int getUserSize(PageUserListBean p);
-
 	Collection<String> getUsernames(@Param("username") String username);
 }
