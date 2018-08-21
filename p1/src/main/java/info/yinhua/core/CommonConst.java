@@ -7,7 +7,8 @@ public interface CommonConst {
 	//for message bundle
 	//local also defined in struts.xml
 	public static final Locale LOCALE = Locale.SIMPLIFIED_CHINESE;
-	
+	// TODO
+	public static final String CONTEXT = "/p1";
 	//table M_CODE
 	enum Code {
 		TYPE("-1"),

@@ -31,7 +31,7 @@
 	<!-- http://stackoverflow.com/questions/12607075/struts2-action-extension-causing-css-javascript-and-struts-dojo-to-break -->
 	<constant name="struts.action.extension" value=","/>
 
-	<constant name="struts.action.excludePattern" value="/dwr,/dwr/.*,/sse/.*"/>
+	<constant name="struts.action.excludePattern" value="/dwr,/dwr/.*,/sse/.*,/webjarsjs"/>
 
 	<package name="default" extends="struts-default" namespace="/">
 		<result-types>
@@ -179,6 +179,9 @@
     </package>
     <package name="site-log" extends="site" namespace="/site/log">
         <default-action-ref name="log"></default-action-ref>
+    </package>
+    <package name="else" extends="home" namespace="/*/*">
+        <default-action-ref name="defaultPage"></default-action-ref>
     </package>
 
 	<package name="bom" extends="default" namespace="/bom">

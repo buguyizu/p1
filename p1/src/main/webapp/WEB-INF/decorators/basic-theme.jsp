@@ -14,6 +14,7 @@
     <c:set var="base" value="<%=request.getContextPath() %>" scope="session"></c:set>
     <link rel="icon" href="${base}/img/favicon.ico">
     <%@ include file="./fw-basic-css.jsp" %>
+    <script src="${base}/webjarsjs"></script>
     <script src="${base}/js/require.config.js"></script>
     <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
     <decorator:head/>

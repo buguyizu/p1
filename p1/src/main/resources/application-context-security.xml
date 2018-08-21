@@ -19,6 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	</global-method-security>
 
     <http pattern="/fw/**/*"  security="none"/>
+    <http pattern="/webjarsjs"  security="none"/>
     <http pattern="/webjars/**/*"  security="none"/>
 	<http pattern="/**/*.ico" security="none"/>
 	<http pattern="/**/*.css" security="none"/>

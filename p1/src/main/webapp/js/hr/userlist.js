@@ -1,4 +1,4 @@
-require(['jquery', 'bootstrap', 'datatables.net', 'datatables', 'base'], function($, bootstrap, dn, datatables, base) {
+require(['jquery', 'bootstrap', 'datatables.net', 'datatables.bs', 'base'], function($, bootstrap, datatables, db, base) {
 
 /*{
 	"emptyTable": "表格无数据",
