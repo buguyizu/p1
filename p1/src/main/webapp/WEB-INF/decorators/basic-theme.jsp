@@ -12,11 +12,12 @@
     <meta name="description" content="basic">
     <title><s:text name="app.nm" />-<decorator:title default="welcome" /></title>
     <c:set var="base" value="<%=request.getContextPath() %>" scope="session"></c:set>
+    <c:set var="require_ver" value="2.3.6" scope="session"></c:set>
     <link rel="icon" href="${base}/img/favicon.ico">
     <%@ include file="./fw-basic-css.jsp" %>
     <script src="${base}/webjarsjs"></script>
     <script src="${base}/js/require.config.js"></script>
-    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
+    <script src="${base}/webjars/requirejs/${require_ver}/require.js" data-main="${base}/js/common.js"></script>
     <decorator:head/>
     <s:head />
 </head>

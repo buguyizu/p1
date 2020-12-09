@@ -1,5 +1,6 @@
 // TODO
-var base = '/p1';
+const base = '/p1';
+const datatables_ver = '1.10.21';
 /*
 var require = {
 	baseUrl: base + '/webjars',
@@ -28,14 +29,15 @@ var require = {
 if (typeof require ==="object") {
 	require['baseUrl'] = base + '/webjars';
 	require['paths'] = {
-			'datatables.net':   'datatables/1.10.19/js/jquery.dataTables',
-			'datatables.bs':    'datatables/1.10.19/js/dataTables.bootstrap',
+			jquery:      webjars.path("jquery", "jquery"),
 			eventsource: '../fw/eventsource/eventsource',
 			sse:         '../js/sse',
-			base:        '../js/base'
+			base:        '../js/base',
+			'datatables.net':   'datatables/' + datatables_ver + '/js/jquery.dataTables',
+			'datatables.bs':    'datatables/' + datatables_ver + '/js/dataTables.bootstrap'
 		};
 	require['shim'] = {
-			eventsource: { exports: 'eventsource' },
+			eventsource:       { exports: 'eventsource' },
 			'datatables.net':  { deps: ['jquery'] },
 			'datatables.bs':   { deps: ['datatables.net', 'bootstrap'] }
 		};

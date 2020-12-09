@@ -1,1 +1,1 @@
-<link href="${base}/webjars/datatables/1.10.19/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="${base}/webjars/datatables/1.10.21/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />

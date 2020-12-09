@@ -5,7 +5,7 @@
 <html>
 <head>
 <title>${action.getText("homepage")}</title>
-<script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
+<script src="${base}/webjars/requirejs/${require_ver}/require.js" data-main="${base}/js/common.js"></script>
 </head>
 <body>
     <div class="jumbotron">

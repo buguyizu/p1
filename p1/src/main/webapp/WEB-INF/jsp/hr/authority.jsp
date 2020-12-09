@@ -11,7 +11,7 @@
     <style type="text/css">
         .modal-backdrop { background-color: initial; }
     </style>
-    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/hr/authority.js"></script>
+    <script src="${base}/webjars/requirejs/${require_ver}/require.js" data-main="${base}/js/hr/authority.js"></script>
 </head>
 <body>
     <div class="container-fluid">

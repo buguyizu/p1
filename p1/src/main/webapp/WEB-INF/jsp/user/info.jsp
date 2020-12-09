@@ -14,7 +14,7 @@
             margin-bottom: 15px;
         }
     </style>
-    <script src="${base}/webjars/requirejs/2.3.5/require.js" data-main="${base}/js/common.js"></script>
+    <script src="${base}/webjars/requirejs/${require_ver}/require.js" data-main="${base}/js/common.js"></script>
     <script type="text/javascript">
         require(['jquery', 'base'], function($, base) {
             function pageLoad() {
