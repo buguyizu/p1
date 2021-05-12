@@ -17,7 +17,7 @@
 		<jetty.version>9.4.12.v20180830</jetty.version>
 		<struts.version>2.5.2</struts.version>
 		<springframework.version>4.2.2.RELEASE</springframework.version>
-		<spring-security.version>4.0.3.RELEASE</spring-security.version>
+		<spring-security.version>5.2.10.RELEASE</spring-security.version>
 		<sitemesh.version>3.0.1</sitemesh.version>
 		<log4j.version>2.5</log4j.version>
 	</properties>
