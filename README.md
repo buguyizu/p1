@@ -11,4 +11,4 @@ is still needed.
 
 ## Pages
 
-See [doc/README.md](doc/README.md) for a list of pages such as `/login`, `/join`, and others.
+See [p1/doc/README.md](p1/doc/README.md) for a list of pages such as `/login`, `/join`, and others.
