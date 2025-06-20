@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Maven Wrapper script
+MVNW_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROPERTIES_FILE="$MVNW_DIR/.mvn/wrapper/maven-wrapper.properties"
+MAVEN_VERSION="3.8.7"
+REPO_URL="https://repo.maven.apache.org/maven2"
+if [ -f "$PROPERTIES_FILE" ]; then
+    . "$PROPERTIES_FILE"
+fi
+if [ -n "$distributionUrl" ]; then
+    MAVEN_URL="$distributionUrl"
+    MAVEN_VERSION="$(basename "$MAVEN_URL" | sed -e 's/apache-maven-\(.*\)-bin.zip/\1/')"
+else
+    MAVEN_URL="$REPO_URL/org/apache/maven/apache-maven/$MAVEN_VERSION/apache-maven-$MAVEN_VERSION-bin.zip"
+fi
+MAVEN_DIR="$MVNW_DIR/.mvn/wrapper/apache-maven-$MAVEN_VERSION"
+
+if [ ! -d "$MAVEN_DIR" ]; then
+    echo "Downloading Maven $MAVEN_VERSION..."
+    mkdir -p "$MVNW_DIR/.mvn/wrapper"
+    ZIP_FILE="$MVNW_DIR/.mvn/wrapper/apache-maven-$MAVEN_VERSION-bin.zip"
+    if command -v curl >/dev/null 2>&1; then
+        curl -L -o "$ZIP_FILE" "$MAVEN_URL"
+    elif command -v wget >/dev/null 2>&1; then
+        wget -O "$ZIP_FILE" "$MAVEN_URL"
+    else
+        echo "Error: curl or wget required to download Maven" >&2
+        exit 1
+    fi
+    unzip -q "$ZIP_FILE" -d "$MVNW_DIR/.mvn/wrapper"
+fi
+
+exec "$MAVEN_DIR/bin/mvn" "$@"
