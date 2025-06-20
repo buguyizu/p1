@@ -4,7 +4,10 @@ This project is a Struts2 and Spring based web application built with Maven and 
 
 ## Building
 
-Use `mvn package` to build the project. Make sure Maven and JDK 8 are installed.
+You can build the project using the Maven wrapper. Run `./p1/mvnw package`
+from the repository root and the wrapper will automatically download Maven
+if necessary. A system installation of Maven is no longer required, but JDK 8
+is still needed.
 
 ## Pages
 
